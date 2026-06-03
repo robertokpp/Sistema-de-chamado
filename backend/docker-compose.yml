@@ -3,7 +3,12 @@ services:
     image: "bitnami/postgresql:latest"
     ports:
       - "5432:5432"
-    environment: 
+    environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: Orelha*
       POSTGRES_DB: sistema_chamados
+    volumes:
+      postgres_data: /var/lib/postgres/data
+
+volumes:
+  postgres_data:
