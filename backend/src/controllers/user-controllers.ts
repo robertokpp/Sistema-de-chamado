@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { prisma } from "@/lib/prisma";
 import { z } from "zod";
 
 class UserController {
@@ -11,9 +12,15 @@ class UserController {
 
     const { name, email, password } = bodySchema.parse(request.body);
 
-    console.log(name, email, password);
+    const user = await prisma.user.create({
+      data: {
+        name: name,
+        email: email,
+        password: password,
+      },
+    });
 
-    return response.json({ message: "ok" });
+    return response.json(user);
   }
 }
 

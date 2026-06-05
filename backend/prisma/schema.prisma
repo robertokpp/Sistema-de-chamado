@@ -5,22 +5,23 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
-enum Role{
+enum Role {
   admin
   technical
   client
 }
 
-
 model User {
-  id String @id @default(uuid())
-  name String
-  email String @unique
-  password String
-  role Role @default(client)
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+  role      Role     @default(client)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-}
 
+  @@map("user")
+}
