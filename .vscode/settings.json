@@ -1,3 +1,9 @@
 {
-  "cSpell.words": ["datasource", "postgres", "postgresql", "uuid"]
+  "cSpell.words": [
+    "datasource",
+    "postgres",
+    "postgresql",
+    "tailwindcss",
+    "uuid"
+  ]
 }
