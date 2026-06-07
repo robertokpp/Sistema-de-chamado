@@ -1,3 +1,4 @@
+import { Button } from "../components/Button";
 import { Input } from "../components/Inputs";
 
 export function Home() {
@@ -17,7 +18,10 @@ export function Home() {
           <Input legend="Name" placeholder="Digite o nome completo" />
           <Input legend="E-mail" placeholder="exemplo@email.com" />
           <Input legend="Senha" placeholder="Digite sua senha" />
-          <span className="text-gray-400 text-[12px] italic">Mínimo de 6 digito</span>
+          <span className="text-gray-400 text-[12px] italic">
+            Mínimo de 6 digito
+          </span>
+          <Button type="submit">teste</Button>
         </form>
       </div>
     </div>
