@@ -3,7 +3,7 @@ import { Input } from "../components/Inputs";
 
 import logo from "../assets/Logo_IconLight.svg";
 
-export function SignUp() {
+export function SignIn() {
   return (
     <div
       className="flex pt-4 bg-cover bg-center bg-no-repeat justify-end w-screen h-screen"
@@ -18,32 +18,30 @@ export function SignUp() {
         <div className="flex flex-col p-7 bg-[#F9FAFA]  rounded-2xl border border-[#E3E5E8]">
           <div>
             <h1 className="text-[20px] text-gray-100 font-bold">
-              Crie sua conta
+              Acesse o portal
             </h1>
             <span className="text-[12px] text-gray-300 leading-4">
-              Informe seu nome, e-mail e senha
+              Entre usando seu e-mail e senha cadastrados
             </span>
           </div>
 
           <form className="pt-10 flex flex-col gap-4">
-            <Input legend="Name" placeholder="Digite o nome completo" />
             <Input legend="E-mail" placeholder="exemplo@email.com" />
             <Input legend="Senha" placeholder="Digite sua senha" />
-            <span className="text-gray-400 text-[12px] italic">
-              Mínimo de 6 digito
-            </span>
-            <Button className="mt-10" type="submit">Cadastrar</Button>
+            <Button className="mt-10" type="submit">
+              Entrar
+            </Button>
           </form>
         </div>
 
         <div className="flex flex-col p-7 w-100 bg-[#F9FAFA] rounded-2xl border border-[#E3E5E8]">
-          <h2>Já uma conta?</h2>
+          <h2>Ainda não tem uma conta?</h2>
           <span className="text-[12px] text-gray-300 leading-4">
-            Entre agora mesmo
+            Cadastre agora mesmo
           </span>
 
           <Button className="text-gray-200 bg-[#E3E5E8] mt-6">
-            Acessar conta
+            Criar conta
           </Button>
         </div>
       </div>

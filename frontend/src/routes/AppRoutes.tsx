@@ -1,10 +1,10 @@
 import { Routes, Route } from "react-router";
-import { Home } from "../pages/SignUp";
 
+import { SignIn } from "../pages/SignIn";
 export function AppRoutes() {
   return (
     <Routes>
-      <Route path="/" index element={<Home />} />
+      <Route path="/" index element={<SignIn />} />
     </Routes>
   );
 }
