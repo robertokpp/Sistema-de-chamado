@@ -6,7 +6,7 @@ import logo from "../assets/Logo_IconLight.svg";
 export function SignUp() {
   return (
     <div
-      className="flex pt-4 bg-cover bg-center bg-no-repeat justify-end w-screen h-screen"
+      className="flex justify-end pt-4 bg-cover bg-center bg-no-repeat  w-screen h-full"
       style={{ backgroundImage: "url('/src/assets/Login_Background.png')" }}
     >
       <div className="flex flex-col gap-3 h-full py-12 px-36 bg-[#F9FAFA] rounded-tl-4xl">
@@ -26,13 +26,29 @@ export function SignUp() {
           </div>
 
           <form className="pt-10 flex flex-col gap-4">
-            <Input legend="Name" placeholder="Digite o nome completo" />
-            <Input legend="E-mail" placeholder="exemplo@email.com" />
-            <Input legend="Senha" placeholder="Digite sua senha" />
+            <Input
+              required
+              legend="Name"
+              placeholder="Digite o nome completo"
+            />
+            <Input
+              required
+              legend="E-mail"
+              type="email"
+              placeholder="exemplo@email.com"
+            />
+            <Input
+              required
+              legend="Senha"
+              type="password"
+              placeholder="Digite sua senha"
+            />
             <span className="text-gray-400 text-[12px] italic">
               Mínimo de 6 digito
             </span>
-            <Button className="mt-10" type="submit">Cadastrar</Button>
+            <Button className="mt-10" type="submit">
+              Cadastrar
+            </Button>
           </form>
         </div>
 

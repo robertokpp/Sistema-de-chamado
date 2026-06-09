@@ -1,7 +1,11 @@
 import { Button } from "../components/Button";
 import { Input } from "../components/Inputs";
+import { z } from 'zod'
 
 import logo from "../assets/Logo_IconLight.svg";
+
+const SignInSchema = z.object({
+})
 
 export function SignIn() {
   return (
@@ -26,8 +30,18 @@ export function SignIn() {
           </div>
 
           <form className="pt-10 flex flex-col gap-4">
-            <Input legend="E-mail" placeholder="exemplo@email.com" />
-            <Input legend="Senha" placeholder="Digite sua senha" />
+            <Input
+              required
+              legend="E-mail"
+              type="email"
+              placeholder="exemplo@email.com"
+            />
+            <Input
+              required
+              legend="Senha"
+              type="password"
+              placeholder="Digite sua senha"
+            />
             <Button className="mt-10" type="submit">
               Entrar
             </Button>
