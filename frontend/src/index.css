@@ -2,13 +2,11 @@
 
 @theme {
   --default-font-family: "Lato", sans-serif;
-  @theme {
-    --bg-login: url("../assets/Login_Background.png");
-  }
 
   --color-gray-100: #151619;
   --color-gray-200: #1e2024;
   --color-gray-300: #535964;
   --color-gray-400: #858b99;
   --color-gray-500: #e3e5e8;
+  --color-gray-500: #f9fafa;
 }
