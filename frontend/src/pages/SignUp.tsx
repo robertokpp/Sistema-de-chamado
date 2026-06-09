@@ -29,17 +29,34 @@ export function Home() {
           </form>
         </div>
 
+<<<<<<< HEAD
         <div className="flex flex-col p-7 w-100 bg-white rounded-2xl">
+=======
+        <div className="flex flex-col p-7 w-100 border  rounded-2xl">
+>>>>>>> 888e7d5976c1d39fc225a82ad437b32dfe7884db
           <h2>Já uma conta?</h2>
           <span className="text-[12px] text-gray-300 leading-4">
             Entre agora mesmo
           </span>
+<<<<<<< HEAD
 
           <Button className="text-gray-200 bg-gray-500 mt-6">
             Acessar conta
           </Button>
         </div>
       </div>
+=======
+
+          <Button className="text-gray-200 bg-gray-500 mt-6">
+            Acessar conta
+          </Button>
+        </div>
+
+
+      </div>
+
+
+>>>>>>> 888e7d5976c1d39fc225a82ad437b32dfe7884db
     </div>
   );
 }
