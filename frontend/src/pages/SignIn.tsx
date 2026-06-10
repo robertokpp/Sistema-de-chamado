@@ -1,11 +1,13 @@
 import { Button } from "../components/Button";
 import { Input } from "../components/Inputs";
-import { z } from 'zod'
+import { z } from "zod";
 
 import logo from "../assets/Logo_IconLight.svg";
 
 const SignInSchema = z.object({
-})
+  email: z.email(),
+  password: z.string().min(1),
+});
 
 export function SignIn() {
   return (

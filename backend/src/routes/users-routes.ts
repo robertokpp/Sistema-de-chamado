@@ -6,5 +6,5 @@ const userController = new UserController();
 
 // Router public
 userRouter.post("/", userController.create);
-
+userRouter.get("/", userController.index)
 export { userRouter };

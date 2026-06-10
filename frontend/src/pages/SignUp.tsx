@@ -4,12 +4,16 @@ import { Input } from "../components/Inputs";
 import logo from "../assets/Logo_IconLight.svg";
 
 export function SignUp() {
+
+
+
+
   return (
     <div
-      className="flex justify-end pt-4 bg-cover bg-center bg-no-repeat  w-screen h-full"
+      className="flex justify-end pt-4 bg-cover bg-center bg-no-repeat  w-full h-full"
       style={{ backgroundImage: "url('/src/assets/Login_Background.png')" }}
     >
-      <div className="flex flex-col gap-3 h-full py-12 px-36 bg-[#F9FAFA] rounded-tl-4xl">
+      <div className="flex flex-col gap-3 h-screen py-12 px-36 bg-[#F9FAFA] rounded-tl-4xl">
         <div className="flex justify-center items-center gap-3 mb-8">
           <img className="w-10 h-10" src={logo} alt="Logo" />
           <span className="text-[#2E3DA3] font-bold text-2xl ">HelpDesk</span>
@@ -25,7 +29,7 @@ export function SignUp() {
             </span>
           </div>
 
-          <form className="pt-10 flex flex-col gap-4">
+          <form className="pt-10 flex flex-col gap-4" > 
             <Input
               required
               legend="Name"
