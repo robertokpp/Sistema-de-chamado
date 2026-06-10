@@ -1,12 +1,38 @@
 import { Button } from "../components/Button";
 import { Input } from "../components/Inputs";
+import { api } from "../services/api"
+
+import { useState } from "react";
+
+import { z } from "zod";
+
 
 import logo from "../assets/Logo_IconLight.svg";
 
+const signInSchema = z.object({
+  name: z.string().trim().min(3),
+  email: z.email(),
+  password: z.string().min(6),
+});
+
 export function SignUp() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
+  async function onSubmit(event: React.SubmitEvent) {
+    event.preventDefault();
 
+    const data = signInSchema.parse({
+      name,
+      email,
+      password,
+    });
 
+    await api.post("/users" , data)
+    
+    
+  }
 
   return (
     <div
@@ -29,23 +55,27 @@ export function SignUp() {
             </span>
           </div>
 
-          <form className="pt-10 flex flex-col gap-4" > 
+          <form className="pt-10 flex flex-col gap-4" onSubmit={onSubmit}>
             <Input
               required
               legend="Name"
               placeholder="Digite o nome completo"
+              onChange={(e) => setName(e.target.value)}
             />
+
             <Input
               required
               legend="E-mail"
               type="email"
               placeholder="exemplo@email.com"
+              onChange={(e) => setEmail(e.target.value)}
             />
             <Input
               required
               legend="Senha"
               type="password"
               placeholder="Digite sua senha"
+              onChange={(e) => setPassword(e.target.value)}
             />
             <span className="text-gray-400 text-[12px] italic">
               Mínimo de 6 digito
