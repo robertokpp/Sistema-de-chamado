@@ -1,6 +1,9 @@
 import { Request, Response } from "express";
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
+import { hash } from "bcrypt";
+
+import { AppError } from "@/utils/AppError";
 
 class UserController {
   async create(request: Request, response: Response) {
@@ -11,22 +14,31 @@ class UserController {
     });
 
     const { name, email, password } = bodySchema.parse(request.body);
+    const hashPassword = await hash(password, 8);
+
+    const emailAlreadyRegistered = await prisma.user.findFirst({
+      where: { email },
+    });
+
+    if (emailAlreadyRegistered) {
+      throw new AppError("This email has already been registered.");
+    }
 
     const user = await prisma.user.create({
       data: {
         name: name,
         email: email,
-        password: password,
+        password: hashPassword,
       },
     });
 
     return response.json(user);
   }
 
-  async index(request: Request, response: Response){
-    const user = await prisma.user.findMany()
+  async index(request: Request, response: Response) {
+    const user = await prisma.user.findMany();
 
-    return response.json(user)
+    return response.json(user);
   }
 }
 
