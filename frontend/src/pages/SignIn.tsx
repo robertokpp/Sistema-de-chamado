@@ -1,5 +1,7 @@
 import { Button } from "../components/Button";
 import { Input } from "../components/Inputs";
+import { useState } from "react";
+import { api } from "../services/api";
 import { z } from "zod";
 
 import logo from "../assets/Logo_IconLight.svg";
@@ -13,10 +15,16 @@ export function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  function onSubimt(){
+  async function onSubmit(e: React.SubmitEvent) {
+    e.preventDefault();
     const data = SignInSchema.parse({
-      console.log(data)
-    })
+      email,
+      password,
+    });
+
+    await api.post("/session", data); //AINDA NAO TESTEI
+
+    
   }
 
   return (
@@ -40,19 +48,22 @@ export function SignIn() {
             </span>
           </div>
 
-          <form className="pt-10 flex flex-col gap-4" onSubmit={}>
+          <form className="pt-10 flex flex-col gap-4" onSubmit={onSubmit}>
             <Input
               required
               legend="E-mail"
               type="email"
               placeholder="exemplo@email.com"
+              onChange={(e) => setEmail(e.target.value)}
             />
             <Input
               required
               legend="Senha"
               type="password"
               placeholder="Digite sua senha"
+              onChange={(e) => setPassword(e.target.value)}
             />
+
             <Button className="mt-10" type="submit">
               Entrar
             </Button>
