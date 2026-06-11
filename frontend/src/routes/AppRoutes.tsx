@@ -6,7 +6,7 @@ import { SignUp } from "../pages/SignUp";
 export function AppRoutes() {
   return (
     <Routes>
-      <Route path="/" index element={<SignUp />} />
+      <Route path="/" index element={<SignIn />} />
     </Routes>
   );
 }

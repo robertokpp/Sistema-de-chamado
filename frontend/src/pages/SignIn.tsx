@@ -10,6 +10,15 @@ const SignInSchema = z.object({
 });
 
 export function SignIn() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  function onSubimt(){
+    const data = SignInSchema.parse({
+      console.log(data)
+    })
+  }
+
   return (
     <div
       className="flex pt-4 bg-cover bg-center bg-no-repeat justify-end w-screen h-screen"
@@ -31,7 +40,7 @@ export function SignIn() {
             </span>
           </div>
 
-          <form className="pt-10 flex flex-col gap-4">
+          <form className="pt-10 flex flex-col gap-4" onSubmit={}>
             <Input
               required
               legend="E-mail"

@@ -3,6 +3,12 @@ import { z } from "zod";
 import { compare } from "bcrypt";
 import { prisma } from "@/lib/prisma";
 import { AppError } from "@/utils/AppError";
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+import { authConfig } from "@/configs/auth";
+
+
+dotenv.config();
 
 class SessionController {
   async create(request: Request, response: Response) {
@@ -27,7 +33,17 @@ class SessionController {
       throw new AppError("User or password incorrect", 401);
     }
 
-    return response.json(user);
+
+    const { secret, expiresIn } = authConfig.jwt;
+
+    const token = jwt.sign({role: user.role}, secret, {
+      subject: user.id,
+      expiresIn: expiresIn,
+    });
+
+    const { password: _, ...userWithoutPassword } = user;
+
+    return response.json({ user: userWithoutPassword, token });
   }
 }
 
