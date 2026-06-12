@@ -3,7 +3,7 @@ import { Input } from "../components/Inputs";
 import { useState } from "react";
 import { api } from "../services/api";
 import { z } from "zod";
-
+import { useNavigate } from "react-router";
 import logo from "../assets/Logo_IconLight.svg";
 
 const SignInSchema = z.object({
@@ -14,6 +14,11 @@ const SignInSchema = z.object({
 export function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  function signUp() {
+    navigate("/signup");
+  }
 
   async function onSubmit(e: React.SubmitEvent) {
     e.preventDefault();
@@ -23,8 +28,6 @@ export function SignIn() {
     });
 
     await api.post("/session", data); //AINDA NAO TESTEI
-
-    
   }
 
   return (
@@ -76,7 +79,7 @@ export function SignIn() {
             Cadastre agora mesmo
           </span>
 
-          <Button className="text-gray-200 bg-[#E3E5E8] mt-6">
+          <Button className="text-gray-200 bg-[#E3E5E8] mt-6" onClick={signUp}>
             Criar conta
           </Button>
         </div>

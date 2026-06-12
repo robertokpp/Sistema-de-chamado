@@ -39,7 +39,7 @@ class SessionController {
     const token = jwt.sign({role: user.role}, secret, {
       subject: user.id,
       expiresIn: expiresIn,
-    });
+    } as any);
 
     const { password: _, ...userWithoutPassword } = user;
 

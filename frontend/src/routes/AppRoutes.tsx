@@ -7,6 +7,7 @@ export function AppRoutes() {
   return (
     <Routes>
       <Route path="/" index element={<SignIn />} />
+      <Route path="/signup" index element={<SignUp />} />
     </Routes>
   );
 }

@@ -1,11 +1,10 @@
 import { Button } from "../components/Button";
 import { Input } from "../components/Inputs";
-import { api } from "../services/api"
-
+import { api } from "../services/api";
+import { useNavigate } from "react-router";
 import { useState } from "react";
 
 import { z } from "zod";
-
 
 import logo from "../assets/Logo_IconLight.svg";
 
@@ -19,6 +18,11 @@ export function SignUp() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  function signIn() {
+    navigate("/");
+  }
 
   async function onSubmit(event: React.SubmitEvent) {
     event.preventDefault();
@@ -29,9 +33,7 @@ export function SignUp() {
       password,
     });
 
-    await api.post("/users" , data)
-    
-    
+    await api.post("/users", data);
   }
 
   return (
@@ -92,7 +94,7 @@ export function SignUp() {
             Entre agora mesmo
           </span>
 
-          <Button className="text-gray-200 bg-[#E3E5E8] mt-6">
+          <Button className="text-gray-200 bg-[#E3E5E8] mt-6" onClick={signIn}>
             Acessar conta
           </Button>
         </div>
