@@ -22,12 +22,15 @@ export function SignIn() {
 
   async function onSubmit(e: React.SubmitEvent) {
     e.preventDefault();
+
     const data = SignInSchema.parse({
       email,
       password,
     });
 
-    await api.post("/session", data); //AINDA NAO TESTEI
+    const response = await api.post("/session", data); 
+
+    console.log(response.data)
   }
 
   return (
