@@ -10,5 +10,10 @@
   --color-gray-500: #e3e5e8;
   --color-gray-500: #f9fafa;
 
-  --color-blue-dark: #2E3DA3;
+  --color-blue-dark: #2e3da3;
+
+  --color-feedback-open: #cc3d6a;
+  --color-feedback-progress: #355ec5;
+  --color-feedback-danger: #d03e3e;
+  --color-feedback-done: #508b26;
 }

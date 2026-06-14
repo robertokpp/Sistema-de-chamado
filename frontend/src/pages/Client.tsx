@@ -1,4 +1,5 @@
 import { SideMenu } from "../components/Menu";
+import iconCircleHelp from "../assets/circle-help.svg";
 
 export function Client() {
   return (
@@ -9,7 +10,7 @@ export function Client() {
           <h1 className="text-blue-dark text-2xl font-bold w-full mb-6">
             Meus Chamados
           </h1>
-          <div className="flex gap-3 w-full justify-between [&>ul>span]:text-[14px] [&>ul>span]:text-gray-400 px-3">
+          <div className="flex gap-3 w-full justify-between [&>ul>*]:py-4 [&>ul>span]:text-[14px] [&>ul>span]:text-gray-400 px-3 ">
             <ul>
               <span>Atualizado em</span>
               <li>13/04/25 20:56</li>
@@ -24,19 +25,25 @@ export function Client() {
             </ul>
             <ul>
               <span>Serviço</span>
-              <li>teste</li>
+              <li>Instalação de Rede</li>
             </ul>
             <ul>
               <span>Valor total</span>
-              <li>teste</li>
+              <li>R$ 180,00</li>
             </ul>
             <ul>
               <span>Técnico</span>
-              <li>teste</li>
+              <li>Carlos Silva</li>
             </ul>
             <ul>
               <span>Status</span>
-              <li>teste</li>
+              <li className="flex">Aberto</li>
+            </ul>
+            <ul>
+              <span>teste</span>
+              <li>
+                <button>teste</button>
+              </li>
             </ul>
           </div>
         </div>
