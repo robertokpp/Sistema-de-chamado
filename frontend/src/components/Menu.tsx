@@ -1,7 +1,7 @@
 import logoDark from "../assets/Logo_IconDark.svg";
 import { MyCalls, NewCall } from "./MenuLink";
 
-
+let role = "client";
 
 export function SideMenu() {
   return (
@@ -19,13 +19,16 @@ export function SideMenu() {
           </div>
         </div>
 
-        <div className="flex flex-col gap-1 pt-5">
-          <MyCalls />
-          <NewCall/>
-        </div>
+        {role === "client" && (
+          <div className="flex flex-col gap-1 pt-5">
+            <MyCalls />
+            <NewCall />
+          </div>
+        )}
+
       </div>
       <div className="flex gap-3 items-center">
-        <div className="bg-[#2E3DA3] w-8 h-8 rounded-full flex justify-center items-center">
+        <div className="bg-blue-dark w-8 h-8 rounded-full flex justify-center items-center">
           <span className="text-gray-500 text[14px]">UC</span>
         </div>
         <div className="flex flex-col">
