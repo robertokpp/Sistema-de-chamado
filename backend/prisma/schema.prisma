@@ -21,6 +21,34 @@ model User {
   role      Role     @default(client)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  calls     Calls[]
 
-  @@map("user")
+  @@map("client")
+}
+
+model Technical {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  role      Role     @default(technical)
+  calls     Calls[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("technical")
+}
+
+model Calls {
+  id          String    @id @default(uuid())
+  title       String
+  service     String
+  value       Float
+  technicalId String
+  technical   Technical @relation(fields: [technicalId], references: [id])
+  clientId    String
+  client      User      @relation(fields: [clientId], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("calls")
 }
