@@ -22,15 +22,14 @@ class SessionController {
       where: { email },
     });
 
-    
     if (!user) {
-      return new AppError("E-mail ou senha incorreto!", 401);
+      throw new AppError("E-mail ou senha incorreto!", 401);
     }
 
     const userMatched = await compare(password, user.password);
 
     if (!userMatched) {
-      throw new AppError("User or password incorrect", 401);
+      throw new AppError("E-mail ou senha incorreto!", 401);
     }
 
     const { secret, expiresIn } = authConfig.jwt;
