@@ -7,7 +7,6 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import { authConfig } from "@/configs/auth";
 
-
 dotenv.config();
 
 class SessionController {
@@ -19,12 +18,13 @@ class SessionController {
 
     const { email, password } = bodySchema.parse(request.body);
 
-    const user = await prisma.user.findFirst({
+    const user = await prisma.client.findFirst({
       where: { email },
     });
 
+    
     if (!user) {
-      throw new AppError("E-mail ou senha incorreto!", 401);
+      return new AppError("E-mail ou senha incorreto!", 401);
     }
 
     const userMatched = await compare(password, user.password);
@@ -33,10 +33,9 @@ class SessionController {
       throw new AppError("User or password incorrect", 401);
     }
 
-
     const { secret, expiresIn } = authConfig.jwt;
 
-    const token = jwt.sign({role: user.role}, secret, {
+    const token = jwt.sign({ role: user.role }, secret, {
       subject: user.id,
       expiresIn: expiresIn,
     } as any);

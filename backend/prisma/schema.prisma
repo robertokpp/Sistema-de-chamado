@@ -13,7 +13,7 @@ enum Role {
   client
 }
 
-model User {
+model Client {
   id        String   @id @default(uuid())
   name      String
   email     String   @unique
@@ -46,7 +46,7 @@ model Calls {
   technicalId String
   technical   Technical @relation(fields: [technicalId], references: [id])
   clientId    String
-  client      User      @relation(fields: [clientId], references: [id])
+  client      Client      @relation(fields: [clientId], references: [id])
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 
