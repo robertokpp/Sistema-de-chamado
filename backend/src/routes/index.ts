@@ -16,5 +16,6 @@ router.use("/session", sessionRouter);
 router.use(ensureAuthenticated);
 router.use("/calls", callsRouter);
 router.use("/services", serviceRouter);
+router.use("/user/:id", userRouter)
 
 export { router };

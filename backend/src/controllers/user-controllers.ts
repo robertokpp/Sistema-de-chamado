@@ -40,6 +40,21 @@ class UserController {
 
     return response.json(user);
   }
+
+  async delete(request: Request, response: Response) {
+    const paramsSchema = z.object({
+      userId: z.string(),
+    });
+
+    const { userId } = paramsSchema.parse(request.params);
+
+    await prisma.user.delete({
+      where: { id: userId },
+    });
+
+    return response.json({ Message: "OK" });
+  }
 }
+
 
 export { UserController };

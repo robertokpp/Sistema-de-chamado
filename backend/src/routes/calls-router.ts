@@ -7,14 +7,17 @@ const callsController = new CallsController();
 
 callsRouter.post(
   "/",
-  verifyUserAuthorization(["client", "admin"]),
+  verifyUserAuthorization(["CLIENT"]),
   callsController.create,
 );
 
 callsRouter.get(
   "/",
-  verifyUserAuthorization(["client", "admin"]),
+  verifyUserAuthorization(["ADMIN","CLIENT","TECHNICAL"]),
   callsController.index,
 );
+
+
+
 
 export { callsRouter };
