@@ -16,7 +16,7 @@ class UserController {
     const { name, email, password } = bodySchema.parse(request.body);
     const hashPassword = await hash(password, 8);
 
-    const emailAlreadyRegistered = await prisma.client.findFirst({
+    const emailAlreadyRegistered = await prisma.user.findFirst({
       where: { email },
     });
 
@@ -24,7 +24,7 @@ class UserController {
       throw new AppError("Já existe um usuário com esse e-mail.");
     }
 
-    const user = await prisma.client.create({
+    await prisma.user.create({
       data: {
         name: name,
         email: email,
@@ -36,7 +36,7 @@ class UserController {
   }
 
   async index(request: Request, response: Response) {
-    const user = await prisma.client.findMany();
+    const user = await prisma.user.findMany();
 
     return response.json(user);
   }

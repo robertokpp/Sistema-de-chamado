@@ -18,7 +18,7 @@ class SessionController {
 
     const { email, password } = bodySchema.parse(request.body);
 
-    const user = await prisma.client.findFirst({
+    const user = await prisma.user.findFirst({
       where: { email },
     });
 

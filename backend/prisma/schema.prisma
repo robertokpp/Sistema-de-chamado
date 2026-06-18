@@ -8,55 +8,97 @@ datasource db {
 }
 
 enum Role {
-  admin
-  technical
-  client
+  ADMIN
+  TECHNICAL
+  CLIENT
 }
 
-enum Status {
-  open
-  inProgress
-  close
+enum CallStatus {
+  OPEN
+  IN_PROGRESS
+  CLOSE
 }
 
-model Client {
-  id        String   @id @default(uuid())
-  name      String
-  email     String   @unique
-  password  String
-  role      Role      @default(client)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  calls     Calls[]
+model User {
+  id       String @id @default(uuid())
+  name     String
+  email    String @unique
+  password String
 
-  @@map("client")
-}
+  role Role @default(CLIENT)
 
-model Technical {
-  id        String   @id @default(uuid())
-  name      String
-  email     String   @unique
-  role      Role     @default(technical)
-  calls     Calls[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@map("technical")
+  technicianSchedules TechnicianSchedule[]
+
+  clientCalls Call[] @relation("clientCalls")
+  technicalId Call[] @relation("technicalId")
+
+  @@map("user")
 }
 
-model Calls {
-  id          String    @id @default(uuid())
+model TechnicianSchedule {
+  id String @id @default(uuid())
+
+  technicianId String
+  technician   User   @relation(fields: [technicianId], references: [id])
+
+  hour String
+
+  createdAt DateTime @default(now())
+
+  @@map("technicianSchedule")
+}
+
+model Service {
+  id String @id @default(uuid())
+
+  name String
+
+  price Decimal @db.Decimal(10, 2)
+
+  active Boolean @default(true)
+
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  call CallService[]
+
+  @@map("service")
+}
+
+model Call {
+  id String @id @default(uuid())
+
   title       String
-  service     String
   description String
-  value       Float
-  status Status @default(open)
-  technicalId String?
-  technical   Technical? @relation(fields: [technicalId], references: [id])
-  clientId    String
-  client      Client      @relation(fields: [clientId], references: [id])
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
 
-  @@map("calls")
+  clientId    String
+  client      User    @relation("clientCalls", fields: [clientId], references: [id])
+  technicalId String?
+  technical   User?   @relation("technicalId", fields: [technicalId], references: [id])
+
+  services CallService[]
+  status CallStatus @default(OPEN)
+
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  @@map("call")
+}
+
+model CallService {
+  id String @id @default(uuid())
+
+  callId String
+  call   Call   @relation(fields: [callId], references: [id])
+
+  serviceId String
+  service   Service @relation(fields: [serviceId], references: [id])
+
+  price Decimal @db.Decimal(10, 2)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

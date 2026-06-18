@@ -8,29 +8,32 @@ class CallsController {
     const bodySchema = z.object({
       title: z.string().trim().min(3),
       description: z.string().trim(),
-      service: z.enum([
-        "Instalação de Rede",
-        "Recuperação de Dados",
-        "Suporte de Software",
-      ]),
+      service: z.string(),
     });
-
     const { title, description, service } = bodySchema.parse(request.body);
-
     const user = request.user?.id;
+
     if (!user) {
-      throw new AppError("Usuário não autenticado", 401);
+      throw new AppError("Usuário não autenticado", 40);
     }
 
-    const call = await prisma.calls.create({
+    const verifyService = prisma.service.findFirst({
+      where: { name: service },
+    });
+
+    if (!verifyService) {
+      throw new AppError("O serviço não existe", 404);
+    }
+
+    const call = await prisma.call.create({
       data: {
         title,
         description,
-        service,
-        value: 200,
         clientId: user,
+        service: verifyService,
       },
     });
+
     return response.json(call);
   }
 
@@ -38,21 +41,21 @@ class CallsController {
     const userRole = request.user?.role;
     const userId = request.user?.id;
 
-    if (userRole === "client") {
+    if (userRole === "CLIENT") {
       return response.json(
-        await prisma.calls.findMany({
+        await prisma.call.findMany({
           where: { clientId: userId },
         }),
       );
     }
 
-    if (userRole === "admin") {
-      return response.json(await prisma.calls.findMany({}));
+    if (userRole === "ADMIN") {
+      return response.json(await prisma.call.findMany({}));
     }
 
-    if (userRole === "technical") {
+    if (userRole === "TECHNICAL") {
       return response.json(
-        await prisma.calls.findMany({
+        await prisma.call.findMany({
           where: {
             technicalId: userId,
           },
@@ -60,11 +63,10 @@ class CallsController {
       );
     }
 
-    return response.status(403).json({
+    return response.status(401).json({
       message: "Usuário sem permissão",
     });
   }
-
 }
 
 export { CallsController };
