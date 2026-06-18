@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { userRouter } from "./users-routes";
 import { sessionRouter } from "./session-router";
-import { clientRouter } from "./client-router";
+import { callsRouter } from "./calls-router";
 import { ensureAuthenticated } from "@/middlewares/ensure_authenticated";
 
 const router = Router();
@@ -12,6 +12,6 @@ router.use("/session", sessionRouter);
 
 // Routes private
 router.use(ensureAuthenticated);
-router.use("/client", clientRouter);
+router.use("/calls", callsRouter);
 
 export { router };

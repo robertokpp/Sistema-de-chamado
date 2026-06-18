@@ -13,12 +13,18 @@ enum Role {
   client
 }
 
+enum Status {
+  open
+  inProgress
+  close
+}
+
 model Client {
   id        String   @id @default(uuid())
   name      String
   email     String   @unique
   password  String
-  role      Role     @default(client)
+  role      Role      @default(client)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   calls     Calls[]
@@ -42,9 +48,11 @@ model Calls {
   id          String    @id @default(uuid())
   title       String
   service     String
+  description String
   value       Float
-  technicalId String
-  technical   Technical @relation(fields: [technicalId], references: [id])
+  status Status @default(open)
+  technicalId String?
+  technical   Technical? @relation(fields: [technicalId], references: [id])
   clientId    String
   client      Client      @relation(fields: [clientId], references: [id])
   createdAt   DateTime  @default(now())
