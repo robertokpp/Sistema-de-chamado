@@ -11,7 +11,6 @@ const router = Router();
 router.use("/users", userRouter);
 router.use("/session", sessionRouter);
 
-
 // Routes private
 router.use(ensureAuthenticated);
 router.use("/calls", callsRouter);

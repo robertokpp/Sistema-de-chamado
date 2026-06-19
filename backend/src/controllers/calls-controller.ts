@@ -14,7 +14,7 @@ class CallsController {
     const user = request.user?.id;
 
     if (!user) {
-      throw new AppError("Usuário não autenticado", 40);
+      throw new AppError("Usuário não autenticado", 401);
     }
 
     const verifyService = prisma.service.findFirst({
