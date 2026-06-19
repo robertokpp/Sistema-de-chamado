@@ -11,4 +11,16 @@ serviceRouter.post(
   serviceController.create,
 );
 
-export {serviceRouter}
+serviceRouter.get(
+  "/",
+  verifyUserAuthorization(["ADMIN"]),
+  serviceController.index,
+);
+
+serviceRouter.patch(
+  "/",
+  verifyUserAuthorization(["ADMIN"]),
+  serviceController.active,
+);
+
+export { serviceRouter };
