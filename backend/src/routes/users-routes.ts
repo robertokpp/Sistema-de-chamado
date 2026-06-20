@@ -6,12 +6,5 @@ const userRouter = Router();
 const userController = new UserController();
 
 userRouter.post("/", userController.create);
-userRouter.get("/", userController.index);
 
-
-userRouter.delete(
-  "/",
-  verifyUserAuthorization(["ADMIN"]),
-  userController.delete,
-);
 export { userRouter };

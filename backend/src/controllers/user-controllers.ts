@@ -5,7 +5,6 @@ import { hash } from "bcrypt";
 
 import { AppError } from "@/utils/AppError";
 
-
 class UserController {
   async create(request: Request, response: Response) {
     const bodySchema = z.object({
@@ -35,27 +34,6 @@ class UserController {
 
     return response.status(201).json();
   }
-
-  async index(request: Request, response: Response) {
-    const user = await prisma.user.findMany();
-
-    return response.json(user);
-  }
-
-  async delete(request: Request, response: Response) {
-    const paramsSchema = z.object({
-      userId: z.string(),
-    });
-
-    const { userId } = paramsSchema.parse(request.params);
-
-    await prisma.user.delete({
-      where: { id: userId },
-    });
-
-    return response.json({ Message: "OK" });
-  }
-
 }
 
 export { UserController };

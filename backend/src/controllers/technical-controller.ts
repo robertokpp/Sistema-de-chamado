@@ -48,6 +48,17 @@ class TechnicalController {
 
     return response.json("ok");
   }
+
+  async index(request: Request, response: Response) {
+    await prisma.user.findFirst({
+      select: {
+        id: true,
+        name: true,
+        email: true,
+      },
+      where: { role: "TECHNICAL" },
+    });
+  }
 }
 
 export { TechnicalController };

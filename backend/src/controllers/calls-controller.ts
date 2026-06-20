@@ -69,8 +69,6 @@ class CallsController {
   
   }
 
-
-    
 }
 
 export { CallsController };

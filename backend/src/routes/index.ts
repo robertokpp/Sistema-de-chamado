@@ -5,7 +5,8 @@ import { userRouter } from "./users-routes";
 import { sessionRouter } from "./session-router";
 import { callsRouter } from "./calls-router";
 import { serviceRouter } from "./services-router";
-import { technicalRouter } from "./technician-router";
+import { technicalRouter } from "./technical-router";
+import { clientRouter } from "./client-router";
 
 const router = Router();
 
@@ -19,5 +20,6 @@ router.use("/calls", callsRouter);
 router.use("/user/:id", userRouter);
 router.use("/services", serviceRouter);
 router.use("/technical", technicalRouter);
+router.use("/client", clientRouter)
 
 export { router };

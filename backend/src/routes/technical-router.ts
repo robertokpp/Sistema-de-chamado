@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { TechnicalController } from "../controllers/technician-controller";
+import { TechnicalController } from "../controllers/technical-controller";
 import { verifyUserAuthorization } from "@/middlewares/verify-user-authorization";
 
 const technicalRouter = Router();
@@ -9,6 +9,12 @@ technicalRouter.post(
   "/",
   verifyUserAuthorization(["ADMIN"]),
   technicalController.create,
+);
+
+technicalRouter.post(
+  "/",
+  verifyUserAuthorization(["ADMIN"]),
+  technicalController.index,
 );
 
 export { technicalRouter };
