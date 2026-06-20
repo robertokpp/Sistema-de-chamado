@@ -1,7 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { Response, Request } from "express";
 import { z } from "zod";
-import { id } from "zod/locales";
 
 class ServiceController {
   async create(request: Request, response: Response) {
@@ -40,6 +39,27 @@ class ServiceController {
       where: { id },
       data: { active },
     });
+  }
+
+  async show(request: Request, response: Response) {
+    const paramsSchema = z.object({
+      id: z.string(),
+    });
+
+    const bodySchema = z.object({
+      name: z.string(),
+      price: z.number(),
+      active: z.boolean(),
+    });
+
+    const { id } = paramsSchema.parse(request.params);
+    const { name, price, active } = bodySchema.parse(request.body);
+    const service = await prisma.service.update({
+      where: { id },
+      data: { name, price, active },
+    });
+
+    return response.json(service);
   }
 }
 
