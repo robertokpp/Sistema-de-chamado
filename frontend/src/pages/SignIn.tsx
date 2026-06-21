@@ -17,7 +17,7 @@ export function SignIn() {
   const navigate = useNavigate();
 
   function signUp() {
-    navigate("/signup");
+    navigate("/cadastrar");
   }
 
   async function onSubmit(e: React.SubmitEvent) {
