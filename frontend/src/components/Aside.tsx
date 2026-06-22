@@ -40,9 +40,9 @@ export function Aside() {
         </footer>
       </aside>
 
-      
+      <main className="bg-white rounded-tl-[20px] mt-3 w-full p-12 flex flex-col items-center">
         <Outlet />
-      
+      </main>
     </div>
   );
 }

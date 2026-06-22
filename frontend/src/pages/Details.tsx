@@ -1,35 +1,33 @@
 import { Header } from "../components/Header";
 import { Input } from "../components/Inputs";
 import { Textarea } from "../components/Inputs";
-import { Select } from "../components/Inputs";
-export function NewCall() {
+
+export function Details() {
   return (
-    <div>
-      <Header>Novo chamado</Header>
+    <div className="w-fit">
+      <span>Voltar</span>
+      <Header>Chamado detalhado</Header>
       <section className="flex gap-6">
-        <form action="" className="border p-8 rounded-[10px]">
-          <fieldset>
-            <h3>Informações</h3>
-            <span>
-              Configure os dias e horários em que você está disponível para
-              atender chamados
-            </span>
+        <div className="border p-8 rounded-[10px]">
+          <div>
+            <div className="flex justify-between">
+              <span>0004</span>
+              <span>detalhe-do-chamado</span>
+            </div>
+            <span>Backup não está funcionando</span>
+          </div>
 
-            <Input
-              legend="Título"
-              placeholder="Digite um título para o chamado"
-            ></Input>
+          <Textarea legend="Descrição">
+            O sistema de backup automático parou de funcionar. Última execução
+            bem-sucedida foi há uma semana.
+          </Textarea>
 
-            <Textarea legend="descrição"></Textarea>
-            <Input legend="Título"></Input>
-
-            <Select legend="categoria de serviço">
-              <option value="">teste 01</option>
-              <option value="">teste 02</option>
-              <option value="">teste 03</option>
-            </Select>
-          </fieldset>
-        </form>
+          <Input legend="Categoria" value="Recuperação de Dados" />
+          <div className="flex gap-8">
+            <Input legend="Categoria" value="12/04/25 09:12" />
+            <Input legend="Categoria" value="12/04/25 09:12" />
+          </div>
+        </div>
         <aside className="flex flex-col border p-8 rounded-[10px] gap-6">
           <div className="flex flex-col">
             <span>Resumo</span>
