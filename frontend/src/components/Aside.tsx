@@ -40,7 +40,9 @@ export function Aside() {
         </footer>
       </aside>
 
-      <Outlet />
+      
+        <Outlet />
+      
     </div>
   );
 }

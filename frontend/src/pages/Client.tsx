@@ -2,7 +2,7 @@ import { Header } from "../components/Header";
 
 export function Client() {
   return (
-    <main className="bg-white rounded-tl-[20px] mt-3 w-full p-12">
+    <section>
       <Header>Meus Chamados</Header>
       <div className="flex gap-3 w-full justify-between [&>ul>*]:py-4 [&>ul>span]:text-[14px] [&>ul>span]:text-gray-400 px-3 ">
         <ul>
@@ -40,6 +40,6 @@ export function Client() {
           </li>
         </ul>
       </div>
-    </main>
+    </section>
   );
 }
