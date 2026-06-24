@@ -3,12 +3,13 @@ import { Input } from "../components/Inputs";
 import { api } from "../services/api";
 import { useNavigate } from "react-router";
 import { useState } from "react";
-
+import { ZodError } from "zod";
+import { AxiosError } from "axios";
 import { z } from "zod";
 
 import logo from "../assets/Logo_IconLight.svg";
 
-const signInSchema = z.object({
+const signUpSchema = z.object({
   name: z.string().trim().min(3),
   email: z.email(),
   password: z.string().min(6),
@@ -26,14 +27,33 @@ export function SignUp() {
 
   async function onSubmit(event: React.SubmitEvent) {
     event.preventDefault();
+    try {
+      const data = signUpSchema.parse({
+        name,
+        email,
+        password,
+      });
 
-    const data = signInSchema.parse({
-      name,
-      email,
-      password,
-    });
+      await api.post("/user", data);
 
-    await api.post("/users", data);
+      if (confirm("Cadastrado com sucesso, Ir para tela de entrar?")) {
+        navigate("/");
+      }
+
+      setName("");
+      setEmail("");
+      setPassword("");
+
+    } catch (error) {
+      console.log(error);
+      if (error instanceof ZodError) {
+        return alert(error.issues[0].message);
+      }
+      if (error instanceof AxiosError) {
+        return alert(error.response?.data.message);
+      }
+    } finally {
+    }
   }
 
   return (

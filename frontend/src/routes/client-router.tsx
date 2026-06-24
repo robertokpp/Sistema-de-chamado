@@ -10,7 +10,7 @@ export function ClientRouter() {
   return (
     <Routes>
       <Route path="/" element={<Aside />}>
-        <Route path="/chamados" element={<Calls />} />
+        <Route path="/" index element={<Calls />} />
         <Route path="/chamados/:id" element={<Details />} />
         <Route path="/novo-chamado" element={<NewCall />} />
       </Route>
