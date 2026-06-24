@@ -4,7 +4,7 @@ import { AdminRouter } from "./admin-router";
 import { ClientRouter } from "./client-router";
 
 export function Routes() {
-  let role = "ADMIN";
+  let role = "";
 
   function Route() {
     switch (role) {

@@ -4,7 +4,6 @@ import { useState } from "react";
 import { api } from "../services/api";
 import { z } from "zod";
 import { useNavigate } from "react-router";
-import logo from "../assets/Logo_IconLight.svg";
 
 const SignInSchema = z.object({
   email: z.email(),
@@ -28,65 +27,55 @@ export function SignIn() {
       password,
     });
 
-    const response = await api.post("/session", data); 
+    const response = await api.post("/session", data);
 
-    console.log(response.data)
+    console.log(response.data);
   }
 
   return (
-    <div
-      className="flex pt-4 bg-cover bg-center bg-no-repeat justify-end w-screen h-screen"
-      style={{ backgroundImage: "url('/src/assets/Login_Background.png')" }}
-    >
-      <div className="flex flex-col gap-3 h-full py-12 px-36 bg-[#F9FAFA] rounded-tl-4xl">
-        <div className="flex justify-center items-center gap-3 mb-8">
-          <img className="w-10 h-10" src={logo} alt="Logo" />
-          <span className="text-[#2E3DA3] font-bold text-2xl ">HelpDesk</span>
-        </div>
-
-        <div className="flex flex-col p-7 bg-[#F9FAFA]  rounded-2xl border border-[#E3E5E8]">
-          <div>
-            <h1 className="text-[20px] text-gray-100 font-bold">
-              Acesse o portal
-            </h1>
-            <span className="text-[12px] text-gray-300 leading-4">
-              Entre usando seu e-mail e senha cadastrados
-            </span>
-          </div>
-
-          <form className="pt-10 flex flex-col gap-4" onSubmit={onSubmit}>
-            <Input
-              required
-              legend="E-mail"
-              type="email"
-              placeholder="exemplo@email.com"
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <Input
-              required
-              legend="Senha"
-              type="password"
-              placeholder="Digite sua senha"
-              onChange={(e) => setPassword(e.target.value)}
-            />
-
-            <Button className="mt-10" type="submit">
-              Entrar
-            </Button>
-          </form>
-        </div>
-
-        <div className="flex flex-col p-7 w-100 bg-[#F9FAFA] rounded-2xl border border-[#E3E5E8]">
-          <h2>Ainda não tem uma conta?</h2>
+    <>
+      <section className="flex flex-col p-7 w-100 rounded-2xl border border-[#E3E5E8]">
+        <div>
+          <h2 className="text-[20px] text-gray-100 font-bold">
+            Acesse o portal
+          </h2>
           <span className="text-[12px] text-gray-300 leading-4">
-            Cadastre agora mesmo
+            Entre usando seu e-mail e senha cadastrados
           </span>
-
-          <Button className="text-gray-200 bg-[#E3E5E8] mt-6" onClick={signUp}>
-            Criar conta
-          </Button>
         </div>
-      </div>
-    </div>
+
+        <form className="pt-10 flex flex-col gap-4" onSubmit={onSubmit}>
+          <Input
+            required
+            legend="E-mail"
+            type="email"
+            placeholder="exemplo@email.com"
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <Input
+            required
+            legend="Senha"
+            type="password"
+            placeholder="Digite sua senha"
+            onChange={(e) => setPassword(e.target.value)}
+          />
+
+          <Button className="mt-10" type="submit" disabled={false}>
+            Entrar
+          </Button>
+        </form>
+      </section>
+
+      <section className="flex flex-col p-7 w-100 rounded-2xl border border-[#E3E5E8]">
+        <h2>Ainda não tem uma conta?</h2>
+        <span className="text-[12px] text-gray-300 leading-4">
+          Cadastre agora mesmo
+        </span>
+
+        <Button className="text-gray-200 bg-[#E3E5E8] mt-6" onClick={signUp}>
+          Criar conta
+        </Button>
+      </section>
+    </>
   );
 }

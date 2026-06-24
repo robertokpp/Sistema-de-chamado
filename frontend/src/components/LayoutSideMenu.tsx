@@ -4,7 +4,7 @@ import { Outlet } from "react-router";
 
 let role = "client";
 
-export function Aside() {
+export function LayoutSideMenu() {
   return (
     <div className="flex bg-gray-200">
       <aside className="px-5 py-6 flex flex-col justify-between h-screen w-fit bg-gray-200 mt-3">
