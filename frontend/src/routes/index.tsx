@@ -1,13 +1,14 @@
 import { AuthRoutes } from "./auth-router";
 import { BrowserRouter } from "react-router";
-import { AdminRouter } from "./admin-router"; 
+import { AdminRouter } from "./admin-router";
 import { ClientRouter } from "./client-router";
+import { useAuth } from "../hooks/useAuth";
 
 export function Routes() {
-  let role = "";
+  const { session } = useAuth();
 
   function Route() {
-    switch (role) {
+    switch (session?.user.role) {
       case "CLIENT":
         return <ClientRouter />;
       case "ADMIN":

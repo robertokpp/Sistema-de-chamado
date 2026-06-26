@@ -2,8 +2,10 @@ import { Button } from "../components/Button";
 import { Input } from "../components/Inputs";
 import { useState } from "react";
 import { api } from "../services/api";
-import { z } from "zod";
+import { z, ZodError } from "zod";
+import { AxiosError } from "axios";
 import { useNavigate } from "react-router";
+import { useAuth } from "../hooks/useAuth";
 
 const SignInSchema = z.object({
   email: z.email(),
@@ -14,6 +16,7 @@ export function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const auth = useAuth();
 
   function signUp() {
     navigate("/cadastrar");
@@ -22,14 +25,29 @@ export function SignIn() {
   async function onSubmit(e: React.SubmitEvent) {
     e.preventDefault();
 
-    const data = SignInSchema.parse({
-      email,
-      password,
-    });
+    try {
+      const data = SignInSchema.parse({
+        email,
+        password,
+      });
 
-    const response = await api.post("/session", data);
+      const response = await api.post("/session", data);
 
-    console.log(response.data);
+      auth.save(response.data);
+      
+    } catch (error) {
+      console.log(error);
+
+      if (error instanceof ZodError) {
+        return { message: error.issues[0].message };
+      }
+
+      if (error instanceof AxiosError) {
+        return { message: error.response?.data.message };
+      }
+
+      return { message: " Não foi possível entrar!" };
+    }
   }
 
   return (
