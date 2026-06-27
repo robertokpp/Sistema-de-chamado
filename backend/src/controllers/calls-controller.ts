@@ -17,7 +17,7 @@ class CallsController {
       throw new AppError("Usuário não autenticado", 401);
     }
 
-    const verifyService = prisma.service.findFirst({
+    const verifyService = await prisma.service.findFirst({
       where: { name: service },
     });
 
