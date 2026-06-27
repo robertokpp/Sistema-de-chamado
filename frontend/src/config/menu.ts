@@ -8,7 +8,7 @@ export const menu = {
   CLIENT: [
     {
       title: "Meus chamados",
-      path: "/chamados",
+      path: "/",
       icon: iconMyCalls,
     },
     {
@@ -21,29 +21,29 @@ export const menu = {
   ADMIN: [
     {
       title: "Chamados",
-      path: "/admin/chamados",
+      path: "/",
       icon: iconMyCalls,
     },
     {
       title: "Técnicos",
-      path: "/admin/tecnicos",
+      path: "/tecnicos",
       icon: iconTechnical,
     },
     {
       title: "Usuários",
-      path: "/admin/client",
+      path: "/client",
       icon: iconClient,
     },
     {
       title: "Serviços",
-      path: "/admin/services",
+      path: "/services",
       icon: iconServices,
     },
   ],
   TECHNICAL: [
     {
       title: "Meus chamados",
-      path: "technical/chamados",
+      path: "/",
       icon: iconMyCalls,
     },
   ],

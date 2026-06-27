@@ -1,21 +1,27 @@
 import logoDark from "../assets/Logo_IconDark.svg";
+import iconLogout from "../assets/icon-logout.svg";
 import { Outlet } from "react-router";
 
 import { useAuth } from "../hooks/useAuth";
 import { NavItem } from "./NavItem";
 import { menu } from "../config/menu";
+import { Link } from "react-router";
 
 export function LayoutSideMenu() {
-  const { session } = useAuth();
+  const { session, remove } = useAuth();
+
+
+  if (!session) return null;
+  const items = menu[session?.user.role];
 
   return (
     <div className="flex bg-gray-200">
-      <aside className="px-5 py-6 flex flex-col justify-between h-screen w-fit bg-gray-200 mt-3">
+      <aside className="px-5 py-6 flex flex-col justify-between h-screen bg-gray-200 mt-3 w-62.5">
         <div>
           <header className="flex gap-3 py-5">
             <img src={logoDark} alt="logo Dark" className="w-11 h-11" />
             <div className="flex flex-col">
-              <span className="text-gray-500 font-bold text-[20px] ">
+              <span className="text-gray-500 font-bold text-[20px] p-2">
                 HelpDesk
               </span>
               <span className="uppercase text-[#8996EB] text-[10px] font-bold">
@@ -23,7 +29,8 @@ export function LayoutSideMenu() {
               </span>
             </div>
           </header>
-          <nav>
+
+          <nav className="flex flex-col gap-2">
             {items.map((item) => (
               <NavItem
                 key={item.path}
@@ -47,6 +54,9 @@ export function LayoutSideMenu() {
               {session?.user.email}
             </span>
           </div>
+          <Link to={"/"} onClick={remove} className="w-7.5 h-7.5 items-center flex justify-center">
+            <img src={iconLogout} alt="iconLogout"/>
+          </Link>
         </footer>
       </aside>
 
