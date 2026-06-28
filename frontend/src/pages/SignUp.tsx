@@ -48,7 +48,8 @@ export function SignUp() {
       if (error instanceof AxiosError) {
         return alert(error.response?.data.message);
       }
-    } finally {
+
+      alert("Erro ao cadastrar Usuário.");
     }
   }
 

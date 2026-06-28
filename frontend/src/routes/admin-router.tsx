@@ -5,6 +5,7 @@ import { LayoutSideMenu } from "../components/LayoutSideMenu";
 import { Calls } from "../pages/Calls";
 import { Services } from "../pages/Services";
 import { NotFound } from "../pages/NotFound";
+
 export function AdminRouter() {
   return (
     <Routes>
@@ -12,6 +13,7 @@ export function AdminRouter() {
         <Route path="/" index element={<Calls />} />
         <Route path="/serviços" element={<Services />} />
       </Route>
+
       <Route path="/*" element={<NotFound />} />
     </Routes>
   );

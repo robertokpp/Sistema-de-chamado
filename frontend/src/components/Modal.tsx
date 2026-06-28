@@ -1,20 +1,22 @@
-import { Input } from "../components/Inputs";
-import { Button } from "../components/Button";
-import closer from "../assets/icon-closer.svg";
-export function Modal() {
+import close from "../assets/icon-close.svg";
+
+type Props = {
+  isOpen: boolean;
+  onClose: () => void;
+  children: React.ReactNode;
+  tittle: string
+};
+
+export function Modal({ isOpen, onClose, children, tittle }: Props) {
+  if (!isOpen) return null;
   return (
     <div className="fixed inset-0 bg-black/25 flex justify-center items-center ">
       <div className="w-110 h-fit bg-white p-7 rounded-2xl">
         <header className="flex justify-between pb-5">
-          <h2>Serviço</h2>
-          <img src={closer} alt="IconClose" />
+          <h2>{tittle}</h2>
+          <img src={close} alt="IconClose" onClick={onClose} className="cursor-pointer"/>
         </header>
-        <div className="py-8 flex flex-col gap-4">
-          <Input legend="Título" />
-          <Input legend="Valor" />
-        </div>
-
-        <Button className="w-full font-normal">Salvar</Button>
+        {children}
       </div>
     </div>
   );
