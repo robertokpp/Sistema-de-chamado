@@ -13,7 +13,7 @@ serviceRouter.post(
 
 serviceRouter.get(
   "/",
-  verifyUserAuthorization(["ADMIN"]),
+  verifyUserAuthorization(["ADMIN", "CLIENT"]),
   serviceController.index,
 );
 

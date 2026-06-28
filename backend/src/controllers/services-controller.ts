@@ -22,7 +22,7 @@ class ServiceController {
   }
 
   async index(request: Request, response: Response) {
-    const services = await prisma.service.findFirst({});
+    const services = await prisma.service.findMany({});
 
     return response.json(services);
   }

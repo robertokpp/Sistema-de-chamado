@@ -8,9 +8,10 @@ class CallsController {
     const bodySchema = z.object({
       title: z.string().trim().min(3),
       description: z.string().trim(),
-      service: z.string(),
+      serviceId: z.uuid(),
     });
-    const { title, description, service } = bodySchema.parse(request.body);
+
+    const { title, description, serviceId } = bodySchema.parse(request.body);
     const user = request.user?.id;
 
     if (!user) {
@@ -18,7 +19,7 @@ class CallsController {
     }
 
     const verifyService = await prisma.service.findFirst({
-      where: { name: service },
+      where: { id: serviceId },
     });
 
     if (!verifyService) {
@@ -30,11 +31,18 @@ class CallsController {
         title,
         description,
         clientId: user,
-        service: verifyService,
       },
     });
 
-    return response.json(call);
+    await prisma.callService.create({
+      data: {
+        callId: call.id,
+        serviceId: verifyService.id,
+        price: verifyService.price,
+      },
+    });
+
+    return response.status(201).json();
   }
 
   async index(request: Request, response: Response) {
@@ -66,9 +74,7 @@ class CallsController {
     return response.status(401).json({
       message: "Usuário sem permissão",
     });
-  
   }
-
 }
 
 export { CallsController };
