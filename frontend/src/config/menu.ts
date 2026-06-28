@@ -31,12 +31,12 @@ export const menu = {
     },
     {
       title: "Usuários",
-      path: "/client",
+      path: "/clientes",
       icon: iconClient,
     },
     {
       title: "Serviços",
-      path: "/services",
+      path: "/serviços",
       icon: iconServices,
     },
   ],
