@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { prisma } from "@/lib/prisma";
-import { z } from "zod";
+import { includes, z } from "zod";
 import { AppError } from "@/utils/AppError";
 
 class CallsController {
@@ -53,23 +53,42 @@ class CallsController {
       return response.json(
         await prisma.call.findMany({
           where: { clientId: userId },
-        }),
-      );
-    }
-
-    if (userRole === "ADMIN") {
-      return response.json(await prisma.call.findMany({}));
-    }
-
-    if (userRole === "TECHNICAL") {
-      return response.json(
-        await prisma.call.findMany({
-          where: {
-            technicalId: userId,
+          select: {
+            updatedAt: true,
+            id: true,
+            title: true,
+            description: true,
+            technicalId: true,
+            status: true,
+            services: {
+              select: {
+                service: true,
+              },
+            },
+            technical: {
+              select: {
+                id: true,
+                name: true,
+              },
+            },
           },
         }),
       );
     }
+
+    // if (userRole === "ADMIN") {
+    //   return response.json(await prisma.call.findMany({}));
+    // }
+
+    // if (userRole === "TECHNICAL") {
+    //   return response.json(
+    //     await prisma.call.findMany({
+    //where: {
+    //         technicalId: userId,
+    //       },
+    //     }),
+    //   );
+    // }
 
     return response.status(401).json({
       message: "Usuário sem permissão",

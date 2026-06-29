@@ -1,47 +1,59 @@
 import { Header } from "../components/Header";
 
+import { useEffect, useState } from "react";
+import { api } from "../services/api";
+
+interface call {
+  id: string;
+  createdAt: string;
+  title: string;
+  description: string;
+  technicalId: string;
+}
+
 export function Calls() {
+  const [calls, useCalls] = useState<call[]>([]);
+
+  async function listCalls() {
+    const response = await api.get("/calls");
+    console.log(response.data);
+    useCalls(response.data);
+  }
+
+  useEffect(() => {
+    listCalls();
+  }, []);
 
   return (
     <div className="w-full">
       <Header>Meus Chamados</Header>
-      <section>
-        <div className="flex gap-3 w-full justify-between [&>ul>*]:py-4 [&>ul>span]:text-[14px] [&>ul>span]:text-gray-400 px-3 ">
-          <ul>
-            <span>Atualizado em</span>
-            <li>13/04/25 20:56</li>
+      <section className="mt-6 border border-[#E3E5E8] rounded-[10px]">
+        <ul className="flex w-full font-bold text-[#858B99] py-3.5 px-3">
+          <li className="w-[11%]">Atualizado em</li>
+          <li className="w-[6%]">Id</li>
+          <li className="w-[21%]">Título</li>
+          <li className="w-[19%]">Serviço</li>
+          <li className="w-[10%]">Valor total</li>
+          <li className="w-[14.5%]">Técnico</li>
+          <li className="w-[14.5%]">Status</li>
+          <li className="w-[5%]">editar</li>
+        </ul>
+
+        {calls.map((call) => (
+          <ul
+            key={call.id}
+            className="flex w-full font-bold text-[#858B99] py-3.5 px-3"
+          >
+            <li className="w-[11%]">{call.createdAt}</li>
+            <li className="w-[6%]">{call.id}</li>
+            <li className="w-[21%]">{call.title}</li>
+            <li className="w-[19%]">{call.title}</li>
+            <li className="w-[10%]">Valor total</li>
+            <li className="w-[14.5%]">Técnico</li>
+            <li className="w-[14.5%]">Status</li>
+            <li className="w-[5%]">editar</li>
           </ul>
-          <ul>
-            <span>Id</span>
-            <li>00003</li>
-          </ul>
-          <ul>
-            <span>Título</span>
-            <li>Rede lenta</li>
-          </ul>
-          <ul>
-            <span>Serviço</span>
-            <li>Instalação de Rede</li>
-          </ul>
-          <ul>
-            <span>Valor total</span>
-            <li>R$ 180,00</li>
-          </ul>
-          <ul>
-            <span>Técnico</span>
-            <li>Carlos Silva</li>
-          </ul>
-          <ul>
-            <span>Status</span>
-            <li className="flex">Aberto</li>
-          </ul>
-          <ul>
-            <span>teste</span>
-            <li>
-              <button>teste</button>
-            </li>
-          </ul>
-        </div>
+        ))}
       </section>
     </div>
   );
