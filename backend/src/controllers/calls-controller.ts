@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { prisma } from "@/lib/prisma";
 import { includes, z } from "zod";
 import { AppError } from "@/utils/AppError";
+import { title } from "node:process";
 
 class CallsController {
   async create(request: Request, response: Response) {
@@ -46,53 +47,44 @@ class CallsController {
   }
 
   async index(request: Request, response: Response) {
-    const userRole = request.user?.role;
-    const userId = request.user?.id;
-
-    if (userRole === "CLIENT") {
-      return response.json(
-        await prisma.call.findMany({
-          where: { clientId: userId },
+    const user = request.user?.id;
+    const calls = await prisma.callService.findMany({
+      where: {
+        call: {
+          clientId: user,
+        },
+      },
+      select: {
+        price: true,
+        call: {
           select: {
-            updatedAt: true,
             id: true,
             title: true,
             description: true,
-            technicalId: true,
             status: true,
-            services: {
-              select: {
-                service: true,
-              },
-            },
-            technical: {
-              select: {
-                id: true,
-                name: true,
-              },
-            },
+            updatedAt: true,
+            technical: true,
           },
-        }),
-      );
-    }
-
-    // if (userRole === "ADMIN") {
-    //   return response.json(await prisma.call.findMany({}));
-    // }
-
-    // if (userRole === "TECHNICAL") {
-    //   return response.json(
-    //     await prisma.call.findMany({
-    //where: {
-    //         technicalId: userId,
-    //       },
-    //     }),
-    //   );
-    // }
-
-    return response.status(401).json({
-      message: "Usuário sem permissão",
+        },
+        service: {
+          select: {
+            name: true,
+          },
+        },
+      },
     });
+
+    const responseCall = calls.map((call) => ({
+      updatedAt: call.call.updatedAt,
+      id: call.call.id,
+      title: call.call.title,
+      service: call.service.name,
+      price: call.price,
+      technical: call.call.technical?.name,
+      status: call.call.status,
+    }));
+
+    return response.json(responseCall);
   }
 }
 

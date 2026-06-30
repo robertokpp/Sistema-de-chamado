@@ -4,11 +4,13 @@ import { useEffect, useState } from "react";
 import { api } from "../services/api";
 
 interface call {
+  updatedAt: string;
   id: string;
-  createdAt: string;
   title: string;
-  description: string;
-  technicalId: string;
+  service: string;
+  price: string;
+  technical: string;
+  status: string;
 }
 
 export function Calls() {
@@ -44,14 +46,14 @@ export function Calls() {
             key={call.id}
             className="flex w-full font-bold text-[#858B99] py-3.5 px-3"
           >
-            <li className="w-[11%]">{call.createdAt}</li>
-            <li className="w-[6%]">{call.id}</li>
+            <li className="w-[11%]">{call.updatedAt}</li>
+            <li className="w-[6%] ">{call.id}</li>
             <li className="w-[21%]">{call.title}</li>
-            <li className="w-[19%]">{call.title}</li>
-            <li className="w-[10%]">Valor total</li>
-            <li className="w-[14.5%]">Técnico</li>
-            <li className="w-[14.5%]">Status</li>
-            <li className="w-[5%]">editar</li>
+            <li className="w-[19%]">{call.service}</li>
+            <li className="w-[10%]">{call.price}</li>
+            <li className="w-[14.5%]">{call.technical}</li>
+            <li className="w-[14.5%]">{call.status}</li>
+            <li className="w-[5%]"></li>
           </ul>
         ))}
       </section>
