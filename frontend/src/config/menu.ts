@@ -30,7 +30,7 @@ export const menu = {
       icon: iconTechnical,
     },
     {
-      title: "Usuários",
+      title: "Clientes",
       path: "/clientes",
       icon: iconClient,
     },

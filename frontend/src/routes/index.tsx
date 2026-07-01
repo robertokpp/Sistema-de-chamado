@@ -2,6 +2,7 @@ import { AuthRoutes } from "./auth-router";
 import { BrowserRouter } from "react-router";
 import { AdminRouter } from "./admin-router";
 import { ClientRouter } from "./client-router";
+import { TechnicalRouter } from "./technical-router";
 import { useAuth } from "../hooks/useAuth";
 
 export function Routes() {
@@ -13,6 +14,8 @@ export function Routes() {
         return <ClientRouter />;
       case "ADMIN":
         return <AdminRouter />;
+      case "TECHNICAL":
+        return <TechnicalRouter />;
       default:
         return <AuthRoutes />;
     }

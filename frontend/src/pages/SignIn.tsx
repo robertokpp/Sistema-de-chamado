@@ -34,7 +34,6 @@ export function SignIn() {
       const response = await api.post("/session", data);
 
       auth.save(response.data);
-      
     } catch (error) {
       console.log(error);
 

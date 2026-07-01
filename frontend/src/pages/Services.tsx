@@ -95,7 +95,10 @@ export function Services() {
           <li className="w-[9%]">Active</li>
         </ul>
         {services.map((service) => (
-          <ul className="flex py-5 px-3 border-t border-[#E3E5E8]" key={service.id}>
+          <ul
+            className="flex py-5 px-3 border-t border-[#E3E5E8]"
+            key={service.id}
+          >
             <li className="w-[48%] font-bold">{service.name}</li>
             <li className="w-[30%]">{`R$ ${service.price}`}</li>
             <li className="w-[13%]">{`${service.active}`}</li>

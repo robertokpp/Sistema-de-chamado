@@ -18,7 +18,6 @@ export function Calls() {
 
   async function listCalls() {
     const response = await api.get("/calls");
-    console.log(response.data);
     useCalls(response.data);
   }
 

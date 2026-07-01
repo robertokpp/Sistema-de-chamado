@@ -1,8 +1,7 @@
 import { Request, Response } from "express";
 import { prisma } from "@/lib/prisma";
-import { includes, z } from "zod";
+import { z } from "zod";
 import { AppError } from "@/utils/AppError";
-import { title } from "node:process";
 
 class CallsController {
   async create(request: Request, response: Response) {
@@ -48,12 +47,28 @@ class CallsController {
 
   async index(request: Request, response: Response) {
     const user = request.user?.id;
-    const calls = await prisma.callService.findMany({
-      where: {
+    const role = request.user?.role;
+
+    let where = {};
+
+    if (role === "CLIENT") {
+      where = {
         call: {
           clientId: user,
         },
-      },
+      };
+    }
+
+    if (role === "TECHNICAL") {
+      where = {
+        call: {
+          technicalId: user,
+        },
+      };
+    }
+
+    const calls = await prisma.callService.findMany({
+      where,
       select: {
         price: true,
         call: {

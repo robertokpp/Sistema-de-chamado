@@ -13,7 +13,7 @@ callsRouter.post(
 
 callsRouter.get(
   "/",
-  verifyUserAuthorization(["ADMIN","CLIENT","TECHNICAL"]),
+  verifyUserAuthorization(["CLIENT","ADMIN", "TECHNICAL"]),
   callsController.index,
 );
 
