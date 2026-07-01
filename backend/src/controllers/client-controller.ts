@@ -4,7 +4,7 @@ import { z } from "zod";
 
 class ClientController {
   async index(request: Request, response: Response) {
-    const user = await prisma.user.findMany({
+    const client = await prisma.user.findMany({
       select: {
         id: true,
         name: true,
@@ -15,7 +15,7 @@ class ClientController {
       },
     });
 
-    return response.json(user);
+    return response.json(client);
   }
 
   async delete(request: Request, response: Response) {

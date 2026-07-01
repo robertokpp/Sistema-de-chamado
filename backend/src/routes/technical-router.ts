@@ -11,7 +11,7 @@ technicalRouter.post(
   technicalController.create,
 );
 
-technicalRouter.post(
+technicalRouter.get(
   "/",
   verifyUserAuthorization(["ADMIN"]),
   technicalController.index,

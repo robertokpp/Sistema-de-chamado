@@ -50,14 +50,26 @@ class TechnicalController {
   }
 
   async index(request: Request, response: Response) {
-    await prisma.user.findFirst({
+    const technicians = await prisma.user.findMany({
+      where: {
+        role: "TECHNICAL",
+      },
       select: {
         id: true,
         name: true,
         email: true,
+        technicianSchedules: true,
       },
-      where: { role: "TECHNICAL" },
     });
+
+    const responseTechnical = technicians.map((item) => ({
+      hours: item.technicianSchedules.map((item) => item.hour),
+      id: item.id,
+      name: item.name,
+      email: item.email,
+    }));
+
+    return response.json(responseTechnical);
   }
 }
 
