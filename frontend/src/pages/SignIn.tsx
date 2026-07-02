@@ -38,11 +38,11 @@ export function SignIn() {
       console.log(error);
 
       if (error instanceof ZodError) {
-        return { message: error.issues[0].message };
+        return alert(error.issues[0].message);
       }
 
       if (error instanceof AxiosError) {
-        return { message: error.response?.data.message };
+        return alert(error.response?.data.message);
       }
 
       return { message: " Não foi possível entrar!" };
