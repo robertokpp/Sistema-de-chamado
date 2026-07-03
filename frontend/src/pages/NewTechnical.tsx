@@ -68,7 +68,9 @@ export function NewTechnical() {
               <span className="uppercase">Manhã</span>
               <div className="flex gap-2">
                 {hours.map((hour) =>
-                  hour <= "12:00" ? <Checkbox>{hour}</Checkbox> : null,
+                  hour <= "12:00" ? (
+                    <Checkbox key={hour}>{hour}</Checkbox>
+                  ) : null,
                 )}
               </div>
             </div>
@@ -77,7 +79,7 @@ export function NewTechnical() {
               <div className="flex gap-2">
                 {hours.map((hour) =>
                   hour > "12:00" && hour <= "18:00" ? (
-                    <Checkbox>{hour}</Checkbox>
+                    <Checkbox key={hour}>{hour}</Checkbox>
                   ) : null,
                 )}
               </div>
@@ -86,7 +88,9 @@ export function NewTechnical() {
               <span className="uppercase">noite</span>
               <div className="flex gap-2">
                 {hours.map((hour) =>
-                  hour > "18:00" ? <Checkbox>{hour}</Checkbox> : null,
+                  hour > "18:00" ? (
+                    <Checkbox key={hour}>{hour}</Checkbox>
+                  ) : null,
                 )}
               </div>
             </div>

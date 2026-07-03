@@ -5,7 +5,7 @@ type Props = React.ComponentProps<"input"> & {
   children: string;
 };
 
-export function Checkbox({ children }: Props) {
+export function Checkbox({ children, ...rest }: Props) {
   const [checked, setChecked] = useState(false);
 
   return (
@@ -15,10 +15,11 @@ export function Checkbox({ children }: Props) {
           checked={checked}
           onChange={(e) => setChecked(e.target.checked)}
           type="checkbox"
+          {...rest}
           className="absolute w-full h-full appearance-none "
         />
         {children}
-        {checked && <img src={close} alt="" className="fill-amber-50"/>}
+        {checked && <img src={close} alt="" className="fill-amber-50" />}
       </legend>
     </>
   );
