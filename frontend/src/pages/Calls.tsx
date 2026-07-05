@@ -45,8 +45,8 @@ export function Calls() {
             key={call.id}
             className="flex w-full font-bold text-[#858B99] py-3.5 px-3"
           >
-            <li className="w-[11%]">{call.updatedAt}</li>
-            <li className="w-[6%] ">{call.id}</li>
+            <li className="w-[11%] text-[10px]">{call.updatedAt}</li>
+            <li className="w-[6%] text-[10px] ">{call.id}</li>
             <li className="w-[21%]">{call.title}</li>
             <li className="w-[19%]">{call.service}</li>
             <li className="w-[10%]">{call.price}</li>

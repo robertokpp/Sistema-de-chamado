@@ -16,7 +16,7 @@ export function LayoutSideMenu() {
 
   return (
     <div className="flex bg-gray-200">
-      <aside className="px-5 py-6 flex flex-col justify-between h-screen bg-gray-200 mt-3 w-62.5">
+      <aside className="px-5 py-6 flex flex-col justify-between h-screen bg-gray-200 mt-3 w-fit">
         <div>
           <header className="flex gap-3 py-5 items-center">
             <img src={logoDark} alt="logo Dark" className="w-11 h-11" />
@@ -42,7 +42,7 @@ export function LayoutSideMenu() {
           </nav>
         </div>
 
-        <footer className="flex gap-3 items-center">
+        <footer className="flex gap-3 items-center w-fit">
           <div className="bg-blue-dark w-8 h-8 rounded-full flex justify-center items-center">
             <span className="text-gray-500 text[14px]">UC</span>
           </div>

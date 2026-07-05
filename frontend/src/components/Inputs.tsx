@@ -12,11 +12,11 @@ type TextAreaProps = React.ComponentProps<"textarea"> & {
 export function Input({ legend, ...rest }: Props) {
   return (
     <fieldset>
-      <legend className="uppercase font-bold text-[10px] text-gray-300">
+      <legend className="uppercase font-bold text-[10px]">
         {legend}
       </legend>
       <input
-        className="placeholder: text-gray-400 px-2 w-full border-b border-[#E3E5E8] py-2"
+        className="placeholder:text-gray-400 px-2 w-full border-b border-[#E3E5E8] py-2"
         type="text"
         {...rest}
       />
@@ -27,7 +27,7 @@ export function Input({ legend, ...rest }: Props) {
 export function Textarea({ legend, children, ...rest }: TextAreaProps) {
   return (
     <fieldset>
-      <legend className="uppercase font-bold text-[10px] text-gray-300">
+      <legend className="uppercase font-bold text-[10px]">
         {legend}
       </legend>
 
@@ -36,7 +36,7 @@ export function Textarea({ legend, children, ...rest }: TextAreaProps) {
         id=""
         rows={8}
         cols={60}
-        className="placeholder: text-gray-400 px-2 w-full border-b border-[#E3E5E8] py-2"
+        className="placeholder:text-gray-400 px-2 w-full border-b border-[#E3E5E8] py-2"
         {...rest}
       >
         {children}
@@ -48,13 +48,13 @@ export function Textarea({ legend, children, ...rest }: TextAreaProps) {
 export function Select({ legend, children, ...rest }: SelectProps) {
   return (
     <fieldset>
-      <legend className="uppercase font-bold text-[10px] text-gray-300">
+      <legend className="uppercase font-bold text-[10px]">
         {legend}
       </legend>
 
       <select
         {...rest}
-        className="placeholder: text-gray-400 px-2 w-full border-b border-[#E3E5E8] py-2"
+        className="placeholder:text-gray-400 px-2 w-full border-b border-[#E3E5E8] py-2"
       >
         {children}
       </select>
