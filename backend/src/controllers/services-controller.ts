@@ -23,7 +23,7 @@ class ServiceController {
 
   async index(request: Request, response: Response) {
     const services = await prisma.service.findMany({
-      orderBy: { name: "asc" },
+      orderBy: { createdAt: "asc" },
     });
 
     return response.json(services);
@@ -45,13 +45,17 @@ class ServiceController {
   }
 
   async show(request: Request, response: Response) {
-    const bodySchema = z.object({
+    const paramsSchema = z.object({
       id: z.string(),
+    });
+
+    const bodySchema = z.object({
       name: z.string(),
       price: z.number(),
     });
 
-    const { id, name, price } = bodySchema.parse(request.body);
+    const { id } = paramsSchema.parse(request.params);
+    const { name, price } = bodySchema.parse(request.body);
     const service = await prisma.service.update({
       where: { id },
       data: { name, price },

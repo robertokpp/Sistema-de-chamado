@@ -23,6 +23,11 @@ serviceRouter.patch(
   serviceController.active,
 );
 
+serviceRouter.patch(
+  "/:id",
+  verifyUserAuthorization(["ADMIN"]),
+  serviceController.show,
+);
 
 
 export { serviceRouter };

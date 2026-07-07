@@ -1,4 +1,18 @@
-export const formatsCurrency = (value:any) => {
+export const formatsCurrency = (value: any) => {
+  if (!value) return "R$ 0,00";
+
+  const amount = value
+
+   const brlFormatter = new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  });
+
+  return brlFormatter.format(amount);
+};
+
+
+export const formatsCurrencyInput = (value:any) => {
   if (!value) return 'R$ 0,00';
 
   // Remove tudo que não for dígito numérico
