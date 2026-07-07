@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { Response, Request } from "express";
-import { z } from "zod";
+import { json, z } from "zod";
 
 class ServiceController {
   async create(request: Request, response: Response) {
@@ -22,7 +22,9 @@ class ServiceController {
   }
 
   async index(request: Request, response: Response) {
-    const services = await prisma.service.findMany({});
+    const services = await prisma.service.findMany({
+      orderBy: { name: "asc" },
+    });
 
     return response.json(services);
   }
@@ -39,24 +41,20 @@ class ServiceController {
       where: { id },
       data: { active },
     });
+    return response.json();
   }
 
   async show(request: Request, response: Response) {
-    const paramsSchema = z.object({
-      id: z.string(),
-    });
-
     const bodySchema = z.object({
+      id: z.string(),
       name: z.string(),
       price: z.number(),
-      active: z.boolean(),
     });
 
-    const { id } = paramsSchema.parse(request.params);
-    const { name, price, active } = bodySchema.parse(request.body);
+    const { id, name, price } = bodySchema.parse(request.body);
     const service = await prisma.service.update({
       where: { id },
-      data: { name, price, active },
+      data: { name, price },
     });
 
     return response.json(service);
