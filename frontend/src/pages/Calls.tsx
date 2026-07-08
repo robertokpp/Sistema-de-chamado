@@ -1,4 +1,10 @@
 import { Header } from "../components/Header";
+import { Table } from "../components/Table";
+import { Button } from "../components/Button";
+
+import { formatDateTime } from "../utils/formatterData";
+import { formatsCurrency } from "../utils/formatters";
+import iconPen from "../assets/icon-pen-line.svg";
 
 import { useEffect, useState } from "react";
 import { api } from "../services/api";
@@ -8,6 +14,7 @@ interface call {
   id: string;
   title: string;
   service: string;
+  client: string;
   price: string;
   technical: string;
   status: string;
@@ -28,33 +35,39 @@ export function Calls() {
   return (
     <div className="w-full">
       <Header>Meus Chamados</Header>
-      <section className="mt-6 border border-[#E3E5E8] rounded-[10px]">
-        <ul className="flex w-full font-bold text-[#858B99] py-3.5 px-3">
-          <li className="w-[11%]">Atualizado em</li>
-          <li className="w-[6%]">Id</li>
-          <li className="w-[21%]">Título</li>
-          <li className="w-[19%]">Serviço</li>
-          <li className="w-[10%]">Valor total</li>
-          <li className="w-[14.5%]">Técnico</li>
-          <li className="w-[14.5%]">Status</li>
-          <li className="w-[5%]">editar</li>
-        </ul>
 
-        {calls.map((call) => (
-          <ul
-            key={call.id}
-            className="flex w-full font-bold text-[#858B99] py-3.5 px-3"
-          >
-            <li className="w-[11%] text-[10px]">{call.updatedAt}</li>
-            <li className="w-[6%] text-[10px] ">{call.id}</li>
-            <li className="w-[21%]">{call.title}</li>
-            <li className="w-[19%]">{call.service}</li>
-            <li className="w-[10%]">{call.price}</li>
-            <li className="w-[14.5%]">{call.technical}</li>
-            <li className="w-[14.5%]">{call.status}</li>
-            <li className="w-[5%]"></li>
-          </ul>
-        ))}
+      <section>
+        <Table
+          ths={[
+            "Atualizado em",
+            "id",
+            "Título e Serviço",
+            "Valor total",
+            "Cliente",
+            "Técnico",
+            "Status",
+          ]}
+        >
+          {calls.map((call) => (
+            <tr key={call.id}>
+              <td className="pl-2 font-normal text-[12px]">
+                {formatDateTime(call.updatedAt)}
+              </td>
+              <td className="text-[12px]">{call.id}</td>
+              <td className="flex flex-col">
+                <span>{call.title}</span>
+                <span className="font-normal">{call.service}</span>
+              </td>
+              <td className="font-normal">{formatsCurrency(call.price)}</td>
+              <td className="font-normal">{call.client}</td>
+              <td className="font-normal">{call.technical}</td>
+              <td className="">{call.status}</td>
+              <td>
+                <Button className="bg-gray-500" svg={iconPen}/>
+              </td>
+            </tr>
+          ))}
+        </Table>
       </section>
     </div>
   );

@@ -178,7 +178,7 @@ export function Services() {
                       setPrice(formatsCurrency(service.price));
                       setId(service.id);
                     }}
-                    className="w-7 h-7 bg-gray-400 flex justify-center items-center rounded-[5px] cursor-pointer "
+                    className="w-7 h-7 bg-gray-500 flex justify-center items-center rounded-[5px] cursor-pointer "
                   >
                     <img src={iconPen} />
                   </button>

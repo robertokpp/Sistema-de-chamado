@@ -75,7 +75,7 @@ model Call {
   description String
 
   clientId    String
-  client      User    @relation("clientCalls", fields: [clientId], references: [id])
+  client      User    @relation("clientCalls", fields: [clientId], references: [id], onDelete: Cascade ) 
   technicalId String?
   technical   User?   @relation("technicalId", fields: [technicalId], references: [id])
 
@@ -92,7 +92,7 @@ model CallService {
   id String @id @default(uuid())
 
   callId String
-  call   Call   @relation(fields: [callId], references: [id])
+  call   Call   @relation(fields: [callId], references: [id],  onDelete: Cascade)
 
   serviceId String
   service   Service @relation(fields: [serviceId], references: [id])

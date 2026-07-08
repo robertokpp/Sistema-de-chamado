@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
 import { AppError } from "@/utils/AppError";
+import { clientRouter } from "@/routes/client-router";
 
 class CallsController {
   async create(request: Request, response: Response) {
@@ -79,6 +80,7 @@ class CallsController {
             status: true,
             updatedAt: true,
             technical: true,
+            client: true,
           },
         },
         service: {
@@ -97,11 +99,11 @@ class CallsController {
       price: call.price,
       technical: call.call.technical?.name,
       status: call.call.status,
+      client: call.call.client.name,
     }));
 
     return response.json(responseCall);
   }
-  
 }
 
 export { CallsController };

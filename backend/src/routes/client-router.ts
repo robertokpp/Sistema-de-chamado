@@ -18,7 +18,7 @@ clientRouter.patch(
 );
 
 clientRouter.delete(
-  "/",
+  "/:id",
   verifyUserAuthorization(["ADMIN"]),
   clientController.delete,
 );
