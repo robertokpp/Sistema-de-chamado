@@ -11,6 +11,12 @@ clientRouter.get(
   clientController.index,
 );
 
+clientRouter.patch(
+  "/:id",
+  verifyUserAuthorization(["ADMIN"]),
+  clientController.show,
+);
+
 clientRouter.delete(
   "/",
   verifyUserAuthorization(["ADMIN"]),

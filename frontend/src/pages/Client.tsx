@@ -1,4 +1,12 @@
 import { Header } from "../components/Header";
+import { Table } from "../components/Table";
+import { Button } from "../components/Button";
+import { Modal } from "../components/Modal";
+import { Input } from "../components/Inputs";
+
+import iconTrash from "../assets/icon-trash.svg";
+import iconPen from "../assets/icon-pen-line.svg";
+
 import { api } from "../services/api";
 import { useState, useEffect } from "react";
 
@@ -10,10 +18,28 @@ interface client {
 
 export function Client() {
   const [clients, useClients] = useState<client[]>([]);
+  const [isOpen, setIsOpen] = useState(false);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+
+  const [id, setId] = useState("");
+
+  async function onSubmit(e: React.SubmitEvent) {
+    e.preventDefault();
+
+    const data = {
+      name,
+      email,
+    };
+
+    await api.patch(`/client/${id}`, data);
+
+    ListClient();
+    setIsOpen(false)
+  }
 
   async function ListClient() {
     const response = await api.get("/client");
-    console.log(response.data);
     return useClients(response.data);
   }
 
@@ -27,24 +53,47 @@ export function Client() {
         <Header>Clientes</Header>
       </div>
 
-      <section className="mt-6 border border-[#E3E5E8] rounded-[10px]">
-        <ul className="flex py-3.5 px-3 text-[#858B99] font-bold">
-          <li className="w-[48%]">Nome</li>
-          <li className="w-[30%]">E-mail</li>
-          <li className="w-[9%]"></li>
-        </ul>
-
-        {clients.map((client) => (
-          <ul
-            key={client.id}
-            className="flex py-3.5 px-3 border-t border-[#E3E5E8]"
-          >
-            <li className="w-[48%]">{client.name}</li>
-            <li className="w-[30%]">{client.email}</li>
-            <li className="w-[9%]"></li>
-          </ul>
-        ))}
+      <section>
+        <Table ths={["Nome", "E-mail"]}>
+          {clients.map((client) => (
+            <tr key={client.id}>
+              <td className="pl-2">{client.name}</td>
+              <td className="font-normal">{client.email}</td>
+              <td className="flex justify-end pr-2 gap-2">
+                <Button svg={iconTrash} className="bg-gray-500 "></Button>
+                <Button
+                  svg={iconPen}
+                  onClick={() => {
+                    (setIsOpen(true),
+                      setId(client.id),
+                      setName(client.name),
+                      setEmail(client.email));
+                  }}
+                  className="bg-gray-500 "
+                ></Button>
+              </td>
+            </tr>
+          ))}
+        </Table>
       </section>
+
+      <Modal tittle="Cliente" isOpen={isOpen} onClose={() => setIsOpen(false)}>
+        <form onSubmit={onSubmit}>
+          <Input
+            legend="nome"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          ></Input>
+          <Input
+            legend="nome"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          ></Input>
+          <Button className="w-full mt-14" type="submit">
+            Salva
+          </Button>
+        </form>
+      </Modal>
     </div>
   );
 }

@@ -13,20 +13,42 @@ class ClientController {
       where: {
         role: "CLIENT",
       },
+      orderBy: { createdAt: "asc" },
     });
 
     return response.json(client);
   }
 
-  async delete(request: Request, response: Response) {
+  async show(request: Request, response: Response) {
     const paramsSchema = z.object({
-      userId: z.string(),
+      id: z.uuid(),
     });
 
-    const { userId } = paramsSchema.parse(request.params);
+    const bodySchema = z.object({
+      name: z.string().min(3, "Informe um Nome"),
+      email: z.email("Informe um email valido"),
+    });
+
+    const { id } = paramsSchema.parse(request.params);
+    const { name, email } = bodySchema.parse(request.body);
+
+    await prisma.user.update({
+      where: { id },
+      data: { name, email },
+    });
+
+    return response.json();
+  }
+
+  async delete(request: Request, response: Response) {
+    const paramsSchema = z.object({
+      id: z.string(),
+    });
+
+    const { id } = paramsSchema.parse(request.params);
 
     await prisma.user.delete({
-      where: { id: userId, role: "CLIENT" },
+      where: { id, role: "CLIENT" },
     });
 
     return response.json({ Message: "OK" });

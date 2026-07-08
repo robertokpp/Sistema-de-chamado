@@ -17,9 +17,9 @@ router.use("/session", sessionRouter);
 // Routes private
 router.use(ensureAuthenticated);
 router.use("/calls", callsRouter);
-router.use("/user/:id", userRouter);
 router.use("/services", serviceRouter);
 router.use("/technical", technicalRouter);
 router.use("/client", clientRouter)
+
 
 export { router };

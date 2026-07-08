@@ -16,7 +16,7 @@ export function Button({
     <button
       disabled={isLoading}
       className={twMerge(
-        "bg-gray-200 px-4 py-2 text-white rounded-[5px] cursor-pointer font-bold disabled:opacity-15 disabled:cursor-progress flex gap-1 justify-center items-center",
+        "bg-gray-200 px-2 py-2 text-white rounded-[5px] cursor-pointer font-bold disabled:opacity-15 disabled:cursor-progress flex gap-1 justify-center items-center",
         className,
       )}
       {...Rest}
