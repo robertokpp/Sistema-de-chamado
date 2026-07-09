@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
 import { AppError } from "@/utils/AppError";
-import { clientRouter } from "@/routes/client-router";
 
 class CallsController {
   async create(request: Request, response: Response) {
@@ -105,9 +104,67 @@ class CallsController {
     return response.json(responseCall);
   }
 
-  
+  async indexUnique(request: Request, response: Response) {
+    const paramsSchema = z.object({
+      id: z.uuid(),
+    });
 
+    const { id } = paramsSchema.parse(request.params);
 
+    const call = await prisma.call.findFirst({
+      where: { id },
+      select: {
+        id: true,
+        title: true,
+        description: true,
+        status: true,
+        createdAt: true,
+        updatedAt: true,
+        technicalId: true,
+        technical: true
+      }
+    });
+
+    if (!call) {
+      throw new AppError("Chamado não encontrado.");
+    }
+
+    
+    const services = await prisma.callService.findMany({
+      where: { callId: id },
+      select: {
+        service: true,
+        call: {
+          select: {
+            technical: true,
+          },
+        },
+      },
+      orderBy: { service: { createdAt: "asc" } },
+    });
+
+    let total = 0;
+    services.map((item) => {
+      total += item.service.price.toNumber();
+    });
+
+    const callServices = {
+      title: call?.title,
+      description: call?.description,
+      category: services.map((service) => ({
+        name: service.service.name,
+        price: service.service.price.toNumber(),
+      })),
+      status: call.status,
+      createdAt: call.createdAt,
+      updateAt: call.updatedAt,
+      technicalName: call.technical?.name,
+      technicalEmail: call.technical?.email,
+      totalService: total,
+    };
+
+    return response.json({ callServices });
+  }
 }
 
 export { CallsController };

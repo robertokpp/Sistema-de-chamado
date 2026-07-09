@@ -12,7 +12,7 @@ type TextAreaProps = React.ComponentProps<"textarea"> & {
 export function Input({ legend, ...rest }: Props) {
   return (
     <fieldset>
-      <legend className="uppercase font-bold text-[10px]">
+      <legend className="uppercase font-bold text-[10px] text-gray-400">
         {legend}
       </legend>
       <input
@@ -27,7 +27,7 @@ export function Input({ legend, ...rest }: Props) {
 export function Textarea({ legend, children, ...rest }: TextAreaProps) {
   return (
     <fieldset>
-      <legend className="uppercase font-bold text-[10px]">
+      <legend className="uppercase font-bold text-[10px] text-gray-400">
         {legend}
       </legend>
 
@@ -48,7 +48,7 @@ export function Textarea({ legend, children, ...rest }: TextAreaProps) {
 export function Select({ legend, children, ...rest }: SelectProps) {
   return (
     <fieldset>
-      <legend className="uppercase font-bold text-[10px]">
+      <legend className="uppercase font-bold text-[10px] text-gray-400">
         {legend}
       </legend>
 

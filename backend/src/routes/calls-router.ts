@@ -17,5 +17,11 @@ callsRouter.get(
   callsController.index,
 );
 
+callsRouter.get(
+  "/:id",
+  verifyUserAuthorization(["CLIENT","ADMIN"]),
+  callsController.indexUnique,
+);
+
 
 export { callsRouter };
