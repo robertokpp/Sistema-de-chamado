@@ -3,16 +3,16 @@ import { Routes, Route } from "react-router";
 import { LayoutSideMenu } from "../components/LayoutSideMenu";
 
 import { Calls } from "../pages/Calls";
-import { NewCall } from "../pages/NewCall";
-import { Details } from "../pages/Details";
+import { CallDetails } from "../pages/CallDetails";
 import { NotFound } from "../pages/NotFound";
+import { NewCall } from "../pages/NewCall";
 
 export function ClientRouter() {
   return (
     <Routes>
       <Route path="/" element={<LayoutSideMenu />}>
         <Route path="/" index element={<Calls />} />
-        <Route path="/chamados/:id" element={<Details />} />
+        <Route path="/chamado/:id" element={<CallDetails />} />
         <Route path="/novo-chamado" element={<NewCall />} />
       </Route>
       <Route path="/*" element={<NotFound />} />

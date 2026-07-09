@@ -2,7 +2,18 @@ import { Header } from "../components/Header";
 import { Input } from "../components/Inputs";
 import { Textarea } from "../components/Inputs";
 
-export function Details() {
+import { useParams } from "react-router";
+import { api } from "../services/api";
+
+export function CallDetails() {
+  const { id } = useParams();
+
+  async function HandlerCallDetails() {
+    const response = await api.get(`/call/${id}`);
+
+    console.log(response);
+  }
+
   return (
     <div className="w-fit">
       <span>Voltar</span>
@@ -11,7 +22,7 @@ export function Details() {
         <div className="border p-8 rounded-[10px]">
           <div>
             <div className="flex justify-between">
-              <span>0004</span>
+              <span>{id}</span>
               <span>detalhe-do-chamado</span>
             </div>
             <span>Backup não está funcionando</span>

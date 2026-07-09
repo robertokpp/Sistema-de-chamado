@@ -7,6 +7,7 @@ import { Services } from "../pages/Services";
 import { NotFound } from "../pages/NotFound";
 import { Technical } from "../pages/Technical";
 import { NewTechnical } from "../pages/NewTechnical";
+import { CallDetails } from "../pages/CallDetails";
 import { Client } from "../pages/Client";
 
 export function AdminRouter() {
@@ -14,6 +15,7 @@ export function AdminRouter() {
     <Routes>
       <Route path="/" element={<LayoutSideMenu />}>
         <Route path="/" index element={<Calls />} />
+        <Route path="/chamado/:id" element={<CallDetails />} />
         <Route path="/serviços" element={<Services />} />
         <Route path="/tecnicos" element={<Technical />} />
         <Route path="/clientes" element={<Client />} />
