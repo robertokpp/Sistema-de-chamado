@@ -43,7 +43,7 @@ export function CallDetails() {
     <div className="w-fit">
       <span>Voltar</span>
       <Header>Chamado detalhado</Header>
-      <section className="flex gap-2">
+      <section className="flex gap-2 mt-4">
         <div className="border p-8 rounded-[10px]">
           <div className="flex flex-col mb-6">
             <div className="flex justify-between pt-1.5 items-center">

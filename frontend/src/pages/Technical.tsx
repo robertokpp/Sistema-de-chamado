@@ -1,5 +1,9 @@
 import { Header } from "../components/Header";
 import { Button } from "../components/Button";
+import { Table } from "../components/Table";
+import { Checkbox } from "../components/Checkbox";
+
+import iconPen from "../assets/icon-pen-line.svg"
 
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
@@ -34,27 +38,22 @@ export function Technical() {
         <Button onClick={() => navigate("/novo-tecnico")}>Novo</Button>
       </div>
 
-      <section className="mt-6 border border-[#E3E5E8] rounded-[10px]">
-        <ul className="flex py-3.5 px-3 text-[#858B99] font-bold">
-          <li className="w-[48%]">Nome</li>
-          <li className="w-[30%]">E-mail</li>
-          <li className="w-[13%]">Disponibilidade</li>
-          <li className="w-[9%]"></li>
-        </ul>
-      </section>
-
-      {technicals.map((technical) => (
-        <ul className="flex py-3.5 px-3 text-[#858B99] font-bold">
-          <li className="w-[48%]">{technical.name}</li>
-          <li className="w-[30%]">{technical.email}</li>
-          <ul className="flex gap-0.5">
-            {technical.hours.map((hour) => (
-              <li className="border">{hour}</li>
-            ))}
-          </ul>
-          <li className="w-[9%]"></li>
-        </ul>
-      ))}
+      <Table ths={["Nome", "E-mail", "Disponibilidade"]}>
+        {technicals.map((technical) => (
+          <tr>
+            <td className="pl-2">{technical.name}</td>
+            <td className="font-normal">{technical.email}</td>
+            <td className="flex gap-2">
+              {technical.hours.map((hour) => (
+                <Checkbox checked={false} onChange={() => false} className={"text-gray-400"}>
+                  {hour}
+                </Checkbox>
+              ))}
+            </td>
+            <td><Button svg={iconPen} className="bg-gray-500 w-7 h-7"></Button></td>
+          </tr>
+        ))}
+      </Table>
     </div>
   );
 }

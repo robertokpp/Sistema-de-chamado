@@ -5,10 +5,10 @@ type Props = {
 
 export function Table({ ths, children }: Props) {
   return (
-    <div className="border rounded-2xl border-[#E3E5E8] mt-4">
+    <div className="border rounded-2xl border-[#E3E5E8] mt-4 ">
       <table className="w-full">
           <thead>
-            <tr className="[&_th:first-child]:pl-2 [&_th]:py-4">
+            <tr className="[&_th:first-child]:pl-2 [&_th]:py-4 text-gray-400 ">
               {ths.map((th) => (
                 <th key={th} className="text-start">
                   {th}
