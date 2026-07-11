@@ -1,6 +1,7 @@
 import { Header } from "../components/Header";
 import { Table } from "../components/Table";
 import { Button } from "../components/Button";
+import { StatusCall } from "../components/StatusCall";
 
 import { formatDateTime } from "../utils/formatterData";
 import { formatsCurrency } from "../utils/formatters";
@@ -10,6 +11,8 @@ import { useEffect, useState } from "react";
 import { api } from "../services/api";
 import { useNavigate } from "react-router";
 
+type CallStatus = "OPEN" | "IN_PROGRESS" | "CLOSE";
+
 interface call {
   updatedAt: string;
   id: string;
@@ -18,7 +21,7 @@ interface call {
   client: string;
   price: string;
   technical: string;
-  status: string;
+  status: CallStatus;
 }
 
 export function Calls() {
@@ -63,10 +66,12 @@ export function Calls() {
               <td className="font-normal">{formatsCurrency(call.price)}</td>
               <td className="font-normal">{call.client}</td>
               <td className="font-normal">{call.technical}</td>
-              <td className="">{call.status}</td>
+              <td className="p-1">
+                <StatusCall variant={call.status}></StatusCall>
+              </td>
               <td>
                 <Button
-                  className="bg-gray-500"
+                  className="bg-gray-500 w-fit"
                   onClick={() => navigate(`/chamado/${call.id}`)}
                   svg={iconPen}
                 />
