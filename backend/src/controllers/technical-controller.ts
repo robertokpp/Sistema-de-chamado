@@ -63,7 +63,7 @@ class TechnicalController {
     });
 
     const responseTechnical = technicians.map((item) => ({
-      hours: item.technicianSchedules.map((item) => item.hour),
+      hours: item.technicianSchedules.map((item) => item.hour).sort(),
       id: item.id,
       name: item.name,
       email: item.email,

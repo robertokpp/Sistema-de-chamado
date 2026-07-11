@@ -26,11 +26,31 @@ class CallsController {
       throw new AppError("O serviço não existe", 404);
     }
 
+    const technicians = await prisma.user.findMany({
+      where: {
+        role: "TECHNICAL",
+      },
+      include: {
+        technicalId: {
+          where: {
+            status: {
+              in: ["OPEN", "IN_PROGRESS"],
+            },
+          },
+        },
+      },
+    });
+
+    const technician = technicians.sort(
+      (a, b) => a.technicalId.length - b.technicalId.length,
+    )[0];
+
     const call = await prisma.call.create({
       data: {
         title,
         description,
         clientId: user,
+        technicalId: technician.id,
       },
     });
 
@@ -121,15 +141,14 @@ class CallsController {
         createdAt: true,
         updatedAt: true,
         technicalId: true,
-        technical: true
-      }
+        technical: true,
+      },
     });
 
     if (!call) {
       throw new AppError("Chamado não encontrado.");
     }
 
-    
     const services = await prisma.callService.findMany({
       where: { callId: id },
       select: {
