@@ -19,11 +19,11 @@ class CallsController {
     }
 
     const verifyService = await prisma.service.findFirst({
-      where: { id: serviceId },
+      where: { id: serviceId, active: true },
     });
 
     if (!verifyService) {
-      throw new AppError("O serviço não existe", 404);
+      throw new AppError("O serviço não existe ou está inativo!", 404);
     }
 
     const call = await prisma.call.create({
@@ -121,15 +121,14 @@ class CallsController {
         createdAt: true,
         updatedAt: true,
         technicalId: true,
-        technical: true
-      }
+        technical: true,
+      },
     });
 
     if (!call) {
       throw new AppError("Chamado não encontrado.");
     }
 
-    
     const services = await prisma.callService.findMany({
       where: { callId: id },
       select: {

@@ -21,7 +21,7 @@ export function Button({
       )}
       {...Rest}
     >
-      {svg && <img src={svg} alt={svg} className="w-4.5 h-4.5" />}
+      {svg && <img src={svg} alt={svg} className="w-5 h-5" />}
 
       {children}
     </button>

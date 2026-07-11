@@ -50,7 +50,7 @@ export function Technical() {
                 </Checkbox>
               ))}
             </td>
-            <td><Button svg={iconPen} className="bg-gray-500 w-7 h-7"></Button></td>
+            <td><Button svg={iconPen} className="bg-gray-500"></Button></td>
           </tr>
         ))}
       </Table>

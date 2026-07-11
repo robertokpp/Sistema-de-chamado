@@ -13,6 +13,7 @@ interface services {
   id: string;
   name: string;
   price: number;
+  active: boolean
 }
 
 const bodySchema = z.object({
@@ -31,6 +32,7 @@ export function NewCall() {
   async function ListService() {
     const response = await api.get("/services");
     setServices(response.data);
+    console.log(response.data)
   }
 
   useEffect(() => {
@@ -112,9 +114,9 @@ export function NewCall() {
             >
               <option value="">Selecione um serviço</option>
               {services.map((service) => (
-                <option value={service.id} key={service.id}>
-                  {service.name}
-                </option>
+                service.active ? (<option value={service.id} key={service.id}>
+                  {service.name} 
+                </option>) : "" 
               ))}
             </Select>
           </fieldset>

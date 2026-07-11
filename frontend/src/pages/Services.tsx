@@ -180,7 +180,7 @@ export function Services() {
                     }}
                     className="w-7 h-7 bg-gray-500 flex justify-center items-center rounded-[5px] cursor-pointer "
                   >
-                    <img src={iconPen} />
+                    <img src={iconPen} className="w-5 h-5"/>
                   </button>
                 </div>
               </td>

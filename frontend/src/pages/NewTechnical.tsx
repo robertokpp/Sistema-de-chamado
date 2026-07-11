@@ -6,8 +6,9 @@ import { Checkbox } from "../components/Checkbox";
 
 import { useState } from "react";
 import { api } from "../services/api";
-import { z } from "zod";
+import { z, ZodError } from "zod";
 import { useNavigate } from "react-router";
+import { AxiosError } from "axios";
 
 const bodySchema = z.object({
   name: z.string().min(3, "Digite um nome valido."),
@@ -40,30 +41,43 @@ export function NewTechnical() {
     navigate("/tecnicos");
   }
 
-  async function save() {
-    const data = bodySchema.parse({
-      name,
-      email,
-      password,
-      hours: selectedHours,
-    });
+  async function HandlerNewTechnical() {
+    try {
+      const data = bodySchema.parse({
+        name,
+        email,
+        password,
+        hours: selectedHours,
+      });
 
-    await api.post("/technical", data);
+      await api.post("/technical", data);
+    } catch (error) {
+      console.log(error);
 
-    alert("passou aqui");
+      if (error instanceof ZodError) {
+        return alert(error.issues[0].message);
+      }
+
+      if (error instanceof AxiosError) {
+        return alert(error.response?.data.message);
+      }
+
+      return { message: " Não foi possível cadastra o tecnico!" };
+    }
 
     setName("");
     setEmail("");
     setPassword("");
     setSelectedHours([]);
   }
+
   return (
     <div className="w-fit">
       <div className="flex justify-between mb-4">
         <Header>Perfil de técnico</Header>
         <div className="flex gap-2">
           <Button onClick={cancel}>Cancelar</Button>
-          <Button onClick={save}>Salvar</Button>
+          <Button onClick={HandlerNewTechnical}>Salvar</Button>
         </div>
       </div>
       <section className="flex gap-4">
