@@ -3,7 +3,7 @@ import { Button } from "../components/Button";
 import { Table } from "../components/Table";
 import { Checkbox } from "../components/Checkbox";
 
-import iconPen from "../assets/icon-pen-line.svg"
+import iconPen from "../assets/icon-pen-line.svg";
 
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
@@ -22,8 +22,6 @@ export function Technical() {
 
   async function ListTechnical() {
     const response = await api.get("/technical");
-    console.log(response.data);
-
     useTechnicals(response.data);
   }
 
@@ -40,17 +38,28 @@ export function Technical() {
 
       <Table ths={["Nome", "E-mail", "Disponibilidade"]}>
         {technicals.map((technical) => (
-          <tr>
+          <tr key={technical.id}>
             <td className="pl-2">{technical.name}</td>
             <td className="font-normal">{technical.email}</td>
             <td className="flex gap-2">
               {technical.hours.map((hour) => (
-                <Checkbox checked={false} onChange={() => false} className={"text-gray-400"}>
+                <Checkbox
+                  key={hour}
+                  checked={false}
+                  onChange={() => false}
+                  className={"text-gray-400"}
+                >
                   {hour}
                 </Checkbox>
               ))}
             </td>
-            <td><Button svg={iconPen} className="bg-gray-500"></Button></td>
+            <td>
+              <Button
+                svg={iconPen}
+                onClick={() => navigate(`/tecnicos/${technical.id}`)}
+                className="bg-gray-500"
+              ></Button>
+            </td>
           </tr>
         ))}
       </Table>

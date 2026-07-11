@@ -20,6 +20,7 @@ export function AdminRouter() {
         <Route path="/tecnicos" element={<Technical />} />
         <Route path="/clientes" element={<Client />} />
         <Route path="/novo-tecnico" element={<NewTechnical />} />
+        <Route path="/tecnicos/:id" element={<NewTechnical />} />
       </Route>
 
       <Route path="/*" element={<NotFound />} />

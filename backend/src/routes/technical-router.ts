@@ -17,4 +17,16 @@ technicalRouter.get(
   technicalController.index,
 );
 
+technicalRouter.patch(
+  "/:id",
+  verifyUserAuthorization(["ADMIN"]),
+  technicalController.update,
+);
+
+technicalRouter.get(
+  "/:id",
+  verifyUserAuthorization(["ADMIN"]),
+  technicalController.indexUnique,
+);
+
 export { technicalRouter };

@@ -71,6 +71,99 @@ class TechnicalController {
 
     return response.json(responseTechnical);
   }
+
+  async indexUnique(request: Request, response: Response) {
+    const paramsSchema = z.object({
+      id: z.uuid(),
+    });
+
+    const { id } = paramsSchema.parse(request.params);
+
+    const user = await prisma.user.findFirst({
+      where: { id, role: "TECHNICAL" },
+      select: {
+        name: true,
+        email: true,
+        technicianSchedules: true,
+      },
+    });
+
+    const Technical = {
+      hours: user?.technicianSchedules.map((item) => item.hour).sort(),
+      name: user?.name,
+      email: user?.email,
+    };
+
+    return response.json(Technical);
+  }
+
+  async update(request: Request, response: Response) {
+    const paramsSchema = z.object({
+      id: z.uuid(),
+    });
+
+    const timeRegex = /^([01]\d|2[0-3]):([0-5]\d)$/;
+    let hashPassword;
+
+    const bodySchema = z.object({
+      name: z.string().trim().optional(),
+      email: z.email().optional(),
+      password: z.string().min(6).optional(),
+      hours: z
+        .array(
+          z.string().regex(timeRegex, {
+            message: "Formato de hora deve ser HH:MM (ex: 14:30)",
+          }),
+        )
+        .optional(),
+    });
+
+    const { id } = paramsSchema.parse(request.params);
+    const { name, email, password, hours } = bodySchema.parse(request.body);
+
+    if (password) {
+      hashPassword = await hash(password, 8);
+    }
+
+    if (email) {
+      const emailAlreadyRegistered = await prisma.user.findFirst({
+        where: {
+          email,
+          NOT: {
+            id,
+          },
+        },
+      });
+
+      if (emailAlreadyRegistered) {
+        throw new AppError("Já existe um usuário com esse e-mail.");
+      }
+    }
+
+    await prisma.user.update({
+      where: { id, role: "TECHNICAL" },
+      data: {
+        name,
+        email,
+        password: hashPassword || undefined,
+      },
+    });
+
+    if (hours) {
+      await prisma.technicianSchedule.deleteMany({
+        where: { technicianId: id },
+      });
+
+      await prisma.technicianSchedule.createMany({
+        data: hours.map((hour) => ({
+          hour,
+          technicianId: id,
+        })),
+      });
+    }
+
+    return response.json();
+  }
 }
 
 export { TechnicalController };

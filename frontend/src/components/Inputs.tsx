@@ -12,7 +12,7 @@ type TextAreaProps = React.ComponentProps<"textarea"> & {
 export function Input({ legend, ...rest }: Props) {
   return (
     <fieldset>
-      <legend className="uppercase font-bold text-[10px] text-gray-400">
+      <legend className="uppercase font-bold text-[10px]">
         {legend}
       </legend>
       <input

@@ -4,16 +4,27 @@ import { Input } from "../components/Inputs";
 import { hours } from "../config/hours";
 import { Checkbox } from "../components/Checkbox";
 
-import { useState } from "react";
+import { useParams } from "react-router";
+import { useState, useEffect } from "react";
 import { api } from "../services/api";
 import { z, ZodError } from "zod";
 import { useNavigate } from "react-router";
 import { AxiosError } from "axios";
 
-const bodySchema = z.object({
-  name: z.string().min(3, "Digite um nome valido."),
+const createTechnicalSchema = z.object({
+  name: z.string().min(3, "Digite um nome válido."),
   email: z.email(),
-  password: z.string().min(6, "A Senha de conter no mínimo 6 caracteres."),
+  password: z.string().min(6, "A senha deve conter no mínimo 6 caracteres."),
+  hours: z.array(z.string()).min(1, "Selecione ao menos um horário."),
+});
+
+const updateTechnicalSchema = z.object({
+  name: z.string().min(3, "Digite um nome válido."),
+  email: z.email(),
+  password: z
+    .string()
+    .min(6, "A senha deve conter no mínimo 6 caracteres.")
+    .optional(),
   hours: z.array(z.string()).min(1, "Selecione ao menos um horário."),
 });
 
@@ -23,6 +34,20 @@ export function NewTechnical() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const { id } = useParams();
+
+  async function handleLoadTechnical() {
+    const response = await api.get(`/technical/${id}`);
+    setName(response.data.name);
+    setEmail(response.data.email);
+    setSelectedHours(response.data.hours);
+  }
+
+  useEffect(() => {
+    if (id) {
+      handleLoadTechnical();
+    }
+  }, []);
 
   function handlerHour(hour: string, checked: boolean) {
     if (checked) {
@@ -32,25 +57,22 @@ export function NewTechnical() {
     }
   }
 
-  function cancel() {
-    setName("");
-    setEmail("");
-    setPassword("");
-    setSelectedHours([]);
-
-    navigate("/tecnicos");
-  }
-
-  async function HandlerNewTechnical() {
+  async function HandlerOnSubmitTechnical() {
     try {
-      const data = bodySchema.parse({
+      const schema = id ? updateTechnicalSchema : createTechnicalSchema;
+
+      const data = schema.parse({
         name,
         email,
-        password,
+        password: password || undefined,
         hours: selectedHours,
       });
 
-      await api.post("/technical", data);
+      if (id) {
+        await api.patch(`/technical/${id}`, data);
+      } else {
+        await api.post("/technical", data);
+      }
     } catch (error) {
       console.log(error);
 
@@ -71,13 +93,24 @@ export function NewTechnical() {
     setSelectedHours([]);
   }
 
+  function handleCancel() {
+    setName("");
+    setEmail("");
+    setPassword("");
+    setSelectedHours([]);
+
+    navigate("/tecnicos");
+  }
+
   return (
     <div className="w-fit">
       <div className="flex justify-between mb-4">
         <Header>Perfil de técnico</Header>
         <div className="flex gap-2">
-          <Button onClick={cancel}>Cancelar</Button>
-          <Button onClick={HandlerNewTechnical}>Salvar</Button>
+          <Button className="bg-gray-500 text-black" onClick={handleCancel}>
+            Cancelar
+          </Button>
+          <Button onClick={HandlerOnSubmitTechnical}>Salvar</Button>
         </div>
       </div>
       <section className="flex gap-4">
