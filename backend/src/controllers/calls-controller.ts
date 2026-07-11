@@ -26,11 +26,31 @@ class CallsController {
       throw new AppError("O serviço não existe ou está inativo!", 404);
     }
 
+    const technicians = await prisma.user.findMany({
+      where: {
+        role: "TECHNICAL",
+      },
+      include: {
+        technicalId: {
+          where: {
+            status: {
+              in: ["OPEN", "IN_PROGRESS"],
+            },
+          },
+        },
+      },
+    });
+
+    const technician = technicians.sort(
+      (a, b) => a.technicalId.length - b.technicalId.length,
+    )[0];
+
     const call = await prisma.call.create({
       data: {
         title,
         description,
         clientId: user,
+        technicalId: technician.id,
       },
     });
 
