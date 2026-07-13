@@ -5,7 +5,10 @@ import { StatusCall } from "../components/StatusCall";
 
 import { formatDateTime } from "../utils/formatterData";
 import { formatsCurrency } from "../utils/formatters";
+import { useAuth } from "../hooks/useAuth";
+
 import iconPen from "../assets/icon-pen-line.svg";
+import iconEye from "../assets/icon-eye.svg";
 
 import { useEffect, useState } from "react";
 import { api } from "../services/api";
@@ -27,6 +30,7 @@ interface call {
 export function Calls() {
   const [calls, useCalls] = useState<call[]>([]);
   const navigate = useNavigate();
+  const { session } = useAuth();
 
   async function listCalls() {
     const response = await api.get("/calls");
@@ -43,15 +47,26 @@ export function Calls() {
 
       <section>
         <Table
-          ths={[
-            "Atualizado em",
-            "id",
-            "Título e Serviço",
-            "Valor total",
-            "Cliente",
-            "Técnico",
-            "Status",
-          ]}
+          ths={
+            session?.user.role != "CLIENT"
+              ? [
+                  "Atualizado em",
+                  "id",
+                  "Título e Serviço",
+                  "Valor total",
+                  "Cliente",
+                  "Técnico",
+                  "Status",
+                ]
+              : [
+                  "Atualizado em",
+                  "id",
+                  "Título e Serviço",
+                  "Valor total",
+                  "Cliente",
+                  "Status",
+                ]
+          }
         >
           {calls.map((call) => (
             <tr key={call.id}>
@@ -64,16 +79,19 @@ export function Calls() {
                 <span className="font-normal">{call.service}</span>
               </td>
               <td className="font-normal">{formatsCurrency(call.price)}</td>
-              <td className="font-normal">{call.client}</td>
+              {session?.user.role != "CLIENT" && (
+                <td className="font-normal">{call.client}</td>
+              )}
               <td className="font-normal">{call.technical}</td>
               <td className="p-1">
                 <StatusCall variant={call.status}></StatusCall>
               </td>
+
               <td>
                 <Button
                   className="bg-gray-500 w-fit"
                   onClick={() => navigate(`/chamado/${call.id}`)}
-                  svg={iconPen}
+                  svg={session?.user.role === "CLIENT" ? iconEye : iconPen}
                 />
               </td>
             </tr>

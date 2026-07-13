@@ -15,6 +15,7 @@ import { formatsCurrency } from "../utils/formatters";
 import { Button } from "../components/Button";
 import { useNavigate } from "react-router";
 import { AxiosError } from "axios";
+import { useAuth } from "../hooks/useAuth";
 
 type CallStatus = "OPEN" | "IN_PROGRESS" | "CLOSE";
 
@@ -40,6 +41,7 @@ export function CallDetails() {
   const { id } = useParams();
   const [call, setCall] = useState<CallResponse>();
   const navigate = useNavigate();
+  const { session } = useAuth();
 
   async function HandlerCallDetails() {
     const response = await api.get(`/calls/${id}`);
@@ -79,27 +81,30 @@ export function CallDetails() {
 
       <div className="flex justify-between">
         <Header>Chamado detalhado</Header>
-        <div className="flex gap-1">
-          <Button
-            svg={iconProgress}
-            className="bg-gray-500 text-gray-200 text-[14px]"
-            onClick={() => {
-              handlerUpdateStatus("IN_PROGRESS");
-            }}
-          >
-            Em atendimento
-          </Button>
 
-          <Button
-            svg={iconDone}
-            className="bg-gray-500 text-gray-200 text-[14px]"
-            onClick={() => {
-              handlerUpdateStatus("CLOSE");
-            }}
-          >
-            Encerrado
-          </Button>
-        </div>
+        {session?.user.role != "CLIENT" && (
+          <div className="flex gap-1">
+            <Button
+              svg={iconProgress}
+              className="bg-gray-500 text-gray-200 text-[14px]"
+              onClick={() => {
+                handlerUpdateStatus("IN_PROGRESS");
+              }}
+            >
+              Em atendimento
+            </Button>
+
+            <Button
+              svg={iconDone}
+              className="bg-gray-500 text-gray-200 text-[14px]"
+              onClick={() => {
+                handlerUpdateStatus("CLOSE");
+              }}
+            >
+              Encerrado
+            </Button>
+          </div>
+        )}
       </div>
 
       <section className="flex gap-2 mt-4">
