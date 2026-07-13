@@ -12,9 +12,7 @@ type TextAreaProps = React.ComponentProps<"textarea"> & {
 export function Input({ legend, ...rest }: Props) {
   return (
     <fieldset>
-      <legend className="uppercase font-bold text-[10px]">
-        {legend}
-      </legend>
+      <legend className="uppercase font-bold text-[10px] text-gray-400">{legend}</legend>
       <input
         className="placeholder:text-gray-400 px-2 w-full border-b border-[#E3E5E8] py-2"
         type="text"
@@ -31,12 +29,16 @@ export function Textarea({ legend, children, ...rest }: TextAreaProps) {
         {legend}
       </legend>
 
+
       <textarea
         name=""
         id=""
-        rows={8}
-        cols={60}
-        className="placeholder:text-gray-400 px-2 w-full border-b border-[#E3E5E8] py-2"
+        cols={50}
+        className="placeholder:text-gray-400 px-2 w-full resize-y border-b border-[#E3E5E8] py-2"
+        onInput={(event) => {
+          event.currentTarget.style.height = "auto";
+          event.currentTarget.style.height = `${event.currentTarget.scrollHeight}px`;
+        }}
         {...rest}
       >
         {children}

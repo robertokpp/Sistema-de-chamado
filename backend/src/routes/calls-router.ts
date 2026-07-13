@@ -13,15 +13,20 @@ callsRouter.post(
 
 callsRouter.get(
   "/",
-  verifyUserAuthorization(["CLIENT","ADMIN", "TECHNICAL"]),
+  verifyUserAuthorization(["CLIENT", "ADMIN", "TECHNICAL"]),
   callsController.index,
 );
 
 callsRouter.get(
   "/:id",
-  verifyUserAuthorization(["CLIENT","ADMIN"]),
+  verifyUserAuthorization(["CLIENT", "ADMIN", "TECHNICAL"]),
   callsController.indexUnique,
 );
 
+callsRouter.patch(
+  "/:id",
+  verifyUserAuthorization(["ADMIN", "TECHNICAL"]),
+  callsController.updateStatus,
+);
 
 export { callsRouter };

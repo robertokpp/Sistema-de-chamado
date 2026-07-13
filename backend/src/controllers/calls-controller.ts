@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
 import { AppError } from "@/utils/AppError";
+import { CallStatus } from "@/generated/prisma/enums";
 
 class CallsController {
   async create(request: Request, response: Response) {
@@ -142,6 +143,7 @@ class CallsController {
         updatedAt: true,
         technicalId: true,
         technical: true,
+        client: true,
       },
     });
 
@@ -170,6 +172,7 @@ class CallsController {
     const callServices = {
       title: call?.title,
       description: call?.description,
+      client: call.client.name,
       category: services.map((service) => ({
         name: service.service.name,
         price: service.service.price.toNumber(),
@@ -183,6 +186,26 @@ class CallsController {
     };
 
     return response.json({ callServices });
+  }
+
+  async updateStatus(request: Request, response: Response) {
+    const paramsSchema = z.object({
+      id: z.uuid(),
+    });
+
+    const bodySchema = z.object({
+      status: z.enum(CallStatus),
+    });
+
+    const { id } = paramsSchema.parse(request.params);
+    const { status } = bodySchema.parse(request.body);
+
+    await prisma.call.update({
+      where: { id },
+      data: { status },
+    });
+
+    return response.json();
   }
 }
 
