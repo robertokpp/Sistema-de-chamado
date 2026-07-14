@@ -19,7 +19,7 @@ type Props = {
 
 export function Cards({ id, status, client, title, service, price, updatedAt }: Props) {
   return (
-    <div className="border p-5 border-gray-500 rounded-[10px] min-w-86.5">
+    <div className="border p-5 border-gray-500 rounded-[10px] min-w-86.5 max-w-100">
       <div className="flex justify-between">
         <span className="text-gray-400 font-bold text-[12px]">{id}</span>
         <div className="flex gap-2">
