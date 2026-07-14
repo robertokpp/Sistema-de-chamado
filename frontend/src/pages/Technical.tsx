@@ -4,6 +4,7 @@ import { Table } from "../components/Table";
 import { Checkbox } from "../components/Checkbox";
 
 import iconPen from "../assets/icon-pen-line.svg";
+import iconPlus from "../assets/icon-plus.svg";
 
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
@@ -33,7 +34,7 @@ export function Technical() {
     <div className="w-full">
       <div className="flex justify-between items-center">
         <Header>Técnicos</Header>
-        <Button onClick={() => navigate("/novo-tecnico")}>Novo</Button>
+        <Button svg={iconPlus} onClick={() => navigate("/novo-tecnico")}>Novo</Button>
       </div>
 
       <Table ths={["Nome", "E-mail", "Disponibilidade"]}>

@@ -4,6 +4,8 @@ import { Input } from "../components/Inputs";
 import { hours } from "../config/hours";
 import { Checkbox } from "../components/Checkbox";
 
+import iconPlus from "../assets/icon-plus.svg";
+
 import { useParams } from "react-router";
 import { useState, useEffect } from "react";
 import { api } from "../services/api";
