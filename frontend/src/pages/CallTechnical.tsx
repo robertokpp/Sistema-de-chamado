@@ -38,7 +38,7 @@ export function CallTechnical() {
         <div>
           <StatusCall variant={"OPEN"}></StatusCall>
         </div>
-        <div>
+        <div className="flex gap-4 flex-wrap">
           {calls.map(
             (call) =>
               call.status === "OPEN" && (
@@ -62,7 +62,7 @@ export function CallTechnical() {
           <StatusCall variant={"IN_PROGRESS"}></StatusCall>
         </div>
 
-        <div>
+        <div className="flex gap-4 flex-wrap">
           {calls.map(
             (call) =>
               call.status === "IN_PROGRESS" && (
@@ -85,7 +85,8 @@ export function CallTechnical() {
         <div>
           <StatusCall variant={"CLOSE"}></StatusCall>
         </div>
-        <div>
+        
+        <div className="flex gap-4 flex-wrap">
           {calls.map(
             (call) =>
               call.status === "CLOSE" && (
