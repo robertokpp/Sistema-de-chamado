@@ -1,4 +1,4 @@
-import { ClientController } from "@/controllers/client-controller";
+import { ClientController } from "@/controllers/Client-controller";
 import { verifyUserAuthorization } from "@/middlewares/verify-user-authorization";
 import { Router } from "express";
 

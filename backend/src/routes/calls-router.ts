@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { CallsController } from "@/controllers/calls-controller";
+import { CallsController } from "@/controllers/Calls-controller";
 import { verifyUserAuthorization } from "@/middlewares/verify-user-authorization";
 
 const callsRouter = Router();

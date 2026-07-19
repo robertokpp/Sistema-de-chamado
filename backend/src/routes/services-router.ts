@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { ServiceController } from "@/controllers/services-controller";
+import { ServiceController } from "@/controllers/Services-controller";
 import { verifyUserAuthorization } from "@/middlewares/verify-user-authorization";
 
 const serviceRouter = Router();
@@ -7,7 +7,7 @@ const serviceController = new ServiceController();
 
 serviceRouter.post(
   "/",
-  verifyUserAuthorization(["ADMIN"]),
+  verifyUserAuthorization(["ADMIN", "TECHNICAL"]),
   serviceController.create,
 );
 

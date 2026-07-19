@@ -7,6 +7,7 @@ import { callsRouter } from "./calls-router";
 import { serviceRouter } from "./services-router";
 import { technicalRouter } from "./technical-router";
 import { clientRouter } from "./client-router";
+import { callsServiceRouter } from "./callService-router";
 
 const router = Router();
 
@@ -19,7 +20,7 @@ router.use(ensureAuthenticated);
 router.use("/calls", callsRouter);
 router.use("/services", serviceRouter);
 router.use("/technical", technicalRouter);
-router.use("/client", clientRouter)
-
+router.use("/client", clientRouter);
+router.use("/call-services", callsServiceRouter);
 
 export { router };

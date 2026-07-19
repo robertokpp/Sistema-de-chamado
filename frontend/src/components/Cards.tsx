@@ -6,7 +6,6 @@ import iconClock from "../assets/icon-Clock2.svg";
 
 import { formatDateTime } from "../utils/formatterData";
 import { formatsCurrency } from "../utils/formatters";
-//import { api } from "../services/api";
 import { useNavigate } from "react-router";
 
 type Props = {
@@ -17,6 +16,7 @@ type Props = {
   service: string;
   price: string;
   updatedAt: string;
+  onUpdate: (id: string, status: string) => Promise<void>;
 };
 
 export function Cards({
@@ -27,11 +27,12 @@ export function Cards({
   service,
   price,
   updatedAt,
+  onUpdate,
 }: Props) {
   const navigate = useNavigate();
 
   return (
-    <div className="border p-5 border-gray-500 rounded-[10px] min-w-86.5 max-w-100">
+    <div className="border p-5 border-gray-500 rounded-[10px] min-w-100 max-w-125">
       <div className="flex justify-between">
         <span className="text-gray-400 font-bold text-[12px]">{id}</span>
         <div className="flex gap-2">
@@ -40,8 +41,19 @@ export function Cards({
             onClick={() => navigate(`/chamados/${id}`)}
             svg={iconPen}
           ></Button>
-          {status === "OPEN" && <Button svg={iconCheckBig}>Iniciar</Button>}
-          {status === "IN_PROGRESS" && <Button svg={iconClock}>Encerra</Button>}
+          {status === "OPEN" && (
+            <Button
+              svg={iconCheckBig}
+              onClick={() => onUpdate(id, "IN_PROGRESS")}
+            >
+              Iniciar
+            </Button>
+          )}
+          {status === "IN_PROGRESS" && (
+            <Button svg={iconClock} onClick={() => onUpdate(id, "CLOSE")}>
+              Encerra
+            </Button>
+          )}
         </div>
       </div>
 

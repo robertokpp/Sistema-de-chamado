@@ -2,11 +2,12 @@ import { Header } from "../components/Header";
 import { Input } from "../components/Inputs";
 import { Textarea } from "../components/Inputs";
 import { StatusCall } from "../components/StatusCall";
+import { formatsCurrencyInput } from "../utils/formatters";
 
 import iconArrow from "../assets/icon-arrowLeft.svg";
 import iconProgress from "../assets/icon-progress.svg";
 import iconDone from "../assets/icon-close2.svg";
-import iconPlus from "../assets/icon-plus.svg"
+import iconPlus from "../assets/icon-plus.svg";
 
 import { useParams } from "react-router";
 import { api } from "../services/api";
@@ -17,6 +18,8 @@ import { Button } from "../components/Button";
 import { useNavigate } from "react-router";
 import { AxiosError } from "axios";
 import { useAuth } from "../hooks/useAuth";
+import { Modal } from "../components/Modal";
+import { ZodError, z } from "zod";
 
 type CallStatus = "OPEN" | "IN_PROGRESS" | "CLOSE";
 
@@ -38,9 +41,18 @@ interface CallResponse {
   };
 }
 
+const bodySchema = z.object({
+  name: z.string().trim().min(3, "Informe um nome válido."),
+  price: z.coerce.number().positive("O valor deve ser maior que zero."),
+});
+
 export function CallDetails() {
-  const { id } = useParams();
   const [call, setCall] = useState<CallResponse>();
+  const [isOpen, setIsOpen] = useState(false);
+  const [price, setPrice] = useState("");
+  const [name, setName] = useState("");
+
+  const { id } = useParams();
   const navigate = useNavigate();
   const { session } = useAuth();
 
@@ -63,6 +75,37 @@ export function CallDetails() {
       }
 
       alert("Nao foi possível atualizar o Status");
+    }
+  }
+
+  async function onSubmit(event: React.SubmitEvent) {
+    event.preventDefault();
+
+    try {
+      const numericPrice = Number(
+        price
+          .replace(/[^\d,]/g, "")
+          .replace(".", "")
+          .replace(",", "."),
+      );
+      const data = bodySchema.parse({
+        name,
+        price: numericPrice,
+      });
+
+      await api.post(`/call-services/${id}`, data);
+
+      setName("");
+      setPrice("");
+    } catch (error) {
+      if (error instanceof ZodError) {
+        return alert(error.issues[0].message);
+      }
+      if (error instanceof AxiosError) {
+        return alert(error.response?.data.message);
+      }
+
+      alert("Erro ao cadastrar serviço.");
     }
   }
 
@@ -133,7 +176,7 @@ export function CallDetails() {
               <Input
                 disabled
                 legend="Categoria"
-                className="border-0 text-[14px] w-ful"
+                className="border-0 text-[14px] w-full"
                 value={call?.callServices.category[0].name}
               />
               <div className="flex gap-8 justify-between">
@@ -176,8 +219,29 @@ export function CallDetails() {
                 <span className="font-bold uppercase text-gray-400 text-[10px]">
                   Serviços adicionais
                 </span>
-                <Button svg={iconPlus}></Button>
+                <Button onClick={() => setIsOpen(true)} svg={iconPlus}></Button>
               </div>
+
+              <Modal
+                tittle="Serviço adicional"
+                isOpen={isOpen}
+                onClose={() => setIsOpen(false)}
+              >
+                <form className="flex flex-col gap-4" onSubmit={onSubmit}>
+                  <Input
+                    legend="Descrição"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                  ></Input>
+                  <Input
+                    legend="Valor"
+                    value={formatsCurrencyInput(price)}
+                    onChange={(e) => setPrice(formatsCurrency(e.target.value))}
+                  ></Input>
+
+                  <Button type="submit">Salvar</Button>
+                </form>
+              </Modal>
             </div>
           )}
         </div>

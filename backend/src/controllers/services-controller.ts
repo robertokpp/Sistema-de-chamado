@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { Response, Request } from "express";
-import { json, z } from "zod";
+import { z } from "zod";
 
 class ServiceController {
   async create(request: Request, response: Response) {
@@ -23,6 +23,7 @@ class ServiceController {
 
   async index(request: Request, response: Response) {
     const services = await prisma.service.findMany({
+      where: { availableForClient: true },
       orderBy: { createdAt: "asc" },
     });
 

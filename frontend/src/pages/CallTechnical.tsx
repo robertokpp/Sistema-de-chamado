@@ -4,6 +4,7 @@ import { StatusCall } from "../components/StatusCall";
 
 import { api } from "../services/api";
 import { useEffect, useState } from "react";
+import { AxiosError } from "axios";
 
 type CallStatus = "OPEN" | "IN_PROGRESS" | "CLOSE";
 
@@ -20,15 +21,38 @@ interface Call {
 export function CallTechnical() {
   const [calls, setCalls] = useState<Call[]>([]);
 
-  async function HandlerCall() {
+  async function handlerCall() {
     const response = await api.get("/calls");
 
-    console.log(response.data);
     setCalls(response.data);
   }
 
+  async function updateStatus(id: string, newStatus: string) {
+    try {
+      const data = {
+        status: newStatus,
+      };
+
+      await api.patch(`/calls/${id}`, data);
+
+      setCalls((calls) =>
+        calls.map((call) =>
+          call.id === id ? { ...call, status: newStatus as CallStatus } : call,
+        ),
+      );
+
+      
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        return alert(error.response?.data.message);
+      }
+
+      alert("Nao foi possível atualizar o Status");
+    }
+  }
+
   useEffect(() => {
-    HandlerCall();
+    handlerCall();
   }, []);
 
   return (
@@ -52,6 +76,7 @@ export function CallTechnical() {
                     id={call.id}
                     status={call.status}
                     client={call.client}
+                    onUpdate={updateStatus}
                   ></Cards>
                 </div>
               ),
@@ -76,6 +101,7 @@ export function CallTechnical() {
                     id={call.id}
                     status={call.status}
                     client={call.client}
+                    onUpdate={updateStatus}
                   ></Cards>
                 </div>
               ),
@@ -85,7 +111,7 @@ export function CallTechnical() {
         <div>
           <StatusCall variant={"CLOSE"}></StatusCall>
         </div>
-        
+
         <div className="flex gap-4 flex-wrap">
           {calls.map(
             (call) =>
@@ -100,6 +126,7 @@ export function CallTechnical() {
                     id={call.id}
                     status={call.status}
                     client={call.client}
+                    onUpdate={updateStatus}
                   ></Cards>
                 </div>
               ),

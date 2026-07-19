@@ -1,0 +1,39 @@
+import { Request, Response } from "express";
+import { prisma } from "@/lib/prisma";
+import { uuid, z } from "zod";
+import { AppError } from "@/utils/AppError";
+
+class CallsServiceController {
+  async create(request: Request, response: Response) {
+    const bodySchema = z.object({
+      name: z.string().trim().min(3),
+      price: z.number().positive(),
+    });
+
+    const paramsSchema = z.object({
+      id: uuid(),
+    });
+
+    const { id } = paramsSchema.parse(request.params);
+    const { name, price } = bodySchema.parse(request.body);
+
+    const service = await prisma.service.create({
+      data: {
+        name,
+        price,
+      },
+    });
+
+    const callService = await prisma.callService.create({
+      data: {
+        callId: id,
+        serviceId: service.id,
+        price,
+      },
+    });
+
+    return response.status(201).json();
+  }
+}
+
+export { CallsServiceController };

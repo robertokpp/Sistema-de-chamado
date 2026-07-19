@@ -192,7 +192,7 @@ export function Services() {
 
       <Modal tittle="Serviço" isOpen={isOpen} onClose={() => setIsOpen(false)}>
         {
-          <form className="py-8 flex flex-col gap-4" onSubmit={onSubmit}>
+          <form className="flex flex-col gap-4" onSubmit={onSubmit}>
             <Input
               legend="Título"
               value={name}
