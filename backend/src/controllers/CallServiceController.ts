@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { prisma } from "@/lib/prisma";
 import { uuid, z } from "zod";
-import { AppError } from "@/utils/AppError";
 
 class CallsServiceController {
   async create(request: Request, response: Response) {
@@ -21,6 +20,7 @@ class CallsServiceController {
       data: {
         name,
         price,
+        availableForClient: false,
       },
     });
 
@@ -33,6 +33,24 @@ class CallsServiceController {
     });
 
     return response.status(201).json();
+  }
+
+  async delete(request: Request, response: Response) {
+    const paramsBody = z.object({
+      id: uuid(),
+    });
+
+    const { id } = paramsBody.parse(request.params);
+
+    await prisma.callService.deleteMany({
+      where: { serviceId: id },
+    });
+
+    await prisma.service.delete({
+      where: { id },
+    });
+
+    return response.json();
   }
 }
 

@@ -16,6 +16,7 @@ interface Call {
   service: string;
   price: string;
   updatedAt: string;
+  availableForClient: boolean;
 }
 
 export function CallTechnical() {
@@ -23,7 +24,7 @@ export function CallTechnical() {
 
   async function handlerCall() {
     const response = await api.get("/calls");
-
+    console.log(response.data)
     setCalls(response.data);
   }
 
@@ -65,7 +66,7 @@ export function CallTechnical() {
         <div className="flex gap-4 flex-wrap">
           {calls.map(
             (call) =>
-              call.status === "OPEN" && (
+              call.status === "OPEN" && call.availableForClient === true && (
                 <div>
                   <Cards
                     updatedAt={call.updatedAt}
@@ -90,7 +91,7 @@ export function CallTechnical() {
         <div className="flex gap-4 flex-wrap">
           {calls.map(
             (call) =>
-              call.status === "IN_PROGRESS" && (
+              call.status === "IN_PROGRESS" && call.availableForClient === true && (
                 <div>
                   <Cards
                     updatedAt={call.updatedAt}
@@ -115,7 +116,7 @@ export function CallTechnical() {
         <div className="flex gap-4 flex-wrap">
           {calls.map(
             (call) =>
-              call.status === "CLOSE" && (
+              call.status === "CLOSE" && call.availableForClient === true && (
                 <div>
                   <Cards
                     updatedAt={call.updatedAt}

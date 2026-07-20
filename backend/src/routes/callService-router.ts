@@ -11,4 +11,10 @@ callsServiceRouter.post(
   callsServiceController.create,
 );
 
+callsServiceRouter.delete(
+  "/:id",
+  verifyUserAuthorization(["TECHNICAL"]),
+  callsServiceController.delete,
+);
+
 export { callsServiceRouter };

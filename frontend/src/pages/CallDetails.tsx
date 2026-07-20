@@ -8,6 +8,7 @@ import iconArrow from "../assets/icon-arrowLeft.svg";
 import iconProgress from "../assets/icon-progress.svg";
 import iconDone from "../assets/icon-close2.svg";
 import iconPlus from "../assets/icon-plus.svg";
+import iconTrash from "../assets/icon-trash.svg";
 
 import { useParams } from "react-router";
 import { api } from "../services/api";
@@ -30,6 +31,7 @@ interface CallResponse {
     client: string;
     status: CallStatus;
     category: {
+      id: string;
       name: string;
       price: string;
     }[];
@@ -95,6 +97,7 @@ export function CallDetails() {
 
       await api.post(`/call-services/${id}`, data);
 
+      HandlerCallDetails();
       setName("");
       setPrice("");
     } catch (error) {
@@ -106,6 +109,23 @@ export function CallDetails() {
       }
 
       alert("Erro ao cadastrar serviço.");
+    }
+  }
+
+  async function handlerDeleteService(id: string) {
+    console.log(id);
+    try {
+      if (confirm("Tem certeza que deseja excluir esse serviço ?"))
+        await api.delete(`/call-services/${id}`);
+
+      HandlerCallDetails();
+    } catch (error) {
+      if (error instanceof ZodError) {
+        return alert(error.issues[0].message);
+      }
+      if (error instanceof AxiosError) {
+        return alert(error.response?.data.message);
+      }
     }
   }
 
@@ -128,24 +148,35 @@ export function CallDetails() {
 
         {session?.user.role != "CLIENT" && (
           <div className="flex gap-1">
-            <Button
-              svg={iconDone}
-              className="bg-gray-500 text-gray-200 text-[14px]"
-              onClick={() => {
-                handlerUpdateStatus("CLOSE");
-              }}
-            >
-              Encerrado
-            </Button>
-            <Button
-              svg={iconProgress}
-              className="bg-gray-500 text-gray-200 text-[14px]"
-              onClick={() => {
-                handlerUpdateStatus("IN_PROGRESS");
-              }}
-            >
-              Em atendimento
-            </Button>
+            {((session?.user.role === "TECHNICAL" &&
+              call?.callServices.status === "IN_PROGRESS") ||
+              (session?.user.role === "ADMIN" &&
+                call?.callServices.status === "CLOSE")) && (
+              <Button
+                svg={iconDone}
+                className="bg-gray-500 text-gray-200 text-[14px]"
+                onClick={() => {
+                  handlerUpdateStatus("CLOSE");
+                }}
+              >
+                {session?.user.role === "ADMIN" ? "Encerrado" : "Encerrar"}
+              </Button>
+            )}
+            {(call?.callServices.status === "OPEN" ||
+              (session?.user.role === "ADMIN" &&
+                call?.callServices.status === "IN_PROGRESS")) && (
+              <Button
+                svg={iconProgress}
+                className="bg-gray-200 text-white text-[14px]"
+                onClick={() => {
+                  handlerUpdateStatus("IN_PROGRESS");
+                }}
+              >
+                {session?.user.role === "ADMIN"
+                  ? "Em atendimento"
+                  : "Iniciar atendimento"}
+              </Button>
+            )}
           </div>
         )}
       </div>
@@ -177,7 +208,7 @@ export function CallDetails() {
                 disabled
                 legend="Categoria"
                 className="border-0 text-[14px] w-full"
-                value={call?.callServices.category[0].name}
+                defaultValue={call?.callServices.category[0].name}
               />
               <div className="flex gap-8 justify-between">
                 <Input
@@ -222,6 +253,27 @@ export function CallDetails() {
                 <Button onClick={() => setIsOpen(true)} svg={iconPlus}></Button>
               </div>
 
+              <div className="flex flex-col gap-2">
+                {call?.callServices.category
+                  .map((item) => (
+                    <div
+                      key={item.id}
+                      className="flex gap-4 text-gray-200 text-[12px]"
+                    >
+                      <div className="flex w-full justify-between items-center">
+                        <span>{item.name}</span>
+                        <span>{formatsCurrency(item.price)}</span>
+                      </div>
+                      <Button
+                        className="bg-gray-500"
+                        onClick={() => handlerDeleteService(item.id)}
+                        svg={iconTrash}
+                      ></Button>
+                    </div>
+                  ))
+                  .splice(1)}
+              </div>
+
               <Modal
                 tittle="Serviço adicional"
                 isOpen={isOpen}
@@ -235,8 +287,10 @@ export function CallDetails() {
                   ></Input>
                   <Input
                     legend="Valor"
-                    value={formatsCurrencyInput(price)}
-                    onChange={(e) => setPrice(formatsCurrency(e.target.value))}
+                    value={price}
+                    onChange={(e) =>
+                      setPrice(formatsCurrencyInput(e.target.value))
+                    }
                   ></Input>
 
                   <Button type="submit">Salvar</Button>
@@ -282,15 +336,17 @@ export function CallDetails() {
               <span className="font-bold text-gray-400 text-[12px]">
                 Adicionais
               </span>
-              {call?.callServices.category.splice(1).map((item) => (
-                <div
-                  key={item.name}
-                  className="flex gap-4 text-gray-200 text-[12px]"
-                >
-                  <span>{item.name}</span>
-                  <span>{formatsCurrency(item.price)}</span>
-                </div>
-              ))}
+              {call?.callServices.category
+                .map((item) => (
+                  <div
+                    key={item.name}
+                    className="flex gap-4 text-gray-200 text-[12px] justify-between"
+                  >
+                    <span>{item.name}</span>
+                    <span>{formatsCurrency(item.price)}</span>
+                  </div>
+                ))
+                .splice(1)}
             </div>
           </div>
 

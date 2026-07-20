@@ -76,6 +76,7 @@ class CallsController {
       where = {
         call: {
           clientId: user,
+
         },
       };
     }
@@ -106,6 +107,7 @@ class CallsController {
         service: {
           select: {
             name: true,
+            availableForClient: true,
           },
         },
       },
@@ -120,6 +122,7 @@ class CallsController {
       technical: call.call.technical?.name,
       status: call.call.status,
       client: call.call.client.name,
+      availableForClient: call.service.availableForClient,
     }));
 
     return response.json(responseCall);
@@ -144,6 +147,7 @@ class CallsController {
         technicalId: true,
         technical: true,
         client: true,
+        services: true,
       },
     });
 
@@ -151,7 +155,7 @@ class CallsController {
       throw new AppError("Chamado não encontrado.");
     }
 
-    const services = await prisma.callService.findMany({
+    const callService = await prisma.callService.findMany({
       where: { callId: id },
       select: {
         service: true,
@@ -165,7 +169,7 @@ class CallsController {
     });
 
     let total = 0;
-    services.map((item) => {
+    callService.map((item) => {
       total += item.service.price.toNumber();
     });
 
@@ -173,7 +177,8 @@ class CallsController {
       title: call?.title,
       description: call?.description,
       client: call.client.name,
-      category: services.map((service) => ({
+      category: callService.map((service) => ({
+        id: service.service.id,
         name: service.service.name,
         price: service.service.price.toNumber(),
       })),
@@ -182,6 +187,7 @@ class CallsController {
       updateAt: call.updatedAt,
       technicalName: call.technical?.name,
       technicalEmail: call.technical?.email,
+      services: call.services,
       totalService: total,
     };
 
