@@ -55,7 +55,7 @@ export function SignUp() {
 
   return (
     <>
-      <section className="flex flex-col p-7 w-100 rounded-2xl border border-[#E3E5E8]">
+      <section className="flex flex-col p-7 w-100 rounded-2xl border border-[#E3E5E8]  max-lg:w-full">
         <div>
           <h2 className="text-[20px] text-gray-100 font-bold">
             Crie sua conta
