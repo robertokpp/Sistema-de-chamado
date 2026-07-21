@@ -51,7 +51,7 @@ export function SignIn() {
 
   return (
     <>
-      <section className="flex flex-col p-7 w-100 rounded-2xl border border-[#E3E5E8]">
+      <section className="flex flex-col p-7 w-100 rounded-2xl border border-[#E3E5E8] max-lg:w-full">
         <div>
           <h2 className="text-[20px] text-gray-100 font-bold">
             Acesse o portal
@@ -83,7 +83,7 @@ export function SignIn() {
         </form>
       </section>
 
-      <section className="flex flex-col p-7 w-100 rounded-2xl border border-[#E3E5E8]">
+      <section className="flex flex-col p-7 w-100 rounded-2xl border border-[#E3E5E8] max-lg:w-full">
         <h2>Ainda não tem uma conta?</h2>
         <span className="text-[12px] text-gray-300 leading-4">
           Cadastre agora mesmo

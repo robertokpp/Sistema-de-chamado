@@ -1,4 +1,4 @@
-import { CallsServiceController } from "@/controllers/CallServiceController";
+import { CallsServiceController } from "@/controllers/CallService-Controller";
 import { Router } from "express";
 import { verifyUserAuthorization } from "@/middlewares/verify-user-authorization";
 

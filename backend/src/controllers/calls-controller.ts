@@ -76,7 +76,6 @@ class CallsController {
       where = {
         call: {
           clientId: user,
-
         },
       };
     }
@@ -111,6 +110,7 @@ class CallsController {
           },
         },
       },
+      orderBy: { call: { updatedAt: "asc" } },
     });
 
     const responseCall = calls.map((call) => ({
@@ -149,6 +149,7 @@ class CallsController {
         client: true,
         services: true,
       },
+      orderBy: { updatedAt: "asc" },
     });
 
     if (!call) {
@@ -213,7 +214,6 @@ class CallsController {
 
     return response.json();
   }
-
 }
 
 export { CallsController };
