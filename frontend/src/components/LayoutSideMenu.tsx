@@ -77,7 +77,7 @@ export function LayoutSideMenu() {
         </footer>
       </aside>
 
-      <main className="bg-white rounded-tl-[20px] mt-3 w-full p-12 flex flex-col items-center max-lg:rounded-t-[20px] max-lg:m-0">
+      <main className="bg-white rounded-tl-[20px] mt-3 w-full p-12 flex flex-col items-center max-lg:rounded-t-[20px] max-lg:m-0 max-lg:p-4">
         <Outlet />
       </main>
     </div>

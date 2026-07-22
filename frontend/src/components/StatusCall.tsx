@@ -32,7 +32,7 @@ export function StatusCall({ variant }: Props) {
       className={`${status.className} rounded-2xl p-1 flex gap-1 justify-center items-center w-fit`}
     >
       <img src={status.svg} />
-      <span>{status.label}</span>
+      <span className="max-lg:hidden">{status.label}</span>
     </div>
   );
 }

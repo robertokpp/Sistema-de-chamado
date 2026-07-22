@@ -51,21 +51,21 @@ export function Calls() {
           ths={
             session?.user.role != "CLIENT"
               ? [
-                  "Atualizado em",
-                  "id",
-                  "Título e Serviço",
-                  "Valor total",
-                  "Cliente",
-                  "Técnico",
-                  "Status",
+                  { title: "Atualizado em" },
+                  { title: "id", visible: "hidden" },
+                  { title: "Título e Serviço" },
+                  { title: "Valor total", visible: "hidden" },
+                  { title: "Cliente", visible: "hidden" },
+                  { title: "Técnico", visible: "hidden" },
+                  { title: "Status" },
                 ]
               : [
-                  "Atualizado em",
-                  "id",
-                  "Título e Serviço",
-                  "Valor total",
-                  "Cliente",
-                  "Status",
+                  { title: "Atualizado em" },
+                  { title: "id" },
+                  { title: "Título" },
+                  { title: "Valor total" },
+                  { title: "Cliente" },
+                  { title: "Status" },
                 ]
           }
         >
@@ -76,26 +76,34 @@ export function Calls() {
                   <td className="pl-2 font-normal text-[12px]">
                     {formatDateTime(call.updatedAt)}
                   </td>
-                  <td className="text-[12px]">{call.id}</td>
+                  <td className="text-[12px] max-lg:hidden">{call.id}</td>
                   <td className="flex flex-col">
                     <span>{call.title}</span>
                     <span className="font-normal">{call.service}</span>
                   </td>
-                  <td className="font-normal">{formatsCurrency(call.price)}</td>
+                  <td className="font-normal max-lg:hidden">
+                    {formatsCurrency(call.price)}
+                  </td>
                   {session?.user.role != "CLIENT" && (
-                    <td className="font-normal">{call.client}</td>
+                    <td className="font-normal max-lg:hidden">{call.client}</td>
                   )}
-                  <td className="font-normal">{call.technical}</td>
-                  <td className="p-1">
+                  <td className="font-normal max-lg:hidden">
+                    {call.technical}
+                  </td>
+                  <td>
                     <StatusCall variant={call.status}></StatusCall>
                   </td>
-
                   <td>
                     <Button
-                      className="bg-gray-500 w-fit"
+                      className="bg-gray-500"
                       onClick={() => navigate(`/chamado/${call.id}`)}
-                      svg={session?.user.role === "CLIENT" ? iconEye : iconPen}
-                    />
+                    >
+                      <img
+                        src={
+                          session?.user.role === "CLIENT" ? iconEye : iconPen
+                        }
+                      />
+                    </Button>
                   </td>
                 </tr>
               ),
