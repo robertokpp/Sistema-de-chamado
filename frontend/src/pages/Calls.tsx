@@ -61,10 +61,10 @@ export function Calls() {
                 ]
               : [
                   { title: "Atualizado em" },
-                  { title: "id" },
+                  { title: "id", visible: "hidden" },
                   { title: "Título" },
-                  { title: "Valor total" },
-                  { title: "Cliente" },
+                  { title: "Valor total", visible: "hidden" },
+                  { title: "Cliente", visible: "hidden" },
                   { title: "Status" },
                 ]
           }
@@ -84,6 +84,7 @@ export function Calls() {
                   <td className="font-normal max-lg:hidden">
                     {formatsCurrency(call.price)}
                   </td>
+
                   {session?.user.role != "CLIENT" && (
                     <td className="font-normal max-lg:hidden">{call.client}</td>
                   )}
@@ -91,19 +92,19 @@ export function Calls() {
                     {call.technical}
                   </td>
                   <td>
-                    <StatusCall variant={call.status}></StatusCall>
-                  </td>
-                  <td>
-                    <Button
-                      className="bg-gray-500"
-                      onClick={() => navigate(`/chamado/${call.id}`)}
-                    >
-                      <img
-                        src={
-                          session?.user.role === "CLIENT" ? iconEye : iconPen
-                        }
-                      />
-                    </Button>
+                    <div className="flex gap-1 p-1">
+                      <StatusCall variant={call.status}></StatusCall>
+                      <Button
+                        className="bg-gray-500"
+                        onClick={() => navigate(`/chamado/${call.id}`)}
+                      >
+                        <img
+                          src={
+                            session?.user.role === "CLIENT" ? iconEye : iconPen
+                          }
+                        />
+                      </Button>
+                    </div>
                   </td>
                 </tr>
               ),
