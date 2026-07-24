@@ -20,7 +20,7 @@ export function Status({ children, active, className }: Props) {
     <div>
       <span
         className={twMerge(
-          "px-3 py-1.5 rounded-[999px] flex justify-center items-center h-7 max-lg:hidden",
+          "px-3 py-1.5 w-fit rounded-[999px] flex justify-center items-center h-7 max-lg:hidden ",
           active ? variants.active : variants.inactive,
           className,
         )}
@@ -29,7 +29,7 @@ export function Status({ children, active, className }: Props) {
       </span>
       <span
         className={twMerge(
-          "p-1 rounded-[999px] flex justify-center items-center lg:hidden",
+          "p-1 w-fit rounded-[999px] flex justify-center items-center lg:hidden ",
           active ? variants.active : variants.inactive,
           className,
         )}

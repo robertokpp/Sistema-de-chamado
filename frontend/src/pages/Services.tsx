@@ -145,11 +145,7 @@ export function Services() {
 
       <section>
         <Table
-          ths={[
-            { title: "Título" },
-            { title: "Valor" },
-            { title: "Status" },
-          ]}
+          ths={[{ title: "Título" }, { title: "Valor" }, { title: "Status" }]}
         >
           {services.map((service) => (
             <tr key={service.id} className="[&_td]:py-2 ">
@@ -212,6 +208,72 @@ export function Services() {
             </tr>
           ))}
         </Table>
+      </section>
+
+      <section>
+        <ul className="flex flex-col">
+          <li className="flex">
+            <p className="flex-2">Título</p>
+            <p className="flex-1">Valor</p>
+            <p className="flex-1">Status</p>
+            <span className="flex-1"></span>
+          </li>
+
+          {services.map((service) => (
+            <li className="flex">
+              <p className="truncate flex-2">{service.name}</p>
+              <p className="truncate flex-1">
+                {formatsCurrency(service.price)}
+              </p>
+              <div className="flex-1">
+                {
+                  <Status className="" active={service.active}>
+                    {service.active ? "Ativo" : "Inativo"}
+                  </Status>
+                }
+              </div>
+
+              <div className="flex-1 flex-col">
+                <button
+                  className="cursor-pointer max-lg:hidden"
+                  onClick={() => activeService(service.id, !service.active)}
+                >
+                  {service.active ? (
+                    <span className="flex gap-0.5">
+                      <img src={iconBan} /> Desativar
+                    </span>
+                  ) : (
+                    <span className="flex gap-0.5">
+                      <img src={iconCheck} /> Reativar
+                    </span>
+                  )}
+                </button>
+              
+                <Button
+                  onClick={() => activeService(service.id, !service.active)}
+                  className="lg:hidden bg-transparent"
+                >
+                  {service.active ? (
+                    <img className="w-5" src={iconBan} />
+                  ) : (
+                    <img className="w-5" src={iconCheck} />
+                  )}
+                </Button>
+                <Button
+                  svg={iconPen}
+                  className="bg-gray-500"
+                  onClick={() => {
+                    setIsOpen(true);
+                    setNewService(false);
+                    setName(service.name);
+                    setPrice(formatsCurrency(service.price));
+                    setId(service.id);
+                  }}
+                ></Button>
+              </div>
+            </li>
+          ))}
+        </ul>
       </section>
 
       <Modal tittle="Serviço" isOpen={isOpen} onClose={() => setIsOpen(false)}>
