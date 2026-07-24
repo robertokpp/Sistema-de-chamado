@@ -31,10 +31,7 @@ export function Textarea({ legend, children, ...rest }: TextAreaProps) {
 
 
       <textarea
-        name=""
-        id=""
-        cols={50}
-        className="placeholder:text-gray-400 px-2 w-full resize-y border-b border-[#E3E5E8] py-2"
+        className="placeholder:text-gray-400 px-2 border-b border-[#E3E5E8] py-2"
         onInput={(event) => {
           event.currentTarget.style.height = "auto";
           event.currentTarget.style.height = `${event.currentTarget.scrollHeight}px`;

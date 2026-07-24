@@ -32,7 +32,7 @@ export function Cards({
   const navigate = useNavigate();
 
   return (
-    <div className="border p-5 border-gray-500 rounded-[10px] min-w-100 max-w-125">
+    <div className="border p-5 border-gray-500 rounded-[10px] min-w-100 max-lg:min-w-full">
       <div className="flex justify-between">
         <span className="text-gray-400 font-bold text-[12px]">{id}</span>
         <div className="flex gap-2">

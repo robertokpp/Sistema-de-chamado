@@ -63,7 +63,7 @@ export function CallTechnical() {
         <div>
           <StatusCall variant={"OPEN"}></StatusCall>
         </div>
-        <div className="flex gap-4 flex-wrap">
+        <div className="flex gap-4 flex-wrap max-lg:flex-col">
           {calls.map(
             (call) =>
               call.status === "OPEN" && call.availableForClient === true && (

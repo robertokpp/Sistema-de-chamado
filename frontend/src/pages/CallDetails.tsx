@@ -134,17 +134,18 @@ export function CallDetails() {
   }, []);
 
   return (
-    <div className="w-fit">
-      <Button
-        svg={iconArrow}
-        className="border-0 bg-transparent text-gray-300 font-normal"
-        onClick={() => navigate("/")}
-      >
-        Voltar
-      </Button>
-
-      <div className="flex justify-between">
-        <Header>Chamado detalhado</Header>
+    <>
+      <div className="flex justify-between max-lg:flex-col">
+        <div>
+          <Button
+            svg={iconArrow}
+            className="border-0 bg-transparent text-gray-300 font-normal p-0"
+            onClick={() => navigate("/")}
+          >
+            Voltar
+          </Button>
+          <Header>Chamado detalhado</Header>
+        </div>
 
         {session?.user.role != "CLIENT" && (
           <div className="flex gap-1">
@@ -179,11 +180,12 @@ export function CallDetails() {
             )}
           </div>
         )}
+
       </div>
 
-      <section className="flex gap-2 mt-4">
-        <div className="flex flex-col gap-4">
-          <div className="border border-gray-500 p-8 rounded-[10px] min-w-120">
+      <section className="flex items-center gap-2 mt-4 max-lg:flex-col">
+        <div className="flex flex-col gap-4  max-lg:w-full">
+          <div className="border border-gray-500 p-8 rounded-[10px] min-w-120 max-lg:min-w-0">
             <div className="flex flex-col mb-6">
               <div className="flex justify-between pt-1.5 items-center">
                 <span className="text-[12px] font-bold text-gray-300">
@@ -300,7 +302,7 @@ export function CallDetails() {
           )}
         </div>
 
-        <div className="flex flex-col border border-gray-500 p-8 rounded-[10px] gap-6 h-fit min-w-2xs">
+        <div className="flex flex-col border border-gray-500 p-8 rounded-[10px] gap-6 h-fit min-w-2xs max-lg:w-full">
           <div className="flex flex-col">
             <span className="font-bold text-gray-400 text-[12px]">
               Técnico responsável
@@ -356,6 +358,6 @@ export function CallDetails() {
           </div>
         </div>
       </section>
-    </div>
+    </>
   );
 }

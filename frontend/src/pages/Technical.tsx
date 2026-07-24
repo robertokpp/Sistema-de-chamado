@@ -34,32 +34,48 @@ export function Technical() {
     <div className="w-full">
       <div className="flex justify-between items-center">
         <Header>Técnicos</Header>
-        <Button svg={iconPlus} onClick={() => navigate("/novo-tecnico")}>Novo</Button>
+        <Button svg={iconPlus} onClick={() => navigate("/novo-tecnico")}>
+          Novo
+        </Button>
       </div>
 
-      <Table ths={["Nome", "E-mail", "Disponibilidade"]}>
+      <Table
+        ths={[
+          { title: "Nome" },
+          { title: "E-mail" },
+          { title: "Disponibilidade" },
+        ]}
+      >
         {technicals.map((technical) => (
           <tr key={technical.id}>
-            <td className="pl-2">{technical.name}</td>
-            <td className="font-normal">{technical.email}</td>
-            <td className="flex gap-2">
-              {technical.hours.map((hour) => (
-                <Checkbox
-                  key={hour}
-                  checked={false}
-                  onChange={() => false}
-                  className={"text-gray-400"}
-                >
-                  {hour}
-                </Checkbox>
-              ))}
+            <td>
+              <p className="pl-2 truncate">{technical.name}</p>
             </td>
             <td>
-              <Button
-                svg={iconPen}
-                onClick={() => navigate(`/tecnicos/${technical.id}`)}
-                className="bg-gray-500"
-              ></Button>
+              <p className="font-normal truncate">{technical.email}</p>
+            </td>
+            <td>
+              <div className="flex gap-2 truncate">
+                {technical.hours.map((hour) => (
+                  <Checkbox
+                    key={hour}
+                    checked={false}
+                    onChange={() => false}
+                    className={"text-gray-400"}
+                  >
+                    {hour}
+                  </Checkbox>
+                ))}
+              </div>
+            </td>
+            <td>
+              <div className="flex justify-end p-2 w-fit">
+                <Button
+                  svg={iconPen}
+                  onClick={() => navigate(`/tecnicos/${technical.id}`)}
+                  className="bg-gray-500"
+                ></Button>
+              </div>
             </td>
           </tr>
         ))}

@@ -36,7 +36,6 @@ export function Services() {
   const [id, setId] = useState("");
   const [services, setServices] = useState<Services[]>([]);
 
-
   function handleValueChange(e: React.ChangeEvent<HTMLInputElement>) {
     const inputValue = e.target.value;
 
@@ -145,20 +144,34 @@ export function Services() {
       </div>
 
       <section>
-        <Table ths={["Título", "Valor", "Status"]}>
+        <Table
+          ths={[
+            { title: "Título" },
+            { title: "Valor" },
+            { title: "Status" },
+          ]}
+        >
           {services.map((service) => (
             <tr key={service.id} className="[&_td]:py-2 ">
-              <td className="pl-2">{service.name}</td>
-              <td className="font-normal">{formatsCurrency(service.price)}</td>
+              <td className="pl-2">
+                <p className="truncate">{service.name}</p>
+              </td>
+              <td className="font-normal">
+                <p>{formatsCurrency(service.price)}</p>
+              </td>
               <td className="flex justify-between">
-                {
-                  <Status className="" active={service.active}>
-                    {service.active ? "Ativo" : "Inativo"}
-                  </Status>
-                }
+                <p>
+                  {
+                    <Status className="" active={service.active}>
+                      {service.active ? "Ativo" : "Inativo"}
+                    </Status>
+                  }
+                </p>
+              </td>
+              <td>
                 <div className="flex gap-1.5 pr-2">
                   <button
-                    className="cursor-pointer"
+                    className="cursor-pointer max-lg:hidden"
                     onClick={() => activeService(service.id, !service.active)}
                   >
                     {service.active ? (
@@ -171,6 +184,17 @@ export function Services() {
                       </span>
                     )}
                   </button>
+
+                  <Button
+                    onClick={() => activeService(service.id, !service.active)}
+                    className="lg:hidden bg-transparent"
+                  >
+                    {service.active ? (
+                      <img className="w-5" src={iconBan} />
+                    ) : (
+                      <img className="w-5" src={iconCheck} />
+                    )}
+                  </Button>
 
                   <Button
                     svg={iconPen}

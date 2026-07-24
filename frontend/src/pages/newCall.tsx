@@ -69,9 +69,9 @@ export function NewCall() {
   }
 
   return (
-    <div>
+    <>
       <Header>Novo chamado</Header>
-      <section className="flex gap-6 mt-6">
+      <section className="flex gap-6 mt-6 max-lg:flex-col">
         <form
           id="NewCall"
           className="border p-8 rounded-[10px] border-[#E3E5E8]"
@@ -150,6 +150,6 @@ export function NewCall() {
           </Button>
         </aside>
       </section>
-    </div>
+    </>
   );
 }

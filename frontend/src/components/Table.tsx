@@ -13,11 +13,14 @@ type Props = {
 export function Table({ ths, children }: Props) {
   return (
     <div className="border rounded-2xl border-[#E3E5E8] mt-4">
-      <table className="w-full">
+      <table className="w-full table-fixed">
         <thead>
           <tr className="[&_th:first-child]:pl-2 [&_th]:py-4 text-gray-400">
             {ths.map((th) => (
-              <th key={th.title} className={`text-start max-lg:${th.visible ?? "block"}`}>
+              <th
+                key={th.title}
+                className={`text-start max-lg:${th.visible ?? "block"}`}
+              >
                 {th.title}
               </th>
             ))}

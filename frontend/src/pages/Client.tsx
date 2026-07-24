@@ -90,11 +90,15 @@ export function Client() {
       </div>
 
       <section>
-        <Table ths={["Nome", "E-mail"]}>
+        <Table ths={[{ title: "Name" }, { title: "E-mail" }]}>
           {clients.map((client) => (
             <tr key={client.id}>
-              <td className="pl-2">{client.name}</td>
-              <td className="font-normal">{client.email}</td>
+              <td className="pl-2">
+                <p className="truncate">{client.name}</p>
+              </td>
+              <td className="font-normal">
+                <p className="truncate">{client.email}</p>
+              </td>
               <td className="flex justify-end pr-2 gap-2">
                 <Button
                   svg={iconTrash}
@@ -166,7 +170,9 @@ export function Client() {
           >
             Cancelar
           </Button>
-          <Button className="w-full" onClick={handlerDeleteClient}>Sim, excluir</Button>
+          <Button className="w-full" onClick={handlerDeleteClient}>
+            Sim, excluir
+          </Button>
         </div>
       </Modal>
     </div>
