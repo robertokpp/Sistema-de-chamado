@@ -143,29 +143,35 @@ export function Services() {
         </Button>
       </div>
 
+
       <section>
-        <Table
-          ths={[{ title: "Título" }, { title: "Valor" }, { title: "Status" }]}
-        >
+        <ul className="flex flex-col py-">
+          <li className="flex">
+            <p className="flex-2">Título</p>
+            <p className="flex-1">Valor</p>
+            <p className="flex-1">Status</p>
+            <span className="flex-1"></span>
+          </li>
+
           {services.map((service) => (
-            <tr key={service.id} className="[&_td]:py-2 ">
-              <td className="pl-2">
-                <p className="truncate">{service.name}</p>
-              </td>
-              <td className="font-normal">
-                <p>{formatsCurrency(service.price)}</p>
-              </td>
-              <td className="flex justify-between">
-                <p>
+            <li className="flex">
+              <p className="truncate flex-2">{service.name}</p>
+              <p className="truncate flex-1">
+                {formatsCurrency(service.price)}
+              </p>
+
+              <div className="flex-1">
+                <div className="max-lg:flex max-lg:justify-center">
                   {
-                    <Status className="" active={service.active}>
+                    <Status active={service.active}>
                       {service.active ? "Ativo" : "Inativo"}
                     </Status>
                   }
-                </p>
-              </td>
-              <td>
-                <div className="flex gap-1.5 pr-2">
+                </div>
+              </div>
+
+              <div className="flex-1">
+                <div className="flex justify-between">
                   <button
                     className="cursor-pointer max-lg:hidden"
                     onClick={() => activeService(service.id, !service.active)}
@@ -204,72 +210,6 @@ export function Services() {
                     }}
                   ></Button>
                 </div>
-              </td>
-            </tr>
-          ))}
-        </Table>
-      </section>
-
-      <section>
-        <ul className="flex flex-col">
-          <li className="flex">
-            <p className="flex-2">Título</p>
-            <p className="flex-1">Valor</p>
-            <p className="flex-1">Status</p>
-            <span className="flex-1"></span>
-          </li>
-
-          {services.map((service) => (
-            <li className="flex">
-              <p className="truncate flex-2">{service.name}</p>
-              <p className="truncate flex-1">
-                {formatsCurrency(service.price)}
-              </p>
-              <div className="flex-1">
-                {
-                  <Status className="" active={service.active}>
-                    {service.active ? "Ativo" : "Inativo"}
-                  </Status>
-                }
-              </div>
-
-              <div className="flex-1 flex-col">
-                <button
-                  className="cursor-pointer max-lg:hidden"
-                  onClick={() => activeService(service.id, !service.active)}
-                >
-                  {service.active ? (
-                    <span className="flex gap-0.5">
-                      <img src={iconBan} /> Desativar
-                    </span>
-                  ) : (
-                    <span className="flex gap-0.5">
-                      <img src={iconCheck} /> Reativar
-                    </span>
-                  )}
-                </button>
-              
-                <Button
-                  onClick={() => activeService(service.id, !service.active)}
-                  className="lg:hidden bg-transparent"
-                >
-                  {service.active ? (
-                    <img className="w-5" src={iconBan} />
-                  ) : (
-                    <img className="w-5" src={iconCheck} />
-                  )}
-                </Button>
-                <Button
-                  svg={iconPen}
-                  className="bg-gray-500"
-                  onClick={() => {
-                    setIsOpen(true);
-                    setNewService(false);
-                    setName(service.name);
-                    setPrice(formatsCurrency(service.price));
-                    setId(service.id);
-                  }}
-                ></Button>
               </div>
             </li>
           ))}

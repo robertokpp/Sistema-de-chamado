@@ -12,12 +12,12 @@ const variants = {
 type Props = {
   children: React.ReactNode;
   active: boolean;
-  className: string;
+  className?: string;
 };
 
 export function Status({ children, active, className }: Props) {
   return (
-    <div>
+    <>
       <span
         className={twMerge(
           "px-3 py-1.5 w-fit rounded-[999px] flex justify-center items-center h-7 max-lg:hidden ",
@@ -27,6 +27,7 @@ export function Status({ children, active, className }: Props) {
       >
         {children}
       </span>
+
       <span
         className={twMerge(
           "p-1 w-fit rounded-[999px] flex justify-center items-center lg:hidden ",
@@ -40,6 +41,6 @@ export function Status({ children, active, className }: Props) {
           <img src={iconBan} alt="" />
         )}
       </span>
-    </div>
+    </>
   );
 }
