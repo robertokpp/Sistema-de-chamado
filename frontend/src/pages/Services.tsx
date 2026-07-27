@@ -3,7 +3,7 @@ import { Button } from "../components/Button";
 import { Modal } from "../components/Modal";
 import { Input } from "../components/Inputs";
 import { Status } from "../components/Status";
-import { Table } from "../components/Table";
+import { NewTable } from "../components/NewTable";
 
 import iconPlus from "../assets/icon-plus.svg";
 import iconBan from "../assets/icon-ban.svg";
@@ -128,7 +128,7 @@ export function Services() {
 
   return (
     <div className="w-full">
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center mb-5">
         <Header>Serviços</Header>
         <Button
           svg={iconPlus}
@@ -143,19 +143,18 @@ export function Services() {
         </Button>
       </div>
 
-
       <section>
-        <ul className="flex flex-col py-">
-          <li className="flex">
-            <p className="flex-2">Título</p>
-            <p className="flex-1">Valor</p>
-            <p className="flex-1">Status</p>
-            <span className="flex-1"></span>
-          </li>
-
+        <NewTable
+          title={[
+            { name: "Título", className: "flex-2" },
+            { name: "Valor", className: "flex-1" },
+            { name: "Status", className: "flex-1" },
+            { name: "", className: "flex-1" },
+          ]}
+        >
           {services.map((service) => (
-            <li className="flex">
-              <p className="truncate flex-2">{service.name}</p>
+            <li className="border-t border-gray-500 items-center">
+              <p className="truncate flex-2 font-bold">{service.name}</p>
               <p className="truncate flex-1">
                 {formatsCurrency(service.price)}
               </p>
@@ -213,7 +212,7 @@ export function Services() {
               </div>
             </li>
           ))}
-        </ul>
+        </NewTable>
       </section>
 
       <Modal tittle="Serviço" isOpen={isOpen} onClose={() => setIsOpen(false)}>

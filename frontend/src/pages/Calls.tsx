@@ -1,5 +1,4 @@
 import { Header } from "../components/Header";
-import { Table } from "../components/Table";
 import { Button } from "../components/Button";
 import { StatusCall } from "../components/StatusCall";
 
@@ -13,6 +12,7 @@ import iconEye from "../assets/icon-eye.svg";
 import { useEffect, useState } from "react";
 import { api } from "../services/api";
 import { useNavigate } from "react-router";
+import { NewTable } from "../components/NewTable";
 
 type CallStatus = "OPEN" | "IN_PROGRESS" | "CLOSE";
 
@@ -43,57 +43,78 @@ export function Calls() {
   }, []);
 
   return (
-    <div className="w-full">
-      <Header>Meus Chamados</Header>
+    <>
+      <div className="w-fit mb-4">
+        <Header>Meus Chamados</Header>
+      </div>
 
       <section>
-        <Table
-          ths={
+        <NewTable
+          title={
             session?.user.role != "CLIENT"
               ? [
-                  { title: "Atualizado em" },
-                  { title: "id", visible: "hidden" },
-                  { title: "Título e Serviço" },
-                  { title: "Valor total", visible: "hidden" },
-                  { title: "Cliente", visible: "hidden" },
-                  { title: "Técnico", visible: "hidden" },
-                  { title: "Status" },
+                  { name: "Atualizado em", className: "flex-1" },
+                  { name: "id", className: "flex-[0.5] max-lg:hidden" },
+                  { name: "Título e Serviço", className: "flex-2" },
+                  {
+                    name: "Valor total",
+                    className: "flex-[0.5] max-lg:hidden",
+                  },
+                  { name: "Cliente", className: "flex-2 max-lg:hidden" },
+                  { name: "Técnico", className: "flex-2 max-lg:hidden" },
+                  { name: "Status", className: "flex-1 max-lg:flex-[0.5]" },
+                  { name: "", className: "flex-[0.5]" },
                 ]
               : [
-                  { title: "Atualizado em" },
-                  { title: "id", visible: "hidden" },
-                  { title: "Título" },
-                  { title: "Valor total", visible: "hidden" },
-                  { title: "Cliente", visible: "hidden" },
-                  { title: "Status" },
+                  { name: "Atualizado em", className: "flex-1" },
+                  { name: "id", className: "flex-[0.5] max-lg:hidden" },
+                  { name: "Título", className: "flex-1" },
+                  {
+                    name: "Valor total",
+                    className: "flex-[0.5] max-lg:hidden",
+                  },
+                  { name: "Cliente", className: "flex-2 max-lg:hidden" },
+                  { name: "Status", className: "flex-1 max-lg:flex-[0.5]" },
+                  { name: "", className: "flex-[0.5]" },
                 ]
           }
         >
           {calls.map(
             (call) =>
               call.availableForClient === true && (
-                <tr key={call.id}>
-                  <td className="pl-2 font-normal text-[12px]">
+                <li
+                  key={call.id}
+                  className="gap-1 border-t border-gray-500 items-center"
+                >
+                  <p className="text-[12px] flex-1 truncate">
                     {formatDateTime(call.updatedAt)}
-                  </td>
-                  <td className="text-[12px] max-lg:hidden">{call.id}</td>
-                  <td className="flex flex-col">
-                    <span>{call.title}</span>
-                    <span className="font-normal">{call.service}</span>
-                  </td>
-                  <td className="font-normal max-lg:hidden">
+                  </p>
+                  <p className="text-[12px] flex-[0.5] truncate max-lg:hidden ">
+                    {call.id}
+                  </p>
+                  <div className="flex-2 truncate">
+                    <div className="flex flex-col ">
+                      <p className="font-bold ">{call.title}</p>
+                      <p>{call.service}</p>
+                    </div>
+                  </div>
+                  <p className="font-normal max-lg:hidden flex-[0.5] truncate">
                     {formatsCurrency(call.price)}
-                  </td>
+                  </p>
 
                   {session?.user.role != "CLIENT" && (
-                    <td className="font-normal max-lg:hidden">{call.client}</td>
+                    <p className="font-normal max-lg:hidden flex-2 truncate">
+                      {call.client}
+                    </p>
                   )}
-                  <td className="font-normal max-lg:hidden">
+                  <p className="font-normal max-lg:hidden flex-2 truncate">
                     {call.technical}
-                  </td>
-                  <td>
-                    <div className="flex gap-1 p-1">
-                      <StatusCall variant={call.status}></StatusCall>
+                  </p>
+                  <div className="flex-1 max-lg:flex-[0.5] ">
+                    <StatusCall variant={call.status}></StatusCall>
+                  </div>
+                  <div className="flex-[0.5]">
+                    <div className="flex justify-end">
                       <Button
                         className="bg-gray-500"
                         onClick={() => navigate(`/chamado/${call.id}`)}
@@ -105,12 +126,12 @@ export function Calls() {
                         />
                       </Button>
                     </div>
-                  </td>
-                </tr>
+                  </div>
+                </li>
               ),
           )}
-        </Table>
+        </NewTable>
       </section>
-    </div>
+    </>
   );
 }

@@ -1,6 +1,5 @@
 import { Header } from "../components/Header";
 import { Button } from "../components/Button";
-import { Table } from "../components/Table";
 import { Checkbox } from "../components/Checkbox";
 
 import iconPen from "../assets/icon-pen-line.svg";
@@ -9,6 +8,7 @@ import iconPlus from "../assets/icon-plus.svg";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { api } from "../services/api";
+import { NewTable } from "../components/NewTable";
 
 interface technical {
   id: string;
@@ -31,55 +31,52 @@ export function Technical() {
   }, []);
 
   return (
-    <div className="w-full">
-      <div className="flex justify-between items-center">
+    <>
+      <div className="flex justify-between items-center mb-4">
         <Header>Técnicos</Header>
         <Button svg={iconPlus} onClick={() => navigate("/novo-tecnico")}>
           Novo
         </Button>
       </div>
 
-      <Table
-        ths={[
-          { title: "Nome" },
-          { title: "E-mail" },
-          { title: "Disponibilidade" },
-        ]}
-      >
-        {technicals.map((technical) => (
-          <tr key={technical.id}>
-            <td>
-              <p className="pl-2 truncate">{technical.name}</p>
-            </td>
-            <td>
-              <p className="font-normal truncate">{technical.email}</p>
-            </td>
-            <td>
-              <div className="flex gap-2 truncate">
-                {technical.hours.map((hour) => (
-                  <Checkbox
-                    key={hour}
-                    checked={false}
-                    onChange={() => false}
-                    className={"text-gray-400"}
-                  >
-                    {hour}
-                  </Checkbox>
-                ))}
+      <section>
+        <NewTable
+          title={[
+            { name: "Nome", className: "flex-1" },
+            { name: "E-mail", className: "flex-2" },
+            { name: "Disponibilidade", className: "flex-3" },
+            { name: "", className: "flex-[0.5]" },
+          ]}
+        >
+          {technicals.map((technical) => (
+            <li className="gap-1" key={technical.id}>
+              <p className="flex-1 truncate font-bold">{technical.name}</p>
+              <p className="font-normal flex-2 truncate">{technical.email}</p>
+              <div className="flex-3 truncate">
+                <div className="flex gap-1">
+                  {technical.hours.map((hour) => (
+                    <Checkbox
+                      key={hour}
+                      checked={false}
+                      onChange={() => false}
+                      className={"text-gray-400"}
+                    >
+                      {hour}
+                    </Checkbox>
+                  ))}
+                </div>
               </div>
-            </td>
-            <td>
-              <div className="flex justify-end p-2 w-fit">
+              <div className="flex-[0.5] flex w-full items-center justify-center">
                 <Button
                   svg={iconPen}
                   onClick={() => navigate(`/tecnicos/${technical.id}`)}
                   className="bg-gray-500"
                 ></Button>
               </div>
-            </td>
-          </tr>
-        ))}
-      </Table>
-    </div>
+            </li>
+          ))}
+        </NewTable>
+      </section>
+    </>
   );
 }

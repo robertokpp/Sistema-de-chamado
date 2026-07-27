@@ -1,8 +1,8 @@
 import { Header } from "../components/Header";
-import { Table } from "../components/Table";
 import { Button } from "../components/Button";
 import { Modal } from "../components/Modal";
 import { Input } from "../components/Inputs";
+import { NewTable } from "../components/NewTable";
 
 import iconTrash from "../assets/icon-trash.svg";
 import iconPen from "../assets/icon-pen-line.svg";
@@ -85,21 +85,23 @@ export function Client() {
 
   return (
     <div className="w-full">
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center mb-4">
         <Header>Clientes</Header>
       </div>
 
       <section>
-        <Table ths={[{ title: "Name" }, { title: "E-mail" }]}>
+        <NewTable
+          title={[
+            { name: "Name", className: "flex-1" },
+            { name: "E-mail", className: "flex-2" },
+            { name: "", className: "flex-1" },
+          ]}
+        >
           {clients.map((client) => (
-            <tr key={client.id}>
-              <td className="pl-2">
-                <p className="truncate">{client.name}</p>
-              </td>
-              <td className="font-normal">
-                <p className="truncate">{client.email}</p>
-              </td>
-              <td className="flex justify-end pr-2 gap-2">
+            <li className="border-t border-gray-500 gap-1" key={client.id}>
+              <p className="truncate flex-1 font-bold">{client.name}</p>
+              <p className="truncate flex-1">{client.email}</p>
+              <div className="flex gap-2">
                 <Button
                   svg={iconTrash}
                   onClick={() => {
@@ -119,10 +121,10 @@ export function Client() {
                   }}
                   className="bg-gray-500 "
                 ></Button>
-              </td>
-            </tr>
+              </div>
+            </li>
           ))}
-        </Table>
+        </NewTable>
       </section>
 
       <Modal

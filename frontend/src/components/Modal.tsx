@@ -10,7 +10,7 @@ type Props = {
 export function Modal({ isOpen, onClose, children, tittle }: Props) {
   if (!isOpen) return null;
   return (
-    <div className="fixed inset-0 bg-black/25 flex justify-center items-center ">
+    <div className="fixed inset-0 bg-black/25 flex justify-center items-center p-4">
       <div className="w-110 h-fit bg-white  rounded-2xl">
         <header className="flex justify-between px-7 py-5">
           <h2 className="font-bold">{tittle}</h2>
