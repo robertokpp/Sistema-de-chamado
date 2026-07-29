@@ -1,9 +1,11 @@
-import { application, Request, Response } from "express";
+import { Request, Response } from "express";
 import { prisma } from "@/lib/prisma";
-import { uuid, z } from "zod";
+import {  z } from "zod";
 import { hash } from "bcrypt";
+import { unlink, access } from "node:fs/promises";
 
 import { AppError } from "@/utils/AppError";
+import path from "node:path";
 
 class UserController {
   async create(request: Request, response: Response) {
@@ -53,8 +55,21 @@ class UserController {
       throw new AppError("Usuário não encontrado.");
     }
 
-    console.log(file);
-    console.log(id);
+    if (user.avatar) {
+      const oldAvatarPath = path.join("uploads", "avatar", user.avatar);
+
+      try {
+        await access(oldAvatarPath);
+        await unlink(oldAvatarPath);
+      } catch (error) {}
+    }
+
+    await prisma.user.update({
+      where: { id },
+      data: { avatar: file.filename },
+    });
+
+    return response.json({ message: "Avatar atualizado com sucesso." });
   }
 }
 
