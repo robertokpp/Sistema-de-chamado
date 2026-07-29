@@ -1,6 +1,6 @@
-import { Request, Response } from "express";
+import { application, Request, Response } from "express";
 import { prisma } from "@/lib/prisma";
-import { z } from "zod";
+import { uuid, z } from "zod";
 import { hash } from "bcrypt";
 
 import { AppError } from "@/utils/AppError";
@@ -35,8 +35,26 @@ class UserController {
     return response.status(201).json();
   }
 
-  async upload(request: Request, response: Response){
+  async upload(request: Request, response: Response) {
+    const id = request.user?.id;
+    const file = request.file;
+    if (!id) {
+      throw new AppError("Usuário não autenticado.");
+    }
+    if (!file) {
+      throw new AppError("Nenhuma imagem foi enviada.");
+    }
 
+    const user = await prisma.user.findUnique({
+      where: { id },
+    });
+
+    if (!user) {
+      throw new AppError("Usuário não encontrado.");
+    }
+
+    console.log(file);
+    console.log(id);
   }
 }
 

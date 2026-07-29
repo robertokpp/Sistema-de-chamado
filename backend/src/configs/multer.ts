@@ -13,7 +13,7 @@ const storage = multer.diskStorage({
     if (!userId) {
       return cb(new Error("Não foi possível realizar o upload da imagem"), "");
     }
-    
+
     if (!allowedMimeTypes.includes(file.mimetype)) {
       return cb(new Error("Formato de arquivo não permitido"), "");
     }
@@ -23,4 +23,7 @@ const storage = multer.diskStorage({
   },
 });
 
-export const upload = multer({ storage });
+export const upload = multer({
+  storage,
+  limits: { fileSize: 2 * 1024 * 1024 },
+});
