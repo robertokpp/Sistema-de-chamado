@@ -1,20 +1,54 @@
 import logoDark from "../assets/Logo_IconDark.svg";
 import iconLogout from "../assets/icon-logout.svg";
 import iconMenu from "../assets/icon-menu.svg";
+import iconUpload from "../assets/icon-upload.svg";
+import iconTrash from "../assets/icon-trash.svg";
 
 import { Outlet } from "react-router";
 import { useAuth } from "../hooks/useAuth";
 import { NavItem } from "./NavItem";
 import { menu } from "../config/menu";
 import { Link } from "react-router";
+import { useState } from "react";
+import { api } from "../services/api";
 
 import { Button } from "./Button";
+import { Avatar } from "./Avatar";
+import { Modal } from "./Modal";
+import { Input } from "./Inputs";
 
 export function LayoutSideMenu() {
   const { session, remove } = useAuth();
+  const [file, setFile] = useState<File | null>(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const [name, setName] = useState(session?.user.name);
+  const [email, setEmail] = useState(session?.user.email);
 
   if (!session) return null;
   const items = menu[session?.user.role];
+
+  function handleSelectFile(event: React.ChangeEvent<HTMLInputElement>) {
+    const selectedFile = event.target.files?.[0];
+
+    if (!selectedFile) return;
+
+    setFile(selectedFile);
+  }
+
+  async function handleUpload(event: React.SubmitEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    if (!file) {
+      return;
+    }
+
+    const formData = new FormData();
+
+    formData.append("avatar", file);
+
+    await api.patch("/user/avatar", formData);
+    setFile(null);
+  }
 
   return (
     <div className="flex bg-gray-100 max-lg:flex-col">
@@ -37,10 +71,7 @@ export function LayoutSideMenu() {
                 </span>
               </div>
             </div>
-
-            <div className="bg-blue-dark w-8 h-8 rounded-full flex justify-center items-center lg:hidden">
-              <span className="text-gray-500 text[14px]">UC</span>
-            </div>
+            <Avatar className="lg:hidden" avatar={session.user.avatar}></Avatar>
           </header>
 
           <nav className="flex flex-col gap-2 max-lg:hidden">
@@ -55,18 +86,20 @@ export function LayoutSideMenu() {
           </nav>
         </div>
 
-        <footer className="flex gap-3 items-center w-fit max-lg:hidden">
-          <div className="bg-blue-dark w-8 h-8 rounded-full flex justify-center items-center">
-            <span className="text-gray-500 text[14px]">UC</span>
+        <footer className="flex gap-2 items-center w-fit max-lg:hidden">
+          <div
+            className="cursor-pointer flex gap-2 justify-center items-center"
+            onClick={() => setIsOpen(true)}
+          >
+            <Avatar avatar={session.user.avatar}></Avatar>
+            <div className="flex flex-col">
+              <span className="text-gray-500 text[14px] text-nowrap">
+                {name}
+              </span>
+              <span className="text-gray-400 text-[12px]">{email}</span>
+            </div>
           </div>
-          <div className="flex flex-col">
-            <span className="text-gray-500 text[14px] text-nowrap">
-              {session?.user.name}
-            </span>
-            <span className="text-gray-400 text-[12px]">
-              {session?.user.email}
-            </span>
-          </div>
+
           <Link
             to={"/"}
             onClick={remove}
@@ -76,6 +109,56 @@ export function LayoutSideMenu() {
           </Link>
         </footer>
       </aside>
+
+      <Modal tittle="Perfil" isOpen={isOpen} onClose={() => setIsOpen(false)}>
+        <form onSubmit={handleUpload}>
+          <div className="flex gap-4 items-center">
+            <Avatar
+              className="w-12 h-12"
+              classNameImg="w-12 h-12"
+              avatar={session.user.avatar}
+            />
+
+            <label
+              id="avatar"
+              className="flex gap-2 justify-center items-center rounded-[5px] p-1.5 h-fit bg-gray-500 font-bold"
+            >
+              <input
+                type="file"
+                name="avatar"
+                className="hidden"
+                onChange={handleSelectFile}
+              />
+              <img
+                className="w-3.5 h-3.5"
+                src={iconUpload}
+                alt="icon de upload"
+              />
+              <span>Nova imagem</span>
+            </label>
+
+            <Button svg={iconTrash} className="bg-gray-500 "></Button>
+          </div>
+          <div className="flex flex-col gap-4 mt-5 mb-14">
+            <Input
+              legend="Nome"
+              defaultValue={name}
+              onChange={(e) => setName(e.target.value)}
+            ></Input>
+            <Input
+              legend="e-mail"
+              type="email"
+              defaultValue={email}
+              onChange={(e) => setEmail(e.target.value)}
+            ></Input>
+            <Input type="password" legend="senha"></Input>
+          </div>
+
+          <Button type="submit" className="w-full">
+            Salvar
+          </Button>
+        </form>
+      </Modal>
 
       <main className="bg-white rounded-tl-[20px] mt-3 w-full p-12 flex flex-col max-lg:rounded-t-[20px] max-lg:mt-0 max-lg:p-4">
         <Outlet />

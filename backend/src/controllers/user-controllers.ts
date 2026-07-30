@@ -55,14 +55,7 @@ class UserController {
       throw new AppError("Usuário não encontrado.");
     }
 
-    if (user.avatar) {
-      const oldAvatarPath = path.join("uploads", "avatar", user.avatar);
 
-      try {
-        await access(oldAvatarPath);
-        await unlink(oldAvatarPath);
-      } catch (error) {}
-    }
 
     await prisma.user.update({
       where: { id },
