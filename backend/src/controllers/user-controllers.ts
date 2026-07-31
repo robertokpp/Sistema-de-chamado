@@ -1,11 +1,9 @@
 import { Request, Response } from "express";
 import { prisma } from "@/lib/prisma";
-import {  z } from "zod";
+import { z } from "zod";
 import { hash } from "bcrypt";
-import { unlink, access } from "node:fs/promises";
 
 import { AppError } from "@/utils/AppError";
-import path from "node:path";
 
 class UserController {
   async create(request: Request, response: Response) {
@@ -37,6 +35,15 @@ class UserController {
     return response.status(201).json();
   }
 
+  async update(request: Request, response: Response) {
+    const id = request.user?.id;
+    if (!id) {
+      throw new AppError("Usuário não autenticado.");
+    }
+
+    
+  }
+
   async upload(request: Request, response: Response) {
     const id = request.user?.id;
     const file = request.file;
@@ -54,8 +61,6 @@ class UserController {
     if (!user) {
       throw new AppError("Usuário não encontrado.");
     }
-
-
 
     await prisma.user.update({
       where: { id },

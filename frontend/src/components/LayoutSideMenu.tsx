@@ -9,7 +9,7 @@ import { useAuth } from "../hooks/useAuth";
 import { NavItem } from "./NavItem";
 import { menu } from "../config/menu";
 import { Link } from "react-router";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { api } from "../services/api";
 
 import { Button } from "./Button";
@@ -18,21 +18,30 @@ import { Modal } from "./Modal";
 import { Input } from "./Inputs";
 
 export function LayoutSideMenu() {
-  const { session, remove } = useAuth();
+  const { session, remove, save } = useAuth();
   const [file, setFile] = useState<File | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [name, setName] = useState(session?.user.name);
   const [email, setEmail] = useState(session?.user.email);
 
+  console.log(file);
   if (!session) return null;
   const items = menu[session?.user.role];
 
-  function handleSelectFile(event: React.ChangeEvent<HTMLInputElement>) {
+  async function handleSelectFile(event: React.ChangeEvent<HTMLInputElement>) {
     const selectedFile = event.target.files?.[0];
 
-    if (!selectedFile) return;
+    if (!selectedFile || !session) return;
 
     setFile(selectedFile);
+
+    const response = await api.patch("/users/avatar",);
+
+    save({
+      token: session.token,
+      user: response.data.user,
+    });
+
   }
 
   async function handleUpload(event: React.SubmitEvent<HTMLFormElement>) {
@@ -47,9 +56,16 @@ export function LayoutSideMenu() {
     formData.append("avatar", file);
 
     await api.patch("/user/avatar", formData);
-    setFile(null);
   }
 
+  const PreviewAvatar = useMemo(() => {
+    if (!file) {
+      return;
+    }
+    return URL.createObjectURL(file);
+  }, [file]);
+
+  console.log(file);
   return (
     <div className="flex bg-gray-100 max-lg:flex-col">
       <aside className="px-5 py-6 flex flex-col justify-between h-screen mt-3 w-fit max-lg:h-fit max-lg:w-full max-lg:m-0">
@@ -113,11 +129,18 @@ export function LayoutSideMenu() {
       <Modal tittle="Perfil" isOpen={isOpen} onClose={() => setIsOpen(false)}>
         <form onSubmit={handleUpload}>
           <div className="flex gap-4 items-center">
-            <Avatar
-              className="w-12 h-12"
-              classNameImg="w-12 h-12"
-              avatar={session.user.avatar}
-            />
+            {PreviewAvatar ? (
+              <img
+                className="w-12 h-12 rounded-full object-cover"
+                src={PreviewAvatar}
+              />
+            ) : (
+              <Avatar
+                className="w-12 h-12"
+                classNameImg="w-12 h-12"
+                avatar={session.user.avatar}
+              />
+            )}
 
             <label
               id="avatar"
