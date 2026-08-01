@@ -120,8 +120,10 @@ class CallsController {
       service: call.service.name,
       price: call.price,
       technical: call.call.technical?.name,
+      avatarTechnical: call.call.technical?.avatar,
       status: call.call.status,
       client: call.call.client.name,
+      avatarClient: call.call.client.avatar,
       availableForClient: call.service.availableForClient,
     }));
 

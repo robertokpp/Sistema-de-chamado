@@ -9,11 +9,13 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { api } from "../services/api";
 import { NewTable } from "../components/NewTable";
+import { Avatar } from "../components/Avatar";
 
 interface technical {
   id: string;
   name: string;
   email: string;
+  avatar: string
   hours: [];
 }
 
@@ -24,6 +26,8 @@ export function Technical() {
   async function ListTechnical() {
     const response = await api.get("/technical");
     useTechnicals(response.data);
+
+    console.log(response.data)
   }
 
   useEffect(() => {
@@ -42,7 +46,7 @@ export function Technical() {
       <section>
         <NewTable
           title={[
-            { name: "Nome", className: "flex-1" },
+            { name: "Nome", className: "flex-2" },
             { name: "E-mail", className: "flex-2" },
             { name: "Disponibilidade", className: "flex-3" },
             { name: "", className: "flex-[0.5]" },
@@ -50,7 +54,12 @@ export function Technical() {
         >
           {technicals.map((technical) => (
             <li className="gap-1" key={technical.id}>
-              <p className="flex-1 truncate font-bold">{technical.name}</p>
+              <div className="flex-2 truncate">
+                <div className="flex gap-1 items-center">
+                  <Avatar avatar={technical.avatar}></Avatar>
+                  <p className="font-bold truncate">{technical.name}</p>
+                </div>
+              </div>
               <p className="font-normal flex-2 truncate">{technical.email}</p>
               <div className="flex-3 truncate">
                 <div className="flex gap-1">

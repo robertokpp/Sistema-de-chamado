@@ -11,11 +11,13 @@ import { api } from "../services/api";
 import { useState, useEffect } from "react";
 import { ZodError } from "zod";
 import { AxiosError } from "axios";
+import { Avatar } from "../components/Avatar";
 
 interface client {
   id: string;
   name: string;
   email: string;
+  avatar: string;
 }
 
 export function Client() {
@@ -24,6 +26,7 @@ export function Client() {
   const [deleteIsOpen, setDeleteIsOpen] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [avatar, setAvatar] = useState("");
   const [id, setId] = useState("");
 
   async function onSubmit(e: React.SubmitEvent) {
@@ -92,35 +95,43 @@ export function Client() {
       <section>
         <NewTable
           title={[
-            { name: "Name", className: "flex-1" },
+            { name: "Name", className: "flex-2" },
             { name: "E-mail", className: "flex-2" },
             { name: "", className: "flex-1" },
           ]}
         >
           {clients.map((client) => (
             <li className="border-t border-gray-500 gap-1" key={client.id}>
-              <p className="truncate flex-1 font-bold">{client.name}</p>
-              <p className="truncate flex-1">{client.email}</p>
-              <div className="flex gap-2">
-                <Button
-                  svg={iconTrash}
-                  onClick={() => {
-                    (setDeleteIsOpen(true),
-                      setId(client.id),
-                      setName(client.name));
-                  }}
-                  className="bg-gray-500 "
-                ></Button>
-                <Button
-                  svg={iconPen}
-                  onClick={() => {
-                    (setEditingIsOpen(true),
-                      setId(client.id),
-                      setName(client.name),
-                      setEmail(client.email));
-                  }}
-                  className="bg-gray-500 "
-                ></Button>
+              <div className="flex-2">
+                <div className="flex gap-1 items-center">
+                  <Avatar avatar={client.avatar}></Avatar>
+                  <p className="truncate font-bold">{client.name}</p>
+                </div>
+              </div>
+              <p className="truncate flex-2">{client.email}</p>
+              <div className="flex-1">
+                <div className="flex gap-2 justify-end">
+                  <Button
+                    svg={iconTrash}
+                    onClick={() => {
+                      (setDeleteIsOpen(true),
+                        setId(client.id),
+                        setName(client.name));
+                    }}
+                    className="bg-gray-500 "
+                  ></Button>
+                  <Button
+                    svg={iconPen}
+                    onClick={() => {
+                      (setEditingIsOpen(true),
+                        setId(client.id),
+                        setName(client.name),
+                        setEmail(client.email),
+                        setAvatar(client.avatar));
+                    }}
+                    className="bg-gray-500 "
+                  ></Button>
+                </div>
               </div>
             </li>
           ))}
@@ -132,6 +143,9 @@ export function Client() {
         isOpen={editingIsOpen}
         onClose={() => setEditingIsOpen(false)}
       >
+        <div className="pb-5">
+          <Avatar className="w-12 h-12" classNameImg="w-12 h-12" avatar={avatar}></Avatar>
+        </div>
         <form onSubmit={onSubmit}>
           <Input
             required

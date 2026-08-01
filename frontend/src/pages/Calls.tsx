@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import { api } from "../services/api";
 import { useNavigate } from "react-router";
 import { NewTable } from "../components/NewTable";
+import { Avatar } from "../components/Avatar";
 
 type CallStatus = "OPEN" | "IN_PROGRESS" | "CLOSE";
 
@@ -22,8 +23,10 @@ interface call {
   title: string;
   service: string;
   client: string;
+  avatarClient: string;
   price: string;
   technical: string;
+  avatarTechnical: string;
   status: CallStatus;
   availableForClient: boolean;
 }
@@ -36,6 +39,8 @@ export function Calls() {
   async function listCalls() {
     const response = await api.get("/calls");
     useCalls(response.data);
+
+    console.log(response.data);
   }
 
   useEffect(() => {
@@ -58,7 +63,7 @@ export function Calls() {
                   { name: "Título e Serviço", className: "flex-2" },
                   {
                     name: "Valor total",
-                    className: "flex-[0.5] max-lg:hidden",
+                    className: "flex-1 max-lg:hidden",
                   },
                   { name: "Cliente", className: "flex-2 max-lg:hidden" },
                   { name: "Técnico", className: "flex-2 max-lg:hidden" },
@@ -68,12 +73,13 @@ export function Calls() {
               : [
                   { name: "Atualizado em", className: "flex-1" },
                   { name: "id", className: "flex-[0.5] max-lg:hidden" },
-                  { name: "Título", className: "flex-1" },
+                  { name: "Título", className: "flex-2" },
+                  { name: "Serviço", className: "flex-2" },
                   {
                     name: "Valor total",
-                    className: "flex-[0.5] max-lg:hidden",
+                    className: "flex-1 max-lg:hidden",
                   },
-                  { name: "Cliente", className: "flex-2 max-lg:hidden" },
+                  { name: "Técnico", className: "flex-2 max-lg:hidden" },
                   { name: "Status", className: "flex-1 max-lg:flex-[0.5]" },
                   { name: "", className: "flex-[0.5]" },
                 ]
@@ -92,24 +98,41 @@ export function Calls() {
                   <p className="text-[12px] flex-[0.5] truncate max-lg:hidden ">
                     {call.id}
                   </p>
-                  <div className="flex-2 truncate">
-                    <div className="flex flex-col ">
-                      <p className="font-bold ">{call.title}</p>
-                      <p>{call.service}</p>
+                  {session?.user.role != "CLIENT" ? (
+                    <div className="flex-2 truncate">
+                      <div className="flex flex-col ">
+                        <p className="font-bold ">{call.title}</p>
+                        <p>{call.service}</p>
+                      </div>
                     </div>
-                  </div>
-                  <p className="font-normal max-lg:hidden flex-[0.5] truncate">
+                  ) : (
+                    <>
+                      <p className="font-bold flex-2 truncate">{call.title}</p>
+                      <p className="flex-2 truncate">{call.service}</p>
+                    </>
+                  )}
+
+                  <p className="max-lg:hidden flex-1 truncate">
                     {formatsCurrency(call.price)}
                   </p>
 
                   {session?.user.role != "CLIENT" && (
-                    <p className="font-normal max-lg:hidden flex-2 truncate">
-                      {call.client}
-                    </p>
+                    <div className="flex-2 truncate max-lg:hidden">
+                      <div className="flex gap-1">
+                        <Avatar avatar={call.avatarClient}></Avatar>
+                        <p className="truncate">
+                          {call.client}
+                        </p>
+                      </div>
+                    </div>
                   )}
-                  <p className="font-normal max-lg:hidden flex-2 truncate">
-                    {call.technical}
-                  </p>
+
+                  <div className="max-lg:hidden flex-2 truncate">
+                    <div className="flex gap-1">
+                      <Avatar avatar={call.avatarTechnical}></Avatar>
+                      <p>{call.technical}</p>
+                    </div>
+                  </div>
                   <div className="flex-1 max-lg:flex-[0.5] ">
                     <StatusCall variant={call.status}></StatusCall>
                   </div>

@@ -9,6 +9,7 @@ class ClientController {
         id: true,
         name: true,
         email: true,
+        avatar: true
       },
       where: {
         role: "CLIENT",

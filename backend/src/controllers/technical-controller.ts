@@ -59,6 +59,7 @@ class TechnicalController {
         name: true,
         email: true,
         technicianSchedules: true,
+        avatar: true,
       },
     });
 
@@ -67,6 +68,7 @@ class TechnicalController {
       id: item.id,
       name: item.name,
       email: item.email,
+      avatar: item.avatar,
     }));
 
     return response.json(responseTechnical);
@@ -85,6 +87,7 @@ class TechnicalController {
         name: true,
         email: true,
         technicianSchedules: true,
+        avatar: true,
       },
     });
 
@@ -92,6 +95,7 @@ class TechnicalController {
       hours: user?.technicianSchedules.map((item) => item.hour).sort(),
       name: user?.name,
       email: user?.email,
+      avatar: user?.avatar,
     };
 
     return response.json(Technical);

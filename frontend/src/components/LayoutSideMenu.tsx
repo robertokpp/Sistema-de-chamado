@@ -3,6 +3,7 @@ import iconLogout from "../assets/icon-logout.svg";
 import iconMenu from "../assets/icon-menu.svg";
 import iconUpload from "../assets/icon-upload.svg";
 import iconTrash from "../assets/icon-trash.svg";
+import iconX from "../assets/icon-x.svg";
 
 import { Outlet } from "react-router";
 import { useAuth } from "../hooks/useAuth";
@@ -35,6 +36,8 @@ export function LayoutSideMenu() {
   const [name, setName] = useState(session?.user.name);
   const [email, setEmail] = useState(session?.user.email);
   const [password, setPassword] = useState("");
+  const [openMenu, setOpenMenu] = useState(false);
+  const [styleMenu, setStyleMenu] = useState("max-lg:hidden");
 
   if (!session) return null;
   const items = menu[session?.user.role];
@@ -102,10 +105,28 @@ export function LayoutSideMenu() {
         <div>
           <header className="max-lg:w-full max-lg:flex max-lg:items-center max-lg:justify-between">
             <div className="flex gap-3 py-5 items-center max-lg:p-0 ">
-              <Button
-                svg={iconMenu}
-                className="bg-gray-200 h-fit lg:hidden"
-              ></Button>
+              {openMenu ? (
+                <Button
+                  className="lg:hidden"
+                  onClick={() => {
+                    setOpenMenu(false);
+                    setStyleMenu("max-lg:hidden")
+                  }}
+                >
+                  <img src={iconX} alt="Icon de close" />
+                </Button>
+              ) : (
+                <Button
+                  className="lg:hidden"
+                  onClick={() => {
+                    setOpenMenu(true);
+                    setStyleMenu("max-lg:inline-block w-full");
+                  }}
+                >
+                  <img src={iconMenu} alt="Icon de menu" />
+                </Button>
+              )}
+
               <img src={logoDark} alt="logo Dark" className="w-11 h-11" />
 
               <div className="flex flex-col gap-0.5">
@@ -120,7 +141,7 @@ export function LayoutSideMenu() {
             <Avatar className="lg:hidden" avatar={session.user.avatar}></Avatar>
           </header>
 
-          <nav className="flex flex-col gap-2 max-lg:hidden">
+          <nav className={`flex flex-col gap-2 ${styleMenu}`}>
             {items.map((item) => (
               <NavItem
                 key={item.path}

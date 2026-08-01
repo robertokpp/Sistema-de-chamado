@@ -4,14 +4,13 @@ import { Input } from "../components/Inputs";
 import { hours } from "../config/hours";
 import { Checkbox } from "../components/Checkbox";
 
-import iconPlus from "../assets/icon-plus.svg";
-
 import { useParams } from "react-router";
 import { useState, useEffect } from "react";
 import { api } from "../services/api";
 import { z, ZodError } from "zod";
 import { useNavigate } from "react-router";
 import { AxiosError } from "axios";
+import { Avatar } from "../components/Avatar";
 
 const createTechnicalSchema = z.object({
   name: z.string().min(3, "Digite um nome válido."),
@@ -35,11 +34,15 @@ export function NewTechnical() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [avatar, setAvatar] =useState("")
   const navigate = useNavigate();
   const { id } = useParams();
 
   async function handleLoadTechnical() {
     const response = await api.get(`/technical/${id}`);
+
+    setAvatar(response.data.avatar)
+    console.log(avatar)
     setName(response.data.name);
     setEmail(response.data.email);
     setSelectedHours(response.data.hours);
@@ -124,6 +127,8 @@ export function NewTechnical() {
             <span className="text-[12px] text-gray-300 leading-4">
               Defina as informações do perfil de técnico
             </span>
+            {id && <Avatar avatar={avatar} className="w-12 h-12" classNameImg="w-12 h-12"></Avatar>}
+            
           </div>
           <div className="flex flex-col gap-2">
             <Input
