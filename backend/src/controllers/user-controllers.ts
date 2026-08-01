@@ -35,13 +35,47 @@ class UserController {
     return response.status(201).json();
   }
 
-  async update(request: Request, response: Response) {
+  async show(request: Request, response: Response) {
     const id = request.user?.id;
+    let hashPassword;
+
     if (!id) {
       throw new AppError("Usuário não autenticado.");
     }
 
-    
+    const bodySchema = z.object({
+      name: z.string().trim().optional(),
+      email: z.email().optional(),
+      password: z.string().min(6).optional(),
+    });
+
+    const { name, email, password } = bodySchema.parse(request.body);
+
+    if (password) {
+      hashPassword = await hash(password, 8);
+    }
+
+    if (email) {
+      const emailAlreadyRegistered = await prisma.user.findFirst({
+        where: {
+          email,
+          NOT: {
+            id,
+          },
+        },
+      });
+
+      if (emailAlreadyRegistered) {
+        throw new AppError("Já existe um usuário com esse e-mail.");
+      }
+    }
+
+    await prisma.user.update({
+      where: { id },
+      data: { name, email, password: hashPassword || undefined },
+    });
+
+    return response.json({message: "Alterado com sucesso!"});
   }
 
   async upload(request: Request, response: Response) {

@@ -17,4 +17,11 @@ userRouter.patch(
   userController.upload,
 );
 
+userRouter.patch(
+  "/show",
+  ensureAuthenticated,
+  verifyUserAuthorization(["ADMIN", "CLIENT", "TECHNICAL"]),
+  userController.show,
+);
+
 export { userRouter };

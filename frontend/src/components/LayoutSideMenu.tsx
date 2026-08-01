@@ -11,11 +11,22 @@ import { menu } from "../config/menu";
 import { Link } from "react-router";
 import { useMemo, useState } from "react";
 import { api } from "../services/api";
+import { z, ZodError } from "zod";
+import { AxiosError } from "axios";
 
 import { Button } from "./Button";
 import { Avatar } from "./Avatar";
 import { Modal } from "./Modal";
 import { Input } from "./Inputs";
+
+const bodySchema = z.object({
+  name: z.string().min(3, "Digite um nome válido."),
+  email: z.email(),
+  password: z
+    .string()
+    .min(6, "A senha deve conter no mínimo 6 caracteres.")
+    .optional(),
+});
 
 export function LayoutSideMenu() {
   const { session, remove, save } = useAuth();
@@ -23,8 +34,8 @@ export function LayoutSideMenu() {
   const [isOpen, setIsOpen] = useState(false);
   const [name, setName] = useState(session?.user.name);
   const [email, setEmail] = useState(session?.user.email);
+  const [password, setPassword] = useState("");
 
-  console.log(file);
   if (!session) return null;
   const items = menu[session?.user.role];
 
@@ -35,27 +46,47 @@ export function LayoutSideMenu() {
 
     setFile(selectedFile);
 
-    const response = await api.patch("/users/avatar",);
+    const response = await api.patch("/users/avatar");
 
     save({
       token: session.token,
       user: response.data.user,
     });
-
   }
 
   async function handleUpload(event: React.SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    if (!file) {
-      return;
+    try {
+      if (file) {
+        const formData = new FormData();
+        formData.append("avatar", file);
+        await api.patch("/user/avatar", formData);
+      }
+
+      const data = bodySchema.parse({
+        name,
+        email,
+        password: password || undefined,
+      });
+
+      console.log(data);
+      await api.patch("/user/show", data);
+
+      alert("Atualizado com sucesso.");
+    } catch (error) {
+      console.log(error);
+
+      if (error instanceof ZodError) {
+        return alert(error.issues[0].message);
+      }
+
+      if (error instanceof AxiosError) {
+        return alert(error.response?.data.message);
+      }
+
+      return { message: " Não foi possível Atualizar o usuário." };
     }
-
-    const formData = new FormData();
-
-    formData.append("avatar", file);
-
-    await api.patch("/user/avatar", formData);
   }
 
   const PreviewAvatar = useMemo(() => {
@@ -65,7 +96,6 @@ export function LayoutSideMenu() {
     return URL.createObjectURL(file);
   }, [file]);
 
-  console.log(file);
   return (
     <div className="flex bg-gray-100 max-lg:flex-col">
       <aside className="px-5 py-6 flex flex-col justify-between h-screen mt-3 w-fit max-lg:h-fit max-lg:w-full max-lg:m-0">
@@ -174,7 +204,11 @@ export function LayoutSideMenu() {
               defaultValue={email}
               onChange={(e) => setEmail(e.target.value)}
             ></Input>
-            <Input type="password" legend="senha"></Input>
+            <Input
+              type="password"
+              legend="senha"
+              onChange={(e) => setPassword(e.target.value)}
+            ></Input>
           </div>
 
           <Button type="submit" className="w-full">
