@@ -95,16 +95,16 @@ export function Client() {
       <section>
         <NewTable
           title={[
-            { name: "Name", className: "flex-2" },
+            { name: "Name", className: "flex-3" },
             { name: "E-mail", className: "flex-2" },
             { name: "", className: "flex-1" },
           ]}
         >
           {clients.map((client) => (
             <li className="border-t border-gray-500 gap-1" key={client.id}>
-              <div className="flex-2">
-                <div className="flex gap-1 items-center">
-                  <Avatar avatar={client.avatar}></Avatar>
+              <div className="flex-3 truncate block">
+                <div className="flex truncate gap-1 items-center">
+                  <Avatar avatar={client.avatar} ></Avatar>
                   <p className="truncate font-bold">{client.name}</p>
                 </div>
               </div>
