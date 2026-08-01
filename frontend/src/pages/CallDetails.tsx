@@ -21,6 +21,7 @@ import { AxiosError } from "axios";
 import { useAuth } from "../hooks/useAuth";
 import { Modal } from "../components/Modal";
 import { ZodError, z } from "zod";
+import { Avatar } from "../components/Avatar";
 
 type CallStatus = "OPEN" | "IN_PROGRESS" | "CLOSE";
 
@@ -29,6 +30,7 @@ interface CallResponse {
     title: string;
     description: string;
     client: string;
+    clientAvatar: string;
     status: CallStatus;
     category: {
       id: string;
@@ -39,6 +41,7 @@ interface CallResponse {
     updateAt: string;
     technicalName: string;
     technicalEmail: string;
+    technicalAvatar: string;
     totalService: number;
   };
 }
@@ -113,7 +116,6 @@ export function CallDetails() {
   }
 
   async function handlerDeleteService(id: string) {
-    console.log(id);
     try {
       if (confirm("Tem certeza que deseja excluir esse serviço ?"))
         await api.delete(`/call-services/${id}`);
@@ -180,7 +182,6 @@ export function CallDetails() {
             )}
           </div>
         )}
-
       </div>
 
       <section className="flex items-center gap-2 mt-4 max-lg:flex-col">
@@ -204,6 +205,7 @@ export function CallDetails() {
                 legend="Descrição"
                 defaultValue={call?.callServices.description}
                 className="border-0 text-[14px]"
+                cols={55}
               ></Textarea>
 
               <Input
@@ -234,9 +236,7 @@ export function CallDetails() {
                   Cliente
                 </span>
                 <div className=" flex gap-3 items-center">
-                  <div className="w-8 h-8 bg-blue-base rounded-full flex justify-center items-center">
-                    <span className=" text-white">cs</span>
-                  </div>
+                  <Avatar avatar={call ? call?.callServices.clientAvatar : ""}></Avatar>
                   <div className="flex flex-col ">
                     <span className="text-gray-200 text-[14px]">
                       {call?.callServices.client}
@@ -308,9 +308,7 @@ export function CallDetails() {
               Técnico responsável
             </span>
             <div className=" flex gap-3 items-center">
-              <div className="w-8 h-8 bg-blue-base rounded-full flex justify-center items-center">
-                <span className="text-white">cs</span>
-              </div>
+              <Avatar avatar={call ? call?.callServices.technicalAvatar : ""}></Avatar>
               <div className="flex flex-col ">
                 <span className="text-gray-200 text-[14px]">
                   {call?.callServices.technicalName}

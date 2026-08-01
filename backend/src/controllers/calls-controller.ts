@@ -180,6 +180,7 @@ class CallsController {
       title: call?.title,
       description: call?.description,
       client: call.client.name,
+      clientAvatar: call.client.avatar,
       category: callService.map((service) => ({
         id: service.service.id,
         name: service.service.name,
@@ -190,6 +191,7 @@ class CallsController {
       updateAt: call.updatedAt,
       technicalName: call.technical?.name,
       technicalEmail: call.technical?.email,
+      technicalAvatar: call.technical?.avatar,
       services: call.services,
       totalService: total,
     };
