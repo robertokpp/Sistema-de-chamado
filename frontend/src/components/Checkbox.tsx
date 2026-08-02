@@ -10,7 +10,7 @@ type Props = Omit<React.ComponentProps<"input">, "onChange" | "checked"> & {
 export function Checkbox({className, children, checked, onChange, ...rest }: Props) {
   return (
     <>
-      <legend className={twMerge("border border-gray-400 font-bold rounded-2xl w-17.25 h-fit relative has-checked:text-white has-checked:bg-blue-base has-checked:border-blue-base cursor-pointer flex justify-center items-center p-1", className)}>
+      <legend className={twMerge("border relative border-gray-400 font-bold rounded-2xl w-fit h-fit has-checked:text-white has-checked:bg-blue-base has-checked:border-blue-base cursor-pointer flex justify-center items-center p-1", className)}>
         <input
           {...rest}
           checked={checked}

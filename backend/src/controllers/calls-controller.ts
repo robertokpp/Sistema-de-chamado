@@ -162,6 +162,7 @@ class CallsController {
       where: { callId: id },
       select: {
         service: true,
+        price: true,
         call: {
           select: {
             technical: true,
@@ -173,7 +174,7 @@ class CallsController {
 
     let total = 0;
     callService.map((item) => {
-      total += item.service.price.toNumber();
+      total += item.price.toNumber();
     });
 
     const callServices = {
@@ -184,7 +185,7 @@ class CallsController {
       category: callService.map((service) => ({
         id: service.service.id,
         name: service.service.name,
-        price: service.service.price.toNumber(),
+        price: service.price.toNumber(),
       })),
       status: call.status,
       createdAt: call.createdAt,
