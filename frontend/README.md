@@ -38,6 +38,8 @@ npm run dev
 
 ## Deploy na Vercel
 
+O passo a passo completo de publicação, integração com a API e solução de problemas está em [DEPLOY_VERCEL.md](./DEPLOY_VERCEL.md).
+
 1. Importe o repositório na Vercel.
 2. Defina **Root Directory** como `frontend`.
 3. Mantenha o framework **Vite**.

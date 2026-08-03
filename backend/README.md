@@ -68,6 +68,8 @@ Cobertura atual: autenticação, usuários, serviços, chamados e restrições p
 
 ## Deploy no Render
 
+O passo a passo completo de publicação e solução de problemas está em [DEPLOY_RENDER.md](./DEPLOY_RENDER.md).
+
 O arquivo `render.yaml`, localizado na raiz do repositório, define a API e o PostgreSQL. No Render:
 
 1. Crie um **Blueprint** conectado ao repositório.
