@@ -53,7 +53,7 @@ export function Technical() {
           ]}
         >
           {technicals.map((technical) => (
-            <li className="gap-1" key={technical.id}>
+            <li className="gap-1 border-t border-gray-500" key={technical.id}>
               <div className="flex-2 truncate">
                 <div className="flex gap-1 items-center">
                   <Avatar avatar={technical.avatar}></Avatar>

@@ -11,9 +11,13 @@
     "moduleResolution": "bundler",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
+    "rootDir": "src",
+    "outDir": "dist",
 
     "strict": true,
     "types": ["node"],
     "skipLibCheck": true
-  }
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["src/tests"]
 }

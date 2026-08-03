@@ -184,7 +184,7 @@ export function CallDetails() {
         )}
       </div>
 
-      <section className="flex items-center gap-2 mt-4 max-lg:flex-col">
+      <section className="flex gap-2 mt-4  justify-center max-lg:flex-col">
         <div className="flex flex-col gap-4  max-lg:w-full">
           <div className="border border-gray-500 p-8 rounded-[10px] min-w-120 max-lg:min-w-0">
             <div className="flex flex-col mb-6">

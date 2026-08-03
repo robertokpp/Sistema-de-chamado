@@ -34,15 +34,15 @@ export function NewTechnical() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [avatar, setAvatar] =useState("")
+  const [avatar, setAvatar] = useState("");
   const navigate = useNavigate();
   const { id } = useParams();
 
   async function handleLoadTechnical() {
     const response = await api.get(`/technical/${id}`);
 
-    setAvatar(response.data.avatar)
-    console.log(avatar)
+    setAvatar(response.data.avatar);
+    console.log(avatar);
     setName(response.data.name);
     setEmail(response.data.email);
     setSelectedHours(response.data.hours);
@@ -108,7 +108,7 @@ export function NewTechnical() {
   }
 
   return (
-    <div className="w-fit">
+    <>
       <div className="flex justify-between mb-4">
         <Header>Perfil de técnico</Header>
         <div className="flex gap-2">
@@ -118,7 +118,7 @@ export function NewTechnical() {
           <Button onClick={HandlerOnSubmitTechnical}>Salvar</Button>
         </div>
       </div>
-      <section className="flex gap-4">
+      <section className="flex gap-4 justify-center">
         <div className="flex flex-col p-7 w-100 rounded-2xl border border-[#E3E5E8]">
           <div className="mb-4">
             <h2 className="text-[20px] text-gray-100 font-bold">
@@ -127,8 +127,13 @@ export function NewTechnical() {
             <span className="text-[12px] text-gray-300 leading-4">
               Defina as informações do perfil de técnico
             </span>
-            {id && <Avatar avatar={avatar} className="w-12 h-12" classNameImg="w-12 h-12"></Avatar>}
-            
+            {id && (
+              <Avatar
+                avatar={avatar}
+                className="w-12 h-12"
+                classNameImg="w-12 h-12"
+              ></Avatar>
+            )}
           </div>
           <div className="flex flex-col gap-2">
             <Input
@@ -224,6 +229,6 @@ export function NewTechnical() {
           </div>
         </div>
       </section>
-    </div>
+    </>
   );
 }
