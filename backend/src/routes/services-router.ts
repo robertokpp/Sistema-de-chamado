@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { ServiceController } from "@/controllers/Services-controller";
+import { ServiceController } from "@/controllers/services-controller";
 import { verifyUserAuthorization } from "@/middlewares/verify-user-authorization";
 
 const serviceRouter = Router();
