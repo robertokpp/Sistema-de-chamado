@@ -70,12 +70,19 @@ class UserController {
       }
     }
 
-    await prisma.user.update({
+    const user = await prisma.user.update({
       where: { id },
       data: { name, email, password: hashPassword || undefined },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+        avatar: true,
+      },
     });
 
-    return response.json({message: "Alterado com sucesso!"});
+    return response.json({ message: "Alterado com sucesso!", user });
   }
 
   async upload(request: Request, response: Response) {
@@ -96,12 +103,19 @@ class UserController {
       throw new AppError("Usuário não encontrado.");
     }
 
-    await prisma.user.update({
+    const updatedUser = await prisma.user.update({
       where: { id },
       data: { avatar: file.filename },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+        avatar: true,
+      },
     });
 
-    return response.json({ message: "Avatar atualizado com sucesso." });
+    return response.json({ message: "Avatar atualizado com sucesso.", user: updatedUser });
   }
 }
 

@@ -45,26 +45,24 @@ export function LayoutSideMenu() {
   async function handleSelectFile(event: React.ChangeEvent<HTMLInputElement>) {
     const selectedFile = event.target.files?.[0];
 
-    if (!selectedFile || !session) return;
+    if (!selectedFile) return;
 
     setFile(selectedFile);
-
-    const response = await api.patch("/users/avatar");
-
-    save({
-      token: session.token,
-      user: response.data.user,
-    });
   }
 
   async function handleUpload(event: React.SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
 
+    if (!session) return;
+
     try {
+      let updatedUser = session.user;
+
       if (file) {
         const formData = new FormData();
         formData.append("avatar", file);
-        await api.patch("/user/avatar", formData);
+        const response = await api.patch("/user/avatar", formData);
+        updatedUser = response.data.user;
       }
 
       const data = bodySchema.parse({
@@ -74,7 +72,12 @@ export function LayoutSideMenu() {
       });
 
       console.log(data);
-      await api.patch("/user/show", data);
+      const response = await api.patch("/user/show", data);
+      updatedUser = response.data.user;
+
+      save({ token: session.token, user: updatedUser });
+      setFile(null);
+      setIsOpen(false);
 
       alert("Atualizado com sucesso.");
     } catch (error) {
@@ -120,7 +123,9 @@ export function LayoutSideMenu() {
                   className="lg:hidden"
                   onClick={() => {
                     setOpenMenu(true);
-                    setStyleMenu("max-lg:inline-block w-full");
+                    setStyleMenu(
+                      "max-lg:absolute max-lg:top-full max-lg:left-0 max-lg:z-20 max-lg:flex max-lg:w-full max-lg:bg-gray-100 max-lg:px-5 max-lg:pb-6",
+                    );
                   }}
                 >
                   <img src={iconMenu} alt="Icon de menu" />
