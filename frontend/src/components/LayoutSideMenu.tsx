@@ -37,7 +37,6 @@ export function LayoutSideMenu() {
   const [email, setEmail] = useState(session?.user.email);
   const [password, setPassword] = useState("");
   const [openMenu, setOpenMenu] = useState(false);
-  const [styleMenu, setStyleMenu] = useState("max-lg:hidden");
 
   if (!session) return null;
   const items = menu[session?.user.role];
@@ -110,23 +109,21 @@ export function LayoutSideMenu() {
             <div className="flex gap-3 py-5 items-center max-lg:p-0 ">
               {openMenu ? (
                 <Button
+                  type="button"
                   className="lg:hidden"
-                  onClick={() => {
-                    setOpenMenu(false);
-                    setStyleMenu("max-lg:hidden")
-                  }}
+                  onClick={() => setOpenMenu(false)}
+                  aria-label="Fechar menu"
+                  aria-expanded={openMenu}
                 >
                   <img src={iconX} alt="Icon de close" />
                 </Button>
               ) : (
                 <Button
+                  type="button"
                   className="lg:hidden"
-                  onClick={() => {
-                    setOpenMenu(true);
-                    setStyleMenu(
-                      "max-lg:absolute max-lg:top-full max-lg:left-0 max-lg:z-20 max-lg:flex max-lg:w-full max-lg:bg-gray-100 max-lg:px-5 max-lg:pb-6",
-                    );
-                  }}
+                  onClick={() => setOpenMenu(true)}
+                  aria-label="Abrir menu"
+                  aria-expanded={openMenu}
                 >
                   <img src={iconMenu} alt="Icon de menu" />
                 </Button>
@@ -146,7 +143,12 @@ export function LayoutSideMenu() {
             <Avatar className="lg:hidden" avatar={session.user.avatar}></Avatar>
           </header>
 
-          <nav className={`flex flex-col gap-2 ${styleMenu}`}>
+          <nav
+            className={`flex flex-col gap-2 max-lg:mt-6 max-lg:w-full ${
+              openMenu ? "max-lg:flex" : "max-lg:hidden"
+            }`}
+            onClick={() => setOpenMenu(false)}
+          >
             {items.map((item) => (
               <NavItem
                 key={item.path}
