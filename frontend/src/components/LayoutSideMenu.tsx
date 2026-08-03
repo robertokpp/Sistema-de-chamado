@@ -100,8 +100,8 @@ export function LayoutSideMenu() {
   }, [file]);
 
   return (
-    <div className="flex bg-gray-100 max-lg:flex-col">
-      <aside className="px-5 py-6 flex flex-col justify-between h-screen mt-3 w-fit max-lg:h-fit max-lg:w-full max-lg:m-0">
+    <div className="flex min-h-screen items-start bg-gray-100 max-lg:flex-col">
+      <aside className="sticky top-0 flex h-[calc(100vh-0.75rem)] w-fit flex-col justify-between px-5 py-6 max-lg:static max-lg:m-0 max-lg:h-fit max-lg:w-full">
         <div>
           <header className="max-lg:w-full max-lg:flex max-lg:items-center max-lg:justify-between">
             <div className="flex gap-3 py-5 items-center max-lg:p-0 ">
@@ -238,7 +238,7 @@ export function LayoutSideMenu() {
         </form>
       </Modal>
 
-      <main className="bg-white rounded-tl-[20px] mt-3 w-full p-12 flex flex-col max-lg:rounded-t-[20px] max-lg:mt-0 max-lg:p-4">
+      <main className="mt-3 flex min-h-[calc(100vh-0.75rem)] w-full flex-col rounded-tl-[20px] bg-white p-12 max-lg:mt-0 max-lg:min-h-screen max-lg:rounded-t-[20px] max-lg:p-4">
         <Outlet />
       </main>
     </div>
