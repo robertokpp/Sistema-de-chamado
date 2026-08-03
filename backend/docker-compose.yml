@@ -1,10 +1,20 @@
 services:
   postgres:
-    image: "bitnami/postgresql:latest"
+    image: postgres:16-alpine
     ports:
       - "5432:5432"
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: Orelha*
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
       POSTGRES_DB: sistema_chamados
+    volumes:
+      - helpdesk_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d sistema_chamados"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  helpdesk_postgres_data:
    

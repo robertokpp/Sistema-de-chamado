@@ -1,0 +1,8 @@
+**/node_modules/
+**/dist/
+**/.env
+**/.env.*
+!**/.env.example
+backend/coverage/
+backend/uploads/avatar/*
+!backend/uploads/avatar/.gitkeep

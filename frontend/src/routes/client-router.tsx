@@ -5,7 +5,7 @@ import { LayoutSideMenu } from "../components/LayoutSideMenu";
 import { Calls } from "../pages/Calls";
 import { CallDetails } from "../pages/CallDetails";
 import { NotFound } from "../pages/NotFound";
-import { NewCall } from "../pages/NewCall";
+import { NewCall } from "../pages/newCall";
 
 export function ClientRouter() {
   return (

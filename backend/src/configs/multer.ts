@@ -1,11 +1,12 @@
 import multer from "multer";
 import path from "node:path";
+import { avatarUploadsPath } from "./uploads";
 
 const allowedMimeTypes = ["image/png", "image/jpeg", "image/webp"];
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "uploads/avatar");
+    cb(null, avatarUploadsPath);
   },
   filename: function (req, file, cb) {
     const userId = req.user?.id;

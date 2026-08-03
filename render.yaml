@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: helpdesk-api
+    runtime: node
+    plan: free
+    rootDir: backend
+    buildCommand: npm ci && npm exec prisma generate && npm run build
+    startCommand: npm exec prisma migrate deploy && npm run seed && npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: helpdesk-db
+          property: connectionString
+      - key: SECRET
+        generateValue: true
+      - key: APP_ORIGIN
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: TECHNICAL_DEFAULT_PASSWORD
+        sync: false
+
+databases:
+  - name: helpdesk-db
+    plan: free
+    databaseName: helpdesk
+    user: helpdesk
